@@ -682,7 +682,7 @@ function googleFail(er){
   $('lg').disabled=false;
 
   $('lerr').textContent=
-    authErr(er,'Connexion Google impossible.');
+    authErr(er,'Connexion Google impossible ('+((er&&er.code)||'inconnu')+').');
 
 }
 
