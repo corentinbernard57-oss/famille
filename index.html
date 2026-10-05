@@ -94,6 +94,13 @@ body.out #login{display:block}
 .lbox{max-width:380px;margin:12vh auto 0;text-align:center}
 .lbox form{display:grid;gap:12px;margin-top:18px}
 .err{color:#d9534f;font-size:.9rem;min-height:1.2em;margin:0}
+.sep{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.8rem;margin:18px 0 14px}
+.sep::before,.sep::after{content:"";flex:1;height:1px;background:var(--line)}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:12px 18px;font-weight:600}
+.gbtn svg{width:20px;height:20px;flex:none}
+.gbtn:active{transform:scale(.95)}
+.gbtn[disabled]{opacity:.55;cursor:default}
+@media (hover:hover){.gbtn:not([disabled]):hover{border-color:var(--accent);transform:translateY(-2px) scale(1.02);box-shadow:0 6px 16px rgba(0,0,0,.12)}}
 </style>
 </head>
 
@@ -108,8 +115,21 @@ body.out #login{display:block}
       <input type="email" id="le" placeholder="Adresse e-mail" autocomplete="username" required aria-label="Adresse e-mail">
       <input type="password" id="lp" placeholder="Mot de passe" autocomplete="current-password" required aria-label="Mot de passe">
       <button class="primary" type="submit">Se connecter</button>
-      <p class="err" id="lerr"></p>
     </form>
+
+    <div class="sep">ou</div>
+
+    <button class="gbtn" type="button" id="lg">
+      <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+        <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.5z"/>
+        <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+        <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+        <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 40.2 44 35 44 24c0-1.3-.1-2.6-.4-3.5z"/>
+      </svg>
+      Continuer avec Google
+    </button>
+
+    <p class="err" id="lerr"></p>
   </div>
 </div>
 
@@ -239,6 +259,10 @@ import {
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
@@ -577,6 +601,8 @@ onAuthStateChanged(
 
       document.body.className='out';
 
+      $('lg').disabled=false;
+
     }
 
   }
@@ -586,6 +612,37 @@ onAuthStateChanged(
 /* =========================================================
    CONNEXION
    ========================================================= */
+
+function authErr(er,fallback){
+
+  var c=er&&er.code;
+
+  return (
+    c==='auth/too-many-requests'
+    ? 'Trop d’essais. Réessaie dans quelques minutes.'
+
+    :
+
+    c==='auth/network-request-failed'
+    ? 'Pas de connexion internet.'
+
+    :
+
+    c==='auth/unauthorized-domain'
+    ? 'Ce site n’est pas autorisé dans Firebase.'
+
+    :
+
+    c==='auth/account-exists-with-different-credential'
+    ? 'Ce compte existe déjà avec un mot de passe.'
+
+    :
+
+    fallback
+  );
+
+}
+
 
 $('lf').onsubmit=function(e){
 
@@ -601,21 +658,72 @@ $('lf').onsubmit=function(e){
 
   .catch(function(er){
 
+    $('lerr').textContent=
+      authErr(er,'Adresse e-mail ou mot de passe incorrect.');
+
+  });
+
+};
+
+
+/* =========================================================
+   CONNEXION GOOGLE
+   ========================================================= */
+
+var gprov=new GoogleAuthProvider();
+
+gprov.setCustomParameters({
+  prompt:'select_account'
+});
+
+
+function googleFail(er){
+
+  $('lg').disabled=false;
+
+  $('lerr').textContent=
+    authErr(er,'Connexion Google impossible.');
+
+}
+
+
+/* retour de la redirection (mobile / popup bloquée) */
+
+getRedirectResult(auth).catch(googleFail);
+
+
+$('lg').onclick=function(){
+
+  $('lerr').textContent='';
+  $('lg').disabled=true;
+
+  signInWithPopup(auth,gprov)
+
+  .then(function(){
+    $('lg').disabled=false;
+  })
+
+  .catch(function(er){
+
     var c=er&&er.code;
 
-    $('lerr').textContent=
+    if(
+      c==='auth/popup-closed-by-user'||
+      c==='auth/cancelled-popup-request'
+    ){
+      $('lg').disabled=false;
+      return;
+    }
 
-      c==='auth/too-many-requests'
-      ? 'Trop d’essais. Réessaie dans quelques minutes.'
+    if(
+      c==='auth/popup-blocked'||
+      c==='auth/operation-not-supported-in-this-environment'
+    ){
+      signInWithRedirect(auth,gprov).catch(googleFail);
+      return;
+    }
 
-      :
-
-      c==='auth/network-request-failed'
-      ? 'Pas de connexion internet.'
-
-      :
-
-      'Adresse e-mail ou mot de passe incorrect.';
+    googleFail(er);
 
   });
 
