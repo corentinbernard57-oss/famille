@@ -8,7 +8,6 @@
 
 <meta name="robots" content="noindex,nofollow">
 
-<!-- PWA -->
 <meta name="theme-color" content="#2f6f62">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,16 +17,7 @@
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon-180.png">
 
-<link
-  rel="icon"
-  href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A1%3C/text%3E%3C/svg%3E"
->
-
 <style>
-
-/* =========================================================
-   VARIABLES
-   ========================================================= */
 
 :root{
   --bg:#f6f5f2;
@@ -37,7 +27,6 @@
   --line:#e8e6e1;
   --accent:#2f6f62;
   --soft:#e4efec;
-  box-sizing:border-box;
 }
 
 @media (prefers-color-scheme:dark){
@@ -76,10 +65,6 @@
   box-sizing:border-box;
 }
 
-html{
-  scroll-padding-top:env(safe-area-inset-top,0px);
-}
-
 body{
   margin:0;
   padding-top:env(safe-area-inset-top,0px);
@@ -88,22 +73,13 @@ body{
   font:18px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
 }
 
-/* =========================================================
-   BOUTONS
-   ========================================================= */
-
 button{
   font:inherit;
   border:0;
   cursor:pointer;
   color:inherit;
   background:none;
-  transition:
-    transform .12s ease,
-    background-color .2s,
-    border-color .2s,
-    box-shadow .2s,
-    color .2s;
+  transition:.2s;
   -webkit-tap-highlight-color:transparent;
 }
 
@@ -118,12 +94,10 @@ button:focus-visible{
   border-radius:12px;
   padding:13px 18px;
   font-weight:600;
-  border:3px solid transparent;
 }
 
 .primary:active{
   transform:scale(.95);
-  border-color:#f2b134;
 }
 
 .link{
@@ -132,10 +106,6 @@ button:focus-visible{
   display:block;
   margin:14px auto 0;
   padding:8px;
-}
-
-.link:active{
-  transform:scale(.95);
 }
 
 /* =========================================================
@@ -156,27 +126,12 @@ button:focus-visible{
   align-items:center;
   justify-content:center;
   box-shadow:0 2px 8px rgba(0,0,0,.15);
-  z-index:30;
+  z-index:50;
 }
 
 body.in .settings-btn{
   display:flex;
 }
-
-.settings-btn:active{
-  transform:scale(.9);
-}
-
-@media (hover:hover){
-  .settings-btn:hover{
-    background:var(--soft);
-    transform:scale(1.08);
-  }
-}
-
-/* =========================================================
-   PANNEAUX PARAMÈTRES
-   ========================================================= */
 
 .settings-overlay{
   position:fixed;
@@ -185,7 +140,7 @@ body.in .settings-btn{
   display:none;
   align-items:flex-end;
   justify-content:center;
-  z-index:25;
+  z-index:100;
 }
 
 .settings-overlay.open{
@@ -195,7 +150,7 @@ body.in .settings-btn{
 .settings-panel{
   width:100%;
   max-width:560px;
-  max-height:90vh;
+  max-height:92vh;
   overflow:auto;
   background:var(--card);
   color:var(--ink);
@@ -218,7 +173,6 @@ body.in .settings-btn{
 .settings-header{
   display:flex;
   align-items:center;
-  justify-content:space-between;
   gap:12px;
   margin-bottom:16px;
 }
@@ -226,6 +180,15 @@ body.in .settings-btn{
 .settings-header h2{
   margin:0;
   font-size:1.35rem;
+  flex:1;
+}
+
+.settings-back{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:var(--soft);
+  font-size:1.3rem;
 }
 
 .settings-close{
@@ -234,24 +197,6 @@ body.in .settings-btn{
   border-radius:50%;
   background:var(--soft);
   font-size:1.2rem;
-}
-
-.settings-back{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:var(--soft);
-  font-size:1.4rem;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex:none;
-}
-
-.settings-header-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
 }
 
 .settings-user{
@@ -287,6 +232,10 @@ body.in .settings-btn{
   background:var(--bg);
 }
 
+.settings-item:active{
+  transform:scale(.98);
+}
+
 .settings-item span:first-child{
   width:34px;
   text-align:center;
@@ -305,11 +254,6 @@ body.in .settings-btn{
   color:var(--muted);
 }
 
-.settings-item:active{
-  transform:scale(.98);
-  background:var(--soft);
-}
-
 .settings-logout{
   margin-top:14px;
   width:100%;
@@ -320,102 +264,95 @@ body.in .settings-btn{
   font-weight:600;
 }
 
-.settings-info{
+.page-text{
+  color:var(--muted);
+  margin-bottom:18px;
+}
+
+.info-card{
   background:var(--bg);
   border-radius:14px;
-  padding:15px;
+  padding:14px;
   margin-bottom:10px;
 }
 
-.settings-info strong{
+.info-card strong{
   display:block;
-  margin-bottom:4px;
+  margin-bottom:3px;
 }
 
-.settings-info p{
-  margin:0;
+.info-card small{
   color:var(--muted);
-  font-size:.92rem;
 }
 
-.settings-info + .settings-info{
-  margin-top:10px;
-}
-
-.role-admin{
-  color:var(--accent)!important;
-  font-weight:700;
-}
-
-.role-member{
-  color:var(--muted)!important;
-}
-
-.settings-action{
-  width:100%;
-  padding:14px;
-  background:var(--bg);
-  border-radius:14px;
-  text-align:left;
-  margin-top:8px;
-}
-
-.settings-action.active{
-  background:var(--soft);
-  color:var(--accent);
-  font-weight:650;
-}
-
-.settings-action:active{
-  transform:scale(.98);
-}
-
-.toggle-row{
+.setting-row{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:12px;
-  padding:14px;
   background:var(--bg);
+  padding:14px;
   border-radius:14px;
+  margin-bottom:8px;
 }
 
-.toggle-text{
+.setting-row div{
   flex:1;
 }
 
-.toggle-text strong{
+.setting-row strong{
   display:block;
 }
 
-.toggle-text small{
+.setting-row small{
   color:var(--muted);
 }
 
-.toggle{
+.theme-buttons{
+  display:grid;
+  gap:8px;
+}
+
+.theme-button{
+  padding:14px;
+  border-radius:14px;
+  background:var(--bg);
+  text-align:left;
+}
+
+.theme-button.selected{
+  background:var(--soft);
+  color:var(--accent);
+  font-weight:600;
+}
+
+.switch{
   width:52px;
   height:30px;
-  border-radius:999px;
+  border-radius:20px;
   background:#aaa;
-  padding:3px;
+  position:relative;
   flex:none;
 }
 
-.toggle span{
-  display:block;
+.switch::after{
+  content:"";
+  position:absolute;
   width:24px;
   height:24px;
   border-radius:50%;
   background:#fff;
-  transition:transform .2s ease;
+  top:3px;
+  left:3px;
+  transition:.2s;
 }
 
-.toggle.on{
+.switch.active{
   background:var(--accent);
 }
 
-.toggle.on span{
-  transform:translateX(22px);
+.switch.active::after{
+  left:25px;
 }
 
 /* =========================================================
@@ -431,14 +368,12 @@ main{
 h1{
   font-size:1.5rem;
   margin:8px 0 16px;
-  font-weight:650;
 }
 
 .card{
   background:var(--card);
   border-radius:16px;
   padding:6px 16px;
-  box-shadow:0 1px 2px rgba(0,0,0,.05);
 }
 
 /* =========================================================
@@ -479,7 +414,6 @@ h1{
 .day b{
   font-size:1.1rem;
   color:var(--ink);
-  font-weight:600;
 }
 
 .day.sel{
@@ -525,29 +459,15 @@ h1{
   gap:12px;
   padding:14px 0;
   border-top:1px solid var(--line);
-  animation:pop .25s ease;
-  transition:background-color .2s;
 }
 
 .row:first-child{
   border-top:0;
 }
 
-@keyframes pop{
-  from{
-    opacity:0;
-    transform:translateY(6px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-
 .time{
   font-weight:650;
   min-width:3.2em;
-  white-space:nowrap;
   color:var(--accent);
 }
 
@@ -563,7 +483,6 @@ h1{
   border-radius:999px;
   background:var(--soft);
   color:var(--accent);
-  white-space:nowrap;
 }
 
 .del{
@@ -578,7 +497,7 @@ h1{
 }
 
 /* =========================================================
-   BOUTON +
+   FAB
    ========================================================= */
 
 .fab{
@@ -591,13 +510,8 @@ h1{
   background:var(--accent);
   color:#fff;
   font-size:2rem;
-  line-height:1;
-  box-shadow:0 4px 12px rgba(0,0,0,.25);
   z-index:4;
-}
-
-.fab:active{
-  transform:scale(.9);
+  box-shadow:0 4px 12px rgba(0,0,0,.25);
 }
 
 /* =========================================================
@@ -629,12 +543,6 @@ nav button{
 
 nav button span{
   font-size:1.4rem;
-  width:3.6rem;
-  height:2.2rem;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:10px;
 }
 
 nav button.on{
@@ -642,12 +550,8 @@ nav button.on{
   font-weight:600;
 }
 
-nav button.on span{
-  background:color-mix(in srgb,var(--accent) 20%,transparent);
-}
-
 /* =========================================================
-   FENÊTRE AJOUT
+   SHEET
    ========================================================= */
 
 .sheet{
@@ -657,7 +561,7 @@ nav button.on span{
   display:none;
   align-items:flex-end;
   justify-content:center;
-  z-index:20;
+  z-index:80;
 }
 
 .sheet.open{
@@ -673,8 +577,6 @@ nav button.on span{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
-  max-height:92vh;
-  overflow:auto;
 }
 
 .sheet .full{
@@ -685,7 +587,6 @@ nav button.on span{
   display:block;
   font-size:.75rem;
   color:var(--muted);
-  margin:0 0 4px 2px;
 }
 
 .rng{
@@ -694,11 +595,7 @@ nav button.on span{
   gap:10px;
 }
 
-input[type=text],
-input[type=date],
-input[type=time],
-input[type=email],
-input[type=password]{
+input{
   font:inherit;
   padding:13px;
   border:1px solid var(--line);
@@ -706,25 +603,18 @@ input[type=password]{
   background:var(--bg);
   color:var(--ink);
   width:100%;
-  min-width:0;
 }
 
 .chk{
   display:flex;
   align-items:center;
   gap:10px;
-  font-size:.95rem;
 }
 
 .chk input{
   width:24px;
   height:24px;
-  accent-color:var(--accent);
 }
-
-/* =========================================================
-   COURSES
-   ========================================================= */
 
 .add{
   display:flex;
@@ -740,36 +630,11 @@ input[type=password]{
   width:28px;
   height:28px;
   accent-color:var(--accent);
-  flex:none;
 }
 
 .done .grow{
   text-decoration:line-through;
   color:var(--muted);
-}
-
-@keyframes flash{
-  0%{
-    border-color:transparent;
-    transform:scale(1);
-  }
-  25%{
-    border-color:#f2b134;
-    transform:scale(.96);
-  }
-  60%{
-    border-color:#3fae6a;
-    background:#3fae6a;
-    transform:scale(1.03);
-  }
-  100%{
-    border-color:transparent;
-    transform:scale(1);
-  }
-}
-
-.flash{
-  animation:flash .7s ease;
 }
 
 /* =========================================================
@@ -805,9 +670,7 @@ body:not(.in) .sheet{
 
 .err{
   color:#d9534f;
-  font-size:.9rem;
   min-height:1.2em;
-  margin:0;
 }
 
 .sep{
@@ -844,16 +707,6 @@ body:not(.in) .sheet{
 .gbtn svg{
   width:20px;
   height:20px;
-  flex:none;
-}
-
-.gbtn:active{
-  transform:scale(.95);
-}
-
-.gbtn[disabled]{
-  opacity:.55;
-  cursor:default;
 }
 
 #status{
@@ -865,69 +718,6 @@ body:not(.in) .sheet{
 
 [hidden]{
   display:none!important;
-}
-
-/* =========================================================
-   HOVER
-   ========================================================= */
-
-@media (hover:hover){
-
-  .primary:hover{
-    background:var(--accent);
-    transform:translateY(-2px) scale(1.03);
-    box-shadow:0 6px 16px rgba(0,0,0,.15);
-  }
-
-  .day:hover:not(.sel){
-    background:var(--soft);
-    transform:translateY(-2px);
-  }
-
-  nav button:hover{
-    color:var(--accent);
-    transform:translateY(-2px);
-  }
-
-  .del:hover{
-    color:#d9534f;
-    transform:scale(1.2);
-  }
-
-  .arrow:hover{
-    color:var(--accent);
-    transform:scale(1.2);
-  }
-
-  .link:hover{
-    transform:scale(1.05);
-    text-decoration:underline;
-  }
-
-  .row:hover{
-    background:var(--soft);
-  }
-
-  .gbtn:not([disabled]):hover{
-    border-color:var(--accent);
-    transform:translateY(-2px) scale(1.02);
-    box-shadow:0 6px 16px rgba(0,0,0,.12);
-  }
-
-  .settings-item:hover{
-    background:var(--soft);
-    transform:translateY(-1px);
-  }
-
-}
-
-@media (prefers-reduced-motion:reduce){
-
-  *{
-    animation:none!important;
-    transition:none!important;
-  }
-
 }
 
 </style>
@@ -943,7 +733,6 @@ body:not(.in) .sheet{
   id="settingsBtn"
   class="settings-btn"
   aria-label="Paramètres"
-  title="Paramètres"
 >
   ⚙️
 </button>
@@ -971,7 +760,6 @@ body:not(.in) .sheet{
         placeholder="Adresse e-mail"
         autocomplete="username"
         required
-        aria-label="Adresse e-mail"
       >
 
       <input
@@ -980,7 +768,6 @@ body:not(.in) .sheet{
         placeholder="Mot de passe"
         autocomplete="current-password"
         required
-        aria-label="Mot de passe"
       >
 
       <button class="primary" type="submit">
@@ -991,13 +778,9 @@ body:not(.in) .sheet{
 
     <div class="sep">ou</div>
 
-    <button
-      class="gbtn"
-      type="button"
-      id="lg"
-    >
+    <button class="gbtn" type="button" id="lg">
 
-      <svg viewBox="0 0 48 48" aria-hidden="true">
+      <svg viewBox="0 0 48 48">
 
         <path fill="#FFC107"
           d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.5z"/>
@@ -1036,23 +819,11 @@ body:not(.in) .sheet{
 
   <div class="week">
 
-    <button
-      class="arrow"
-      id="prev"
-      aria-label="Semaine précédente"
-    >
-      ‹
-    </button>
+    <button class="arrow" id="prev">‹</button>
 
     <div class="strip" id="strip"></div>
 
-    <button
-      class="arrow"
-      id="next"
-      aria-label="Semaine suivante"
-    >
-      ›
-    </button>
+    <button class="arrow" id="next">›</button>
 
   </div>
 
@@ -1071,7 +842,7 @@ body:not(.in) .sheet{
   <button
     class="fab"
     id="fab"
-    aria-label="Ajouter un rendez-vous"
+    aria-label="Ajouter"
   >
     +
   </button>
@@ -1089,10 +860,9 @@ body:not(.in) .sheet{
       type="text"
       id="si"
       placeholder="Ajouter un article…"
-      aria-label="Article"
     >
 
-    <button class="primary" type="submit">
+    <button class="primary">
       Ajouter
     </button>
 
@@ -1109,16 +879,11 @@ body:not(.in) .sheet{
     ✓ Courses faites
   </button>
 
-  <button
-    class="link"
-    id="clr"
-    hidden
-  >
+  <button class="link" id="clr" hidden>
     Retirer les articles cochés
   </button>
 
 </section>
-
 
 <p id="status"></p>
 
@@ -1149,7 +914,7 @@ body:not(.in) .sheet{
 
 
 <!-- =========================================================
-     FENÊTRE AJOUT RENDEZ-VOUS
+     AJOUT RENDEZ-VOUS
      ========================================================= -->
 
 <div class="sheet" id="sheet">
@@ -1162,12 +927,11 @@ body:not(.in) .sheet{
     id="t"
     placeholder="Quoi ? (médecin, marché…)"
     required
-    aria-label="Titre"
   >
 
   <div>
 
-    <span class="cap startcap" hidden>
+    <span class="cap">
       Du
     </span>
 
@@ -1175,21 +939,19 @@ body:not(.in) .sheet{
       type="date"
       id="d"
       required
-      aria-label="Date de début"
     >
 
   </div>
 
   <div>
 
-    <span class="cap startcap" hidden>
+    <span class="cap">
       À partir de
     </span>
 
     <input
       type="time"
       id="h"
-      aria-label="Heure de début"
     >
 
   </div>
@@ -1198,7 +960,7 @@ body:not(.in) .sheet{
 
     <input type="checkbox" id="rg">
 
-    Ajouter une fin (date ou heure)
+    Ajouter une fin
 
   </label>
 
@@ -1210,11 +972,7 @@ body:not(.in) .sheet{
         Jusqu’au
       </span>
 
-      <input
-        type="date"
-        id="ed"
-        aria-label="Date de fin"
-      >
+      <input type="date" id="ed">
 
     </div>
 
@@ -1224,11 +982,7 @@ body:not(.in) .sheet{
         Jusqu’à
       </span>
 
-      <input
-        type="time"
-        id="eh"
-        aria-label="Heure de fin"
-      >
+      <input type="time" id="eh">
 
     </div>
 
@@ -1238,8 +992,7 @@ body:not(.in) .sheet{
     class="full"
     type="text"
     id="w"
-    placeholder="Pour qui ? (Maman, Papa…)"
-    aria-label="Pour qui"
+    placeholder="Pour qui ?"
   >
 
   <label class="chk full">
@@ -1269,7 +1022,7 @@ body:not(.in) .sheet{
 
 <div class="settings-overlay" id="settingsOverlay">
 
-  <div class="settings-panel" role="dialog" aria-modal="true">
+  <div class="settings-panel">
 
     <div class="settings-header">
 
@@ -1278,14 +1031,11 @@ body:not(.in) .sheet{
       <button
         class="settings-close"
         id="settingsClose"
-        type="button"
-        aria-label="Fermer"
       >
         ✕
       </button>
 
     </div>
-
 
     <div class="settings-user">
 
@@ -1299,12 +1049,10 @@ body:not(.in) .sheet{
 
     </div>
 
-
     <div class="settings-list">
 
       <button
         class="settings-item"
-        type="button"
         data-page="account"
       >
 
@@ -1322,7 +1070,6 @@ body:not(.in) .sheet{
 
       <button
         class="settings-item"
-        type="button"
         data-page="notifications"
       >
 
@@ -1340,7 +1087,6 @@ body:not(.in) .sheet{
 
       <button
         class="settings-item"
-        type="button"
         data-page="appearance"
       >
 
@@ -1358,7 +1104,6 @@ body:not(.in) .sheet{
 
       <button
         class="settings-item"
-        type="button"
         data-page="family"
       >
 
@@ -1376,7 +1121,6 @@ body:not(.in) .sheet{
 
       <button
         class="settings-item"
-        type="button"
         data-page="security"
       >
 
@@ -1394,7 +1138,6 @@ body:not(.in) .sheet{
 
       <button
         class="settings-item"
-        type="button"
         data-page="about"
       >
 
@@ -1415,7 +1158,6 @@ body:not(.in) .sheet{
     <button
       class="settings-logout"
       id="settingsLogout"
-      type="button"
     >
       🚪 Se déconnecter
     </button>
@@ -1429,85 +1171,55 @@ body:not(.in) .sheet{
      PAGE COMPTE
      ========================================================= -->
 
-<div class="settings-overlay subpage-overlay" id="accountOverlay">
+<div class="settings-overlay subpage" id="accountPage">
 
-  <div class="settings-panel" role="dialog" aria-modal="true">
+  <div class="settings-panel">
 
     <div class="settings-header">
 
-      <div class="settings-header-left">
+      <button class="settings-back" data-back>
+        ←
+      </button>
 
-        <button
-          class="settings-back"
-          type="button"
-          data-back
-          aria-label="Retour"
-        >
-          ‹
-        </button>
+      <h2>👤 Compte</h2>
 
-        <h2>👤 Compte</h2>
-
-      </div>
-
-      <button
-        class="settings-close"
-        type="button"
-        data-close-page
-        aria-label="Fermer"
-      >
+      <button class="settings-close page-close">
         ✕
       </button>
 
     </div>
 
-
     <div class="settings-user">
 
-      <strong id="accountName">
-        —
-      </strong>
+      <strong id="accountName">—</strong>
 
-      <small id="accountEmail">
-        —
-      </small>
+      <small id="accountEmail">—</small>
 
-      <small id="accountRole" class="role-member">
-        👤 Membre
-      </small>
+      <small id="accountRole">👤 Membre</small>
 
     </div>
 
-
-    <div class="settings-info">
+    <div class="info-card">
 
       <strong>Nom du compte</strong>
 
-      <p id="accountNameInfo">
-        —
-      </p>
+      <small id="accountName2">—</small>
 
     </div>
 
-
-    <div class="settings-info">
+    <div class="info-card">
 
       <strong>Adresse e-mail</strong>
 
-      <p id="accountEmailInfo">
-        —
-      </p>
+      <small id="accountEmail2">—</small>
 
     </div>
 
-
-    <div class="settings-info">
+    <div class="info-card">
 
       <strong>Rôle</strong>
 
-      <p id="accountRoleInfo">
-        👤 Membre
-      </p>
+      <small id="accountRole2">👤 Membre</small>
 
     </div>
 
@@ -1520,71 +1232,67 @@ body:not(.in) .sheet{
      PAGE NOTIFICATIONS
      ========================================================= -->
 
-<div class="settings-overlay subpage-overlay" id="notificationsOverlay">
+<div class="settings-overlay subpage" id="notificationsPage">
 
-  <div class="settings-panel" role="dialog" aria-modal="true">
+  <div class="settings-panel">
 
     <div class="settings-header">
 
-      <div class="settings-header-left">
+      <button class="settings-back" data-back>
+        ←
+      </button>
 
-        <button
-          class="settings-back"
-          type="button"
-          data-back
-          aria-label="Retour"
-        >
-          ‹
-        </button>
+      <h2>🔔 Notifications</h2>
 
-        <h2>🔔 Notifications</h2>
-
-      </div>
-
-      <button
-        class="settings-close"
-        type="button"
-        data-close-page
-        aria-label="Fermer"
-      >
+      <button class="settings-close page-close">
         ✕
       </button>
 
     </div>
 
+    <p class="page-text">
+      Choisis les notifications que tu souhaites recevoir.
+    </p>
 
-    <div class="toggle-row">
+    <div class="setting-row">
 
-      <div class="toggle-text">
-
+      <div>
         <strong>Notifications</strong>
-
-        <small>
-          Activer ou désactiver les notifications de Famille.
-        </small>
-
+        <small>Activer ou désactiver les notifications</small>
       </div>
 
       <button
-        class="toggle"
-        id="notificationToggle"
-        type="button"
-        aria-label="Activer les notifications"
-        aria-pressed="false"
-      >
-        <span></span>
-      </button>
+        class="switch"
+        id="notificationSwitch"
+      ></button>
 
     </div>
 
+    <div class="setting-row">
 
-    <div class="settings-info">
+      <div>
+        <strong>Planning</strong>
+        <small>Recevoir les rappels du planning</small>
+      </div>
 
-      <strong>État</strong>
+      <button
+        class="switch"
+        id="planningNotificationSwitch"
+      ></button>
 
-      <p id="notificationStatus">
-        Les notifications sont désactivées.
-      </p>
+    </div>
+
+    <div class="setting-row">
+
+      <div>
+        <strong>Courses</strong>
+        <small>Recevoir les rappels de courses</small>
+      </div>
+
+      <button
+        class="switch"
+        id="shoppingNotificationSwitch"
+      ></button>
 
     </div>
 
@@ -1597,75 +1305,52 @@ body:not(.in) .sheet{
      PAGE APPARENCE
      ========================================================= -->
 
-<div class="settings-overlay subpage-overlay" id="appearanceOverlay">
+<div class="settings-overlay subpage" id="appearancePage">
 
-  <div class="settings-panel" role="dialog" aria-modal="true">
+  <div class="settings-panel">
 
     <div class="settings-header">
 
-      <div class="settings-header-left">
+      <button class="settings-back" data-back>
+        ←
+      </button>
 
-        <button
-          class="settings-back"
-          type="button"
-          data-back
-          aria-label="Retour"
-        >
-          ‹
-        </button>
+      <h2>🎨 Apparence</h2>
 
-        <h2>🎨 Apparence</h2>
-
-      </div>
-
-      <button
-        class="settings-close"
-        type="button"
-        data-close-page
-        aria-label="Fermer"
-      >
+      <button class="settings-close page-close">
         ✕
       </button>
 
     </div>
 
+    <p class="page-text">
+      Choisis l'apparence de l'application.
+    </p>
 
-    <div class="settings-info">
+    <div class="theme-buttons">
 
-      <strong>Thème</strong>
+      <button
+        class="theme-button"
+        data-theme="system"
+      >
+        📱 Système
+      </button>
 
-      <p>
-        Choisis l'apparence de l'application.
-      </p>
+      <button
+        class="theme-button"
+        data-theme="light"
+      >
+        ☀️ Clair
+      </button>
+
+      <button
+        class="theme-button"
+        data-theme="dark"
+      >
+        🌙 Sombre
+      </button>
 
     </div>
-
-
-    <button
-      class="settings-action theme-choice"
-      type="button"
-      data-theme-choice="system"
-    >
-      📱 Automatique
-    </button>
-
-
-    <button
-      class="settings-action theme-choice"
-      type="button"
-      data-theme-choice="light"
-    >
-      ☀️ Clair
-    </button>
-
-
-    <button
-      class="settings-action theme-choice"
-      type="button"
-      data-theme-choice="dark"
-    >
-      🌙 Sombre
-    </button>
 
   </div>
 
@@ -1676,70 +1361,55 @@ body:not(.in) .sheet{
      PAGE FAMILLE
      ========================================================= -->
 
-<div class="settings-overlay subpage-overlay" id="familyOverlay">
+<div class="settings-overlay subpage" id="familyPage">
 
-  <div class="settings-panel" role="dialog" aria-modal="true">
+  <div class="settings-panel">
 
     <div class="settings-header">
 
-      <div class="settings-header-left">
+      <button class="settings-back" data-back>
+        ←
+      </button>
 
-        <button
-          class="settings-back"
-          type="button"
-          data-back
-          aria-label="Retour"
-        >
-          ‹
-        </button>
+      <h2>👨‍👩‍👧 Famille</h2>
 
-        <h2>👨‍👩‍👧 Famille</h2>
-
-      </div>
-
-      <button
-        class="settings-close"
-        type="button"
-        data-close-page
-        aria-label="Fermer"
-      >
+      <button class="settings-close page-close">
         ✕
       </button>
 
     </div>
 
+    <p class="page-text">
+      Informations sur les comptes de la famille.
+    </p>
 
-    <div class="settings-info">
+    <div class="info-card">
 
-      <strong>Famille Bernard</strong>
+      <strong>👤 Ton compte</strong>
 
-      <p>
-        Cet espace permet de partager le planning
-        et la liste de courses avec les membres autorisés.
-      </p>
-
-    </div>
-
-
-    <div class="settings-info">
-
-      <strong>Ton rôle</strong>
-
-      <p id="familyRole">
-        👤 Membre
-      </p>
+      <small id="familyCurrentUser">
+        —
+      </small>
 
     </div>
 
+    <div class="info-card">
 
-    <div class="settings-info">
+      <strong>🛡️ Administrateur</strong>
 
-      <strong>Accès</strong>
+      <small>
+        Les administrateurs peuvent gérer la famille.
+      </small>
 
-      <p>
-        Les données sont partagées uniquement avec
-        les comptes autorisés dans l'application.
-      </p>
+    </div>
+
+    <div class="info-card">
+
+      <strong>👤 Membre</strong>
+
+      <small>
+        Les membres peuvent utiliser le planning et la liste de courses.
+      </small>
 
     </div>
 
@@ -1752,66 +1422,61 @@ body:not(.in) .sheet{
      PAGE SÉCURITÉ
      ========================================================= -->
 
-<div class="settings-overlay subpage-overlay" id="securityOverlay">
+<div class="settings-overlay subpage" id="securityPage">
 
-  <div class="settings-panel" role="dialog" aria-modal="true">
+  <div class="settings-panel">
 
     <div class="settings-header">
 
-      <div class="settings-header-left">
+      <button class="settings-back" data-back>
+        ←
+      </button>
 
-        <button
-          class="settings-back"
-          type="button"
-          data-back
-          aria-label="Retour"
-        >
-          ‹
-        </button>
+      <h2>🔐 Sécurité</h2>
 
-        <h2>🔐 Sécurité</h2>
-
-      </div>
-
-      <button
-        class="settings-close"
-        type="button"
-        data-close-page
-        aria-label="Fermer"
-      >
+      <button class="settings-close page-close">
         ✕
       </button>
 
     </div>
 
+    <p class="page-text">
+      Informations concernant la sécurité de ton compte.
+    </p>
 
-    <div class="settings-info">
+    <div class="info-card">
 
-      <strong>Compte connecté</strong>
+      <strong>🔑 Méthode de connexion</strong>
 
-      <p id="securityEmail">
+      <small id="loginMethod">
         —
-      </p>
+      </small>
 
     </div>
 
+    <div class="info-card">
 
-    <div class="settings-info">
+      <strong>📧 Adresse e-mail</strong>
 
-      <strong>Authentification</strong>
-
-      <p>
-        La connexion est gérée de manière sécurisée
-        par Firebase Authentication.
-      </p>
+      <small id="securityEmail">
+        —
+      </small>
 
     </div>
 
+    <div class="info-card">
+
+      <strong>🛡️ Authentification</strong>
+
+      <small>
+        Ton compte est protégé par Firebase Authentication.
+      </small>
+
+    </div>
 
     <button
-      class="settings-action"
+      class="settings-logout"
       id="securityLogout"
-      type="button"
     >
       🚪 Se déconnecter
     </button>
@@ -1825,73 +1490,72 @@ body:not(.in) .sheet{
      PAGE À PROPOS
      ========================================================= -->
 
-<div class="settings-overlay subpage-overlay" id="aboutOverlay">
+<div class="settings-overlay subpage" id="aboutPage">
 
-  <div class="settings-panel" role="dialog" aria-modal="true">
+  <div class="settings-panel">
 
     <div class="settings-header">
 
-      <div class="settings-header-left">
+      <button class="settings-back" data-back>
+        ←
+      </button>
 
-        <button
-          class="settings-back"
-          type="button"
-          data-back
-          aria-label="Retour"
-        >
-          ‹
-        </button>
+      <h2>ℹ️ À propos</h2>
 
-        <h2>ℹ️ À propos</h2>
-
-      </div>
-
-      <button
-        class="settings-close"
-        type="button"
-        data-close-page
-        aria-label="Fermer"
-      >
+      <button class="settings-close page-close">
         ✕
       </button>
 
     </div>
 
+    <div class="info-card">
 
-    <div class="settings-info">
+      <strong>🏠 Famille</strong>
 
-      <strong>🏡 Famille</strong>
-
-      <p>
-        Application familiale permettant de partager
-        le planning et la liste de courses.
-      </p>
+      <small>
+        Application familiale privée pour gérer le planning
+        et les courses.
+      </small>
 
     </div>
 
+    <div class="info-card">
 
-    <div class="settings-info">
+      <strong>📅 Planning</strong>
+
+      <small>
+        Ajoute et partage les rendez-vous avec la famille.
+      </small>
+
+    </div>
+
+    <div class="info-card">
+
+      <strong>🛒 Courses</strong>
+
+      <small>
+        Une liste de courses partagée en temps réel.
+      </small>
+
+    </div>
+
+    <div class="info-card">
+
+      <strong>☁️ Synchronisation</strong>
+
+      <small>
+        Les données sont synchronisées avec Firebase.
+      </small>
+
+    </div>
+
+    <div class="info-card">
 
       <strong>Version</strong>
 
-      <p>
-        Famille 1.0
-      </p>
-
-    </div>
-
-
-    <div class="settings-info">
-
-      <strong>Fonctionnalités</strong>
-
-      <p>
-        📅 Planning partagé<br>
-        🛒 Liste de courses<br>
-        👨‍👩‍👧 Gestion des comptes<br>
-        🔐 Authentification sécurisée<br>
-        🎨 Thème clair et sombre
-      </p>
+      <small>
+        Famille v1.0
+      </small>
 
     </div>
 
@@ -1933,10 +1597,6 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 
-/* =========================================================
-   CONFIGURATION
-   ========================================================= */
-
 const firebaseConfig = {
 
   apiKey:
@@ -1960,10 +1620,6 @@ const firebaseConfig = {
 };
 
 
-/* =========================================================
-   INITIALISATION
-   ========================================================= */
-
 const app =
   initializeApp(firebaseConfig);
 
@@ -1975,305 +1631,511 @@ const fdb =
 
 
 /* =========================================================
-   APPLICATION
+   UTILITAIRE
    ========================================================= */
 
-(function(){
-
-  function $(id){
-    return document.getElementById(id);
-  }
+function $(id){
+  return document.getElementById(id);
+}
 
 
-  /* =======================================================
-     DATES
-     ======================================================= */
+/* =========================================================
+   THÈME
+   ========================================================= */
 
-  function iso(d){
+function loadTheme(){
 
-    var m =
-      d.getMonth()+1;
+  var theme =
+    localStorage.getItem("famille-theme");
 
-    var j =
-      d.getDate();
+  if(
+    theme === "dark" ||
+    theme === "light"
+  ){
 
-    return (
-      d.getFullYear()+
-      '-' +
-      (m<10?'0':'')+
-      m+
-      '-' +
-      (j<10?'0':'')+
-      j
-    );
-
-  }
-
-
-  function parse(s){
-
-    if(!s){
-      return new Date();
-    }
-
-    var p =
-      s.split('-');
-
-    return new Date(
-      +p[0],
-      p[1]-1,
-      +p[2]
-    );
-
-  }
-
-
-  function mondayOf(d){
-
-    var x =
-      new Date(
-        d.getFullYear(),
-        d.getMonth(),
-        d.getDate()
+    document.documentElement
+      .setAttribute(
+        "data-theme",
+        theme
       );
 
-    x.setDate(
-      x.getDate()-
-      (x.getDay()+6)%7
-    );
+  }
+  else{
 
-    return x;
+    document.documentElement
+      .removeAttribute(
+        "data-theme"
+      );
 
   }
 
+  updateThemeButtons();
 
-  /* =======================================================
-     FIRESTORE
-     ======================================================= */
+}
 
-  function firestoreCollection(name){
 
-    var c =
-      collection(
-        fdb,
-        name
-      );
+function updateThemeButtons(){
 
-    return {
+  var current =
+    localStorage.getItem(
+      "famille-theme"
+    ) || "system";
 
-      add:function(o){
-        return addDoc(c,o);
-      },
+  document
+    .querySelectorAll(".theme-button")
+    .forEach(
+      function(button){
 
-      doc:function(id){
+        button.classList.toggle(
+          "selected",
+          button.dataset.theme === current
+        );
 
-        var d =
-          doc(
-            fdb,
-            name,
-            id
+      }
+    );
+
+}
+
+
+document
+  .querySelectorAll(".theme-button")
+  .forEach(
+    function(button){
+
+      button.onclick =
+        function(){
+
+          var theme =
+            button.dataset.theme;
+
+          localStorage.setItem(
+            "famille-theme",
+            theme
           );
 
-        return {
+          if(
+            theme === "dark" ||
+            theme === "light"
+          ){
 
-          set:function(o){
-            return setDoc(d,o);
-          },
+            document.documentElement
+              .setAttribute(
+                "data-theme",
+                theme
+              );
 
-          delete:function(){
-            return deleteDoc(d);
+          }
+          else{
+
+            document.documentElement
+              .removeAttribute(
+                "data-theme"
+              );
+
+          }
+
+          updateThemeButtons();
+
+        };
+
+    }
+  );
+
+
+loadTheme();
+
+
+/* =========================================================
+   OUVERTURE DES PAGES PARAMÈTRES
+   ========================================================= */
+
+var settingsPages = {
+
+  account:
+    $("accountPage"),
+
+  notifications:
+    $("notificationsPage"),
+
+  appearance:
+    $("appearancePage"),
+
+  family:
+    $("familyPage"),
+
+  security:
+    $("securityPage"),
+
+  about:
+    $("aboutPage")
+
+};
+
+
+function closeAllSettingsPages(){
+
+  document
+    .querySelectorAll(".settings-overlay")
+    .forEach(
+      function(page){
+
+        page.classList.remove("open");
+
+      }
+    );
+
+}
+
+
+function openSettings(){
+
+  closeAllSettingsPages();
+
+  $("settingsOverlay")
+    .classList.add("open");
+
+}
+
+
+function openPage(name){
+
+  closeAllSettingsPages();
+
+  if(
+    settingsPages[name]
+  ){
+
+    settingsPages[name]
+      .classList.add("open");
+
+  }
+
+}
+
+
+document
+  .querySelectorAll(
+    ".settings-item[data-page]"
+  )
+  .forEach(
+    function(button){
+
+      button.onclick =
+        function(){
+
+          openPage(
+            button.dataset.page
+          );
+
+        };
+
+    }
+  );
+
+
+/* =========================================================
+   RETOUR
+   ========================================================= */
+
+document
+  .querySelectorAll("[data-back]")
+  .forEach(
+    function(button){
+
+      button.onclick =
+        function(){
+
+          openSettings();
+
+        };
+
+    }
+  );
+
+
+/* =========================================================
+   FERMETURE
+   ========================================================= */
+
+$("settingsBtn").onclick =
+  function(){
+
+    openSettings();
+
+  };
+
+
+$("settingsClose").onclick =
+  function(){
+
+    $("settingsOverlay")
+      .classList.remove("open");
+
+  };
+
+
+document
+  .querySelectorAll(".page-close")
+  .forEach(
+    function(button){
+
+      button.onclick =
+        function(){
+
+          closeAllSettingsPages();
+
+        };
+
+    }
+  );
+
+
+document
+  .querySelectorAll(".settings-overlay")
+  .forEach(
+    function(overlay){
+
+      overlay.onclick =
+        function(e){
+
+          if(
+            e.target === overlay
+          ){
+
+            overlay.classList.remove(
+              "open"
+            );
+
           }
 
         };
 
-      },
+    }
+  );
 
-      onSnapshot:function(ok,bad){
-        return onSnapshot(c,ok,bad);
-      }
+
+/* =========================================================
+   NOTIFICATIONS
+   ========================================================= */
+
+function setupSwitch(id,key){
+
+  var button =
+    $(id);
+
+  var active =
+    localStorage.getItem(key) === "true";
+
+  button.classList.toggle(
+    "active",
+    active
+  );
+
+  button.onclick =
+    function(){
+
+      active=!active;
+
+      localStorage.setItem(
+        key,
+        active
+      );
+
+      button.classList.toggle(
+        "active",
+        active
+      );
 
     };
+
+}
+
+
+setupSwitch(
+  "notificationSwitch",
+  "famille-notifications"
+);
+
+setupSwitch(
+  "planningNotificationSwitch",
+  "famille-planning-notifications"
+);
+
+setupSwitch(
+  "shoppingNotificationSwitch",
+  "famille-shopping-notifications"
+);
+
+
+/* =========================================================
+   STOCKAGE FIRESTORE
+   ========================================================= */
+
+function firestoreCollection(name){
+
+  var c =
+    collection(
+      fdb,
+      name
+    );
+
+  return {
+
+    add:function(o){
+
+      return addDoc(
+        c,
+        o
+      );
+
+    },
+
+    doc:function(id){
+
+      var d =
+        doc(
+          fdb,
+          name,
+          id
+        );
+
+      return {
+
+        set:function(o){
+
+          return setDoc(
+            d,
+            o
+          );
+
+        },
+
+        delete:function(){
+
+          return deleteDoc(d);
+
+        }
+
+      };
+
+    },
+
+    onSnapshot:function(
+      ok,
+      bad
+    ){
+
+      return onSnapshot(
+        c,
+        ok,
+        bad
+      );
+
+    }
+
+  };
+
+}
+
+
+function store(
+  name,
+  render
+){
+
+  var s = {
+
+    items:[],
+
+    col:null,
+
+    unsub:null
+
+  };
+
+
+  function handleError(error){
+
+    console.error(
+      "Firestore:",
+      error
+    );
+
+    $("status").textContent =
+      "Accès impossible : vérifie les droits Firestore.";
 
   }
 
 
-  /* =======================================================
-     STOCKAGE
-     ======================================================= */
+  s.add =
+    function(o){
 
-  function store(name,render){
+      if(!s.col){
 
-    var s = {
+        return;
 
-      items:[],
+      }
 
-      col:null,
-
-      unsub:null,
-
-      KEY:
-        'famille-'+name
+      s.col
+        .add(o)
+        .catch(handleError);
 
     };
 
 
-    try{
+  s.set =
+    function(id,o){
 
-      s.items =
-        JSON.parse(
-          localStorage.getItem(s.KEY) || '[]'
-        ) || [];
+      if(!s.col){
 
-    }
-    catch(e){
-
-      s.items=[];
-
-    }
-
-
-    function save(){
-
-      try{
-
-        localStorage.setItem(
-          s.KEY,
-          JSON.stringify(s.items)
-        );
-
-      }
-      catch(e){
-
-        console.error(
-          'LocalStorage:',
-          e
-        );
+        return;
 
       }
 
-    }
-
-
-    function handleError(error){
-
-      console.error(
-        'Firestore:',
-        error
-      );
-
-      $('status').textContent =
-        'Accès impossible : vérifie les droits Firestore.';
-
-    }
-
-
-    s.add=function(o){
-
-      if(s.col){
-
-        s.col
-          .add(o)
-          .catch(handleError);
-
-      }
-      else{
-
-        o.id =
-          'l'+
-          Date.now()+
-          Math.random();
-
-        s.items.push(o);
-
-        save();
-
-        render();
-
-      }
+      s.col
+        .doc(id)
+        .set(o)
+        .catch(handleError);
 
     };
 
 
-    s.set=function(id,o){
+  s.del =
+    function(id){
 
-      if(s.col){
+      if(!s.col){
 
-        s.col
-          .doc(id)
-          .set(o)
-          .catch(handleError);
+        return;
 
       }
-      else{
 
-        s.items =
-          s.items.map(
-            function(x){
-
-              return x.id===id
-                ? Object.assign(
-                    {id:id},
-                    o
-                  )
-                : x;
-
-            }
-          );
-
-        save();
-
-        render();
-
-      }
+      s.col
+        .doc(id)
+        .delete()
+        .catch(handleError);
 
     };
 
 
-    s.del=function(id){
-
-      if(s.col){
-
-        s.col
-          .doc(id)
-          .delete()
-          .catch(handleError);
-
-      }
-      else{
-
-        s.items =
-          s.items.filter(
-            function(x){
-              return x.id!==id;
-            }
-          );
-
-        save();
-
-        render();
-
-      }
-
-    };
-
-
-    s.connect=function(){
+  s.connect =
+    function(){
 
       if(s.unsub){
+
         s.unsub();
+
       }
 
       s.col =
         firestoreCollection(name);
 
-
       s.unsub =
         s.col.onSnapshot(
 
-          function(sn){
+          function(snapshot){
 
             s.items =
-              sn.docs.map(
+              snapshot.docs.map(
                 function(d){
 
                   return Object.assign(
@@ -2287,39 +2149,31 @@ const fdb =
                 }
               );
 
-
-            $('status').textContent =
-              'Partagé en direct avec la famille';
+            $("status").textContent =
+              "Partagé en direct avec la famille";
 
             render();
 
           },
 
-          function(error){
-
-            handleError(error);
-
-            s.col=null;
-
-            render();
-
-          }
+          handleError
 
         );
 
     };
 
 
-    s.disconnect=function(){
+  s.disconnect =
+    function(){
 
       if(s.unsub){
+
         s.unsub();
+
       }
 
       s.unsub=null;
-
       s.col=null;
-
       s.items=[];
 
       render();
@@ -2327,1767 +2181,1237 @@ const fdb =
     };
 
 
-    return s;
+  return s;
+
+}
+
+
+/* =========================================================
+   DATES
+   ========================================================= */
+
+function iso(d){
+
+  var m =
+    d.getMonth()+1;
+
+  var j =
+    d.getDate();
+
+  return (
+    d.getFullYear()+
+    "-" +
+    (m<10?"0":"")+
+    m+
+    "-" +
+    (j<10?"0":"")+
+    j
+  );
+
+}
+
+
+function parse(s){
+
+  if(!s){
+
+    return new Date();
 
   }
 
+  var p =
+    s.split("-");
 
-  /* =======================================================
-     STORES
-     ======================================================= */
+  return new Date(
+    +p[0],
+    p[1]-1,
+    +p[2]
+  );
 
-  var ev =
-    store(
-      'events',
-      renderPlan
+}
+
+
+function mondayOf(d){
+
+  var x =
+    new Date(
+      d.getFullYear(),
+      d.getMonth(),
+      d.getDate()
     );
 
-  var sh =
-    store(
-      'items',
-      renderShop
-    );
+  x.setDate(
+    x.getDate()-
+    (x.getDay()+6)%7
+  );
+
+  return x;
+
+}
 
 
-  /* =======================================================
-     AUTHENTIFICATION
-     ======================================================= */
+/* =========================================================
+   STORES
+   ========================================================= */
 
-  onAuthStateChanged(
-    auth,
-    async function(u){
+var ev =
+  store(
+    "events",
+    renderPlan
+  );
 
-      if(u){
-
-        document.body.className='in';
-
-        ev.connect();
-        sh.connect();
-
-        $('status').textContent =
-          'Connecté à la famille';
-
-
-        var name =
-          u.displayName ||
-          'Compte connecté';
-
-        var email =
-          u.email ||
-          '';
-
-
-        /* =========================================
-           INFORMATIONS COMPTE
-           ========================================= */
-
-        $('settingsName').textContent =
-          name;
-
-        $('settingsEmail').textContent =
-          email;
-
-        $('accountName').textContent =
-          name;
-
-        $('accountEmail').textContent =
-          email;
-
-        $('accountNameInfo').textContent =
-          name;
-
-        $('accountEmailInfo').textContent =
-          email;
-
-        $('securityEmail').textContent =
-          email;
-
-
-        /* =========================================
-           RÉCUPÉRATION DU RÔLE
-           ========================================= */
-
-        try{
-
-          var userRef =
-            doc(
-              fdb,
-              'users',
-              u.uid
-            );
-
-
-          var userSnap =
-            await getDoc(userRef);
-
-
-          var roleText =
-            '👤 Membre';
-
-
-          if(
-            userSnap.exists()
-          ){
-
-            var userData =
-              userSnap.data();
-
-
-            if(
-              userData.role === 'admin'
-            ){
-
-              roleText =
-                '🛡️ Administrateur';
-
-            }
-
-          }
-
-
-          $('accountRole').textContent =
-            roleText;
-
-          $('accountRoleInfo').textContent =
-            roleText;
-
-          $('familyRole').textContent =
-            roleText;
-
-
-          $('accountRole').className =
-            roleText.indexOf('Administrateur')>-1
-            ? 'role-admin'
-            : 'role-member';
-
-
-          $('accountRoleInfo').className =
-            roleText.indexOf('Administrateur')>-1
-            ? 'role-admin'
-            : 'role-member';
-
-
-          $('familyRole').className =
-            roleText.indexOf('Administrateur')>-1
-            ? 'role-admin'
-            : 'role-member';
-
-
-        }
-        catch(error){
-
-          console.error(
-            'Erreur récupération rôle :',
-            error
-          );
-
-          $('accountRole').textContent =
-            '👤 Membre';
-
-          $('accountRoleInfo').textContent =
-            '👤 Membre';
-
-          $('familyRole').textContent =
-            '👤 Membre';
-
-        }
-
-      }
-      else{
-
-        ev.disconnect();
-        sh.disconnect();
-
-        document.body.className='out';
-
-        closeAllSettings();
-
-        $('lg').disabled=false;
-
-      }
-
-    }
+var sh =
+  store(
+    "items",
+    renderShop
   );
 
 
-  /* =======================================================
-     ERREURS AUTH
-     ======================================================= */
+/* =========================================================
+   AUTHENTIFICATION
+   ========================================================= */
 
-  function authErr(er,fallback){
+onAuthStateChanged(
+  auth,
+  async function(user){
 
-    var c =
-      er &&
-      er.code;
+    if(user){
 
+      document.body.className =
+        "in";
 
-    if(c==='auth/too-many-requests'){
-      return 'Trop d’essais. Réessaie dans quelques minutes.';
-    }
+      ev.connect();
+      sh.connect();
 
-    if(c==='auth/network-request-failed'){
-      return 'Pas de connexion internet.';
-    }
-
-    if(c==='auth/unauthorized-domain'){
-      return 'Ce site n’est pas autorisé dans Firebase.';
-    }
-
-    if(c==='auth/account-exists-with-different-credential'){
-      return 'Ce compte existe déjà avec un autre moyen de connexion.';
-    }
-
-    if(c==='auth/invalid-credential'){
-      return 'Les informations de connexion sont invalides.';
-    }
-
-    return fallback;
-
-  }
+      $("status").textContent =
+        "Connecté à la famille";
 
 
-  /* =======================================================
-     CONNEXION EMAIL
-     ======================================================= */
+      var name =
+        user.displayName ||
+        "Compte connecté";
 
-  $('lf').onsubmit =
-    function(e){
-
-      e.preventDefault();
-
-      $('lerr').textContent='';
+      var email =
+        user.email ||
+        "";
 
 
-      signInWithEmailAndPassword(
-        auth,
-        $('le').value.trim(),
-        $('lp').value
-      )
+      $("settingsName")
+        .textContent =
+        name;
 
-      .catch(
-        function(er){
+      $("settingsEmail")
+        .textContent =
+        email;
 
-          console.error(
-            'Connexion:',
-            er
+
+      $("accountName")
+        .textContent =
+        name;
+
+      $("accountName2")
+        .textContent =
+        name;
+
+      $("accountEmail")
+        .textContent =
+        email;
+
+      $("accountEmail2")
+        .textContent =
+        email;
+
+      $("securityEmail")
+        .textContent =
+        email;
+
+      $("familyCurrentUser")
+        .textContent =
+        name+" — "+email;
+
+
+      if(
+        user.providerData &&
+        user.providerData.length
+      ){
+
+        var provider =
+          user.providerData[0].providerId;
+
+        if(
+          provider === "google.com"
+        ){
+
+          $("loginMethod")
+            .textContent =
+            "Google";
+
+        }
+        else{
+
+          $("loginMethod")
+            .textContent =
+            "Adresse e-mail et mot de passe";
+
+        }
+
+      }
+
+
+      /* RÔLE FIRESTORE */
+
+      try{
+
+        var userRef =
+          doc(
+            fdb,
+            "users",
+            user.uid
           );
 
-          $('lerr').textContent =
-            authErr(
-              er,
-              'Adresse e-mail ou mot de passe incorrect.'
-            );
-
-        }
-      );
-
-    };
+        var userSnap =
+          await getDoc(userRef);
 
 
-  /* =======================================================
-     CONNEXION GOOGLE
-     ======================================================= */
-
-  var gprov =
-    new GoogleAuthProvider();
+        var role =
+          "member";
 
 
-  gprov.setCustomParameters({
-    prompt:'select_account'
-  });
+        if(
+          userSnap.exists()
+        ){
 
-
-  function googleFail(er){
-
-    console.error(
-      'Google Auth:',
-      er
-    );
-
-    $('lg').disabled=false;
-
-    $('lerr').textContent =
-      authErr(
-        er,
-        'Connexion Google impossible ('+
-        ((er&&er.code)||'inconnu')+
-        ').'
-      );
-
-  }
-
-
-  getRedirectResult(auth)
-    .catch(googleFail);
-
-
-  $('lg').onclick =
-    function(){
-
-      $('lerr').textContent='';
-
-      $('lg').disabled=true;
-
-
-      signInWithPopup(
-        auth,
-        gprov
-      )
-
-      .then(
-        function(){
-
-          $('lg').disabled=false;
-
-        }
-      )
-
-      .catch(
-        function(er){
-
-          var c =
-            er &&
-            er.code;
-
+          var data =
+            userSnap.data();
 
           if(
-            c==='auth/popup-closed-by-user' ||
-            c==='auth/cancelled-popup-request'
+            data.role === "admin"
           ){
 
-            $('lg').disabled=false;
-
-            return;
+            role="admin";
 
           }
-
-
-          if(
-            c==='auth/popup-blocked' ||
-            c==='auth/operation-not-supported-in-this-environment'
-          ){
-
-            signInWithRedirect(
-              auth,
-              gprov
-            )
-            .catch(googleFail);
-
-            return;
-
-          }
-
-
-          googleFail(er);
 
         }
-      );
-
-    };
 
 
-  /* =======================================================
-     DÉCONNEXION
-     ======================================================= */
+        if(role === "admin"){
 
-  function logout(){
+          $("accountRole")
+            .textContent =
+            "🛡️ Administrateur";
 
-    signOut(auth)
-      .catch(
-        function(er){
-
-          console.error(
-            'Déconnexion:',
-            er
-          );
+          $("accountRole2")
+            .textContent =
+            "🛡️ Administrateur";
 
         }
-      );
+        else{
 
-  }
+          $("accountRole")
+            .textContent =
+            "👤 Membre";
 
-
-  $('logout').onclick =
-    logout;
-
-
-  $('settingsLogout').onclick =
-    function(){
-
-      if(
-        confirm(
-          'Voulez-vous vraiment vous déconnecter ?'
-        )
-      ){
-
-        logout();
-
-      }
-
-    };
-
-
-  $('securityLogout').onclick =
-    function(){
-
-      if(
-        confirm(
-          'Voulez-vous vraiment vous déconnecter ?'
-        )
-      ){
-
-        logout();
-
-      }
-
-    };
-
-
-  /* =======================================================
-     GESTION DES PAGES PARAMÈTRES
-     ======================================================= */
-
-  var settingsPages = {
-
-    account:
-      $('accountOverlay'),
-
-    notifications:
-      $('notificationsOverlay'),
-
-    appearance:
-      $('appearanceOverlay'),
-
-    family:
-      $('familyOverlay'),
-
-    security:
-      $('securityOverlay'),
-
-    about:
-      $('aboutOverlay')
-
-  };
-
-
-  function closeAllSettings(){
-
-    $('settingsOverlay')
-      .classList.remove('open');
-
-    Object.keys(settingsPages)
-      .forEach(
-        function(key){
-
-          settingsPages[key]
-            .classList.remove('open');
+          $("accountRole2")
+            .textContent =
+            "👤 Membre";
 
         }
-      );
-
-  }
-
-
-  function openSettings(){
-
-    closeAllSettings();
-
-    $('settingsOverlay')
-      .classList.add('open');
-
-  }
-
-
-  function openPage(name){
-
-    $('settingsOverlay')
-      .classList.remove('open');
-
-
-    Object.keys(settingsPages)
-      .forEach(
-        function(key){
-
-          settingsPages[key]
-            .classList.remove('open');
-
-        }
-      );
-
-
-    if(settingsPages[name]){
-
-      settingsPages[name]
-        .classList.add('open');
-
-    }
-
-  }
-
-
-  /* =======================================================
-     BOUTON PARAMÈTRES
-     ======================================================= */
-
-  $('settingsBtn').onclick =
-    function(){
-
-      openSettings();
-
-    };
-
-
-  $('settingsClose').onclick =
-    function(){
-
-      closeAllSettings();
-
-    };
-
-
-  $('settingsOverlay').onclick =
-    function(e){
-
-      if(
-        e.target ===
-        $('settingsOverlay')
-      ){
-
-        closeAllSettings();
 
       }
+      catch(error){
 
-    };
-
-
-  /* =======================================================
-     OUVERTURE DES PAGES
-     ======================================================= */
-
-  document
-    .querySelectorAll(
-      '.settings-item[data-page]'
-    )
-    .forEach(
-      function(button){
-
-        button.addEventListener(
-          'click',
-          function(){
-
-            openPage(
-              button.dataset.page
-            );
-
-          }
+        console.error(
+          "Erreur rôle:",
+          error
         );
 
-      }
-    );
+        $("accountRole")
+          .textContent =
+          "👤 Membre";
 
-
-  /* =======================================================
-     RETOUR
-     ======================================================= */
-
-  document
-    .querySelectorAll('[data-back]')
-    .forEach(
-      function(button){
-
-        button.addEventListener(
-          'click',
-          function(){
-
-            openSettings();
-
-          }
-        );
+        $("accountRole2")
+          .textContent =
+          "👤 Membre";
 
       }
-    );
-
-
-  /* =======================================================
-     FERMER LES SOUS-PAGES
-     ======================================================= */
-
-  document
-    .querySelectorAll('[data-close-page]')
-    .forEach(
-      function(button){
-
-        button.addEventListener(
-          'click',
-          function(){
-
-            closeAllSettings();
-
-          }
-        );
-
-      }
-    );
-
-
-  /* =======================================================
-     FERMER EN CLIQUANT À L'EXTÉRIEUR
-     ======================================================= */
-
-  document
-    .querySelectorAll('.subpage-overlay')
-    .forEach(
-      function(overlay){
-
-        overlay.addEventListener(
-          'click',
-          function(e){
-
-            if(
-              e.target === overlay
-            ){
-
-              closeAllSettings();
-
-            }
-
-          }
-        );
-
-      }
-    );
-
-
-  /* =======================================================
-     NOTIFICATIONS
-     ======================================================= */
-
-  var notificationsEnabled =
-    localStorage.getItem(
-      'famille-notifications'
-    ) === 'true';
-
-
-  function updateNotificationUI(){
-
-    var toggle =
-      $('notificationToggle');
-
-    var status =
-      $('notificationStatus');
-
-
-    if(notificationsEnabled){
-
-      toggle.classList.add('on');
-
-      toggle.setAttribute(
-        'aria-pressed',
-        'true'
-      );
-
-      status.textContent =
-        'Les notifications sont activées.';
 
     }
     else{
 
-      toggle.classList.remove('on');
+      ev.disconnect();
+      sh.disconnect();
 
-      toggle.setAttribute(
-        'aria-pressed',
-        'false'
+      document.body.className =
+        "out";
+
+      closeAllSettingsPages();
+
+      $("lg").disabled=false;
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   CONNEXION EMAIL
+   ========================================================= */
+
+$("lf").onsubmit =
+  function(e){
+
+    e.preventDefault();
+
+    $("lerr").textContent="";
+
+    signInWithEmailAndPassword(
+      auth,
+      $("le").value.trim(),
+      $("lp").value
+    )
+    .catch(
+      function(error){
+
+        console.error(
+          error
+        );
+
+        $("lerr").textContent =
+          "Adresse e-mail ou mot de passe incorrect.";
+
+      }
+    );
+
+  };
+
+
+/* =========================================================
+   GOOGLE
+   ========================================================= */
+
+var provider =
+  new GoogleAuthProvider();
+
+provider.setCustomParameters({
+  prompt:"select_account"
+});
+
+
+function googleError(error){
+
+  console.error(
+    "Google:",
+    error
+  );
+
+  $("lg").disabled=false;
+
+  $("lerr").textContent =
+    "Connexion Google impossible.";
+
+}
+
+
+getRedirectResult(auth)
+  .catch(googleError);
+
+
+$("lg").onclick =
+  function(){
+
+    $("lerr").textContent="";
+
+    $("lg").disabled=true;
+
+    signInWithPopup(
+      auth,
+      provider
+    )
+    .then(
+      function(){
+
+        $("lg").disabled=false;
+
+      }
+    )
+    .catch(
+      function(error){
+
+        if(
+          error.code ===
+            "auth/popup-closed-by-user"
+        ){
+
+          $("lg").disabled=false;
+
+          return;
+
+        }
+
+
+        if(
+          error.code ===
+            "auth/popup-blocked"
+        ){
+
+          signInWithRedirect(
+            auth,
+            provider
+          )
+          .catch(googleError);
+
+          return;
+
+        }
+
+        googleError(error);
+
+      }
+    );
+
+  };
+
+
+/* =========================================================
+   DÉCONNEXION
+   ========================================================= */
+
+function logout(){
+
+  signOut(auth)
+    .catch(
+      function(error){
+
+        console.error(
+          error
+        );
+
+      }
+    );
+
+}
+
+
+$("logout").onclick =
+  logout;
+
+
+$("settingsLogout").onclick =
+  function(){
+
+    if(
+      confirm(
+        "Voulez-vous vraiment vous déconnecter ?"
+      )
+    ){
+
+      logout();
+
+    }
+
+  };
+
+
+$("securityLogout").onclick =
+  function(){
+
+    if(
+      confirm(
+        "Voulez-vous vraiment vous déconnecter ?"
+      )
+    ){
+
+      logout();
+
+    }
+
+  };
+
+
+/* =========================================================
+   EMOJIS
+   ========================================================= */
+
+var EMO=[
+
+  ["footing","🏃"],
+  ["running","🏃"],
+  ["jogging","🏃"],
+  ["foot","⚽"],
+  ["basket","🏀"],
+  ["tennis","🎾"],
+  ["rugby","🏉"],
+  ["handball","🤾"],
+  ["volley","🏐"],
+  ["natation","🏊"],
+  ["piscine","🏊"],
+  ["velo","🚴"],
+  ["randonnee","🥾"],
+  ["yoga","🧘"],
+  ["gym","🏋️"],
+  ["muscu","🏋️"],
+  ["sport","🏅"],
+  ["danse","💃"],
+  ["judo","🥋"],
+  ["karate","🥋"],
+  ["ski","⛷️"],
+  ["dentiste","🦷"],
+  ["pharmacie","💊"],
+  ["medecin","🩺"],
+  ["docteur","🩺"],
+  ["hopital","🏥"],
+  ["veto","🐾"],
+  ["coiffeur","💇"],
+  ["courses","🛒"],
+  ["supermarche","🛒"],
+  ["ecole","🏫"],
+  ["travail","💼"],
+  ["banque","🏦"],
+  ["mairie","🏛️"],
+  ["anniversaire","🎂"],
+  ["gateau","🍰"],
+  ["cuisine","🍳"],
+  ["fete","🎉"],
+  ["soiree","🎉"],
+  ["restaurant","🍽️"],
+  ["diner","🍽️"],
+  ["cinema","🎬"],
+  ["theatre","🎭"],
+  ["concert","🎵"],
+  ["musique","🎵"],
+  ["lecture","📚"],
+  ["vacances","🏖️"],
+  ["voyage","🧳"],
+  ["avion","✈️"],
+  ["train","🚆"],
+  ["gare","🚆"],
+  ["garage","🔧"],
+  ["voiture","🚗"],
+  ["jardin","🌱"],
+  ["bricolage","🔨"],
+  ["menage","🧹"],
+  ["telephone","📞"],
+  ["appel","📞"],
+  ["visite","👋"],
+  ["mamie","👵"],
+  ["papi","👴"],
+  ["enfants","👧"]
+
+];
+
+
+function emoji(t){
+
+  var n =
+    (t||"")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(
+        /[\u0300-\u036f]/g,
+        ""
       );
 
-      status.textContent =
-        'Les notifications sont désactivées.';
+  for(
+    var i=0;
+    i<EMO.length;
+    i++
+  ){
+
+    if(
+      n.indexOf(
+        EMO[i][0]
+      )>-1
+    ){
+
+      return EMO[i][1];
 
     }
 
   }
 
+  return "📌";
 
-  $('notificationToggle').onclick =
-    function(){
-
-      notificationsEnabled =
-        !notificationsEnabled;
+}
 
 
-      localStorage.setItem(
-        'famille-notifications',
-        notificationsEnabled
-          ? 'true'
-          : 'false'
+/* =========================================================
+   PLANNING
+   ========================================================= */
+
+var sel =
+  new Date();
+
+var DOW=[
+  "lun.",
+  "mar.",
+  "mer.",
+  "jeu.",
+  "ven.",
+  "sam.",
+  "dim."
+];
+
+
+function forDay(d){
+
+  var date =
+    iso(d);
+
+  var w =
+    d.getDay();
+
+  return ev.items
+    .filter(
+      function(e){
+
+        return (
+
+          e.date === date
+
+          ||
+
+          (
+            e.endDate &&
+            e.date < date &&
+            date <= e.endDate
+          )
+
+          ||
+
+          (
+            e.weekly &&
+            !e.endDate &&
+            e.date < date &&
+            parse(e.date).getDay() === w
+          )
+
+        );
+
+      }
+    )
+    .sort(
+      function(a,b){
+
+        return (
+          a.time||"99"
+        ).localeCompare(
+          b.time||"99"
+        );
+
+      }
+    );
+
+}
+
+
+function renderPlan(){
+
+  var strip =
+    $("strip");
+
+  if(!strip){
+    return;
+  }
+
+  var monday =
+    mondayOf(sel);
+
+  var today =
+    iso(new Date());
+
+  strip.innerHTML="";
+
+
+  for(
+    var i=0;
+    i<7;
+    i++
+  ){
+
+    (function(index){
+
+      var d =
+        new Date(monday);
+
+      d.setDate(
+        monday.getDate()+index
       );
 
 
-      updateNotificationUI();
+      var button =
+        document.createElement("button");
+
+      button.className =
+        "day"+
+        (
+          iso(d)===iso(sel)
+          ? " sel"
+          : ""
+        )+
+        (
+          iso(d)===today
+          ? " today"
+          : ""
+        );
+
+
+      button.innerHTML =
+        DOW[index]+
+        "<b>"+
+        d.getDate()+
+        "</b>"+
+        (
+          forDay(d).length
+          ? "<i></i>"
+          : ""
+        );
+
+
+      button.onclick =
+        function(){
+
+          sel =
+            new Date(d);
+
+          renderPlan();
+
+        };
+
+
+      strip.appendChild(button);
+
+    })(i);
+
+  }
+
+
+  $("dlabel").textContent =
+    sel.toLocaleDateString(
+      "fr-FR",
+      {
+        weekday:"long",
+        day:"numeric",
+        month:"long",
+        year:"numeric"
+      }
+    );
+
+
+  var box =
+    $("evs");
+
+  box.innerHTML="";
+
+
+  var list =
+    forDay(sel);
+
+
+  if(!list.length){
+
+    box.innerHTML =
+      '<div class="empty">Rien de prévu ce jour-là</div>';
+
+    return;
+
+  }
+
+
+  list.forEach(
+    function(e){
+
+      var row =
+        document.createElement("div");
+
+      row.className="row";
+
+
+      var time =
+        document.createElement("span");
+
+      time.className="time";
+
+      time.textContent =
+        e.time ||
+        "—";
+
+
+      var grow =
+        document.createElement("span");
+
+      grow.className="grow";
+
+      grow.textContent =
+        emoji(e.t)+
+        " "+
+        e.t;
+
+
+      if(e.weekly && !e.endDate){
+
+        grow.textContent +=
+          " ↻";
+
+      }
+
+
+      row.appendChild(time);
+      row.appendChild(grow);
+
+
+      if(e.who){
+
+        var who =
+          document.createElement("span");
+
+        who.className="tag";
+
+        who.textContent=e.who;
+
+        row.appendChild(who);
+
+      }
+
+
+      var del =
+        document.createElement("button");
+
+      del.className="del";
+
+      del.textContent="✕";
+
+
+      del.onclick =
+        function(){
+
+          ev.del(e.id);
+
+        };
+
+
+      row.appendChild(del);
+
+      box.appendChild(row);
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   NAVIGATION SEMAINE
+   ========================================================= */
+
+$("prev").onclick =
+  function(){
+
+    sel.setDate(
+      sel.getDate()-7
+    );
+
+    renderPlan();
+
+  };
+
+
+$("next").onclick =
+  function(){
+
+    sel.setDate(
+      sel.getDate()+7
+    );
+
+    renderPlan();
+
+  };
+
+
+$("now").onclick =
+  function(){
+
+    sel =
+      new Date();
+
+    renderPlan();
+
+  };
+
+
+/* =========================================================
+   AJOUT RENDEZ-VOUS
+   ========================================================= */
+
+$("fab").onclick =
+  function(){
+
+    $("d").value =
+      iso(sel);
+
+    $("sheet")
+      .classList.add("open");
+
+  };
+
+
+$("cancel").onclick =
+  function(){
+
+    $("sheet")
+      .classList.remove("open");
+
+  };
+
+
+$("sheet").onclick =
+  function(e){
+
+    if(
+      e.target === $("sheet")
+    ){
+
+      $("sheet")
+        .classList.remove("open");
+
+    }
+
+  };
+
+
+$("rg").onchange =
+  function(){
+
+    $("rng").hidden =
+      !$("rg").checked;
+
+  };
+
+
+$("f").onsubmit =
+  function(e){
+
+    e.preventDefault();
+
+
+    var object={
+
+      t:
+        $("t").value.trim(),
+
+      date:
+        $("d").value,
+
+      time:
+        $("h").value,
+
+      who:
+        $("w").value.trim(),
+
+      weekly:
+        $("r").checked,
+
+      endDate:
+        $("rg").checked
+        ? $("ed").value
+        : "",
+
+      endTime:
+        $("rg").checked
+        ? $("eh").value
+        : ""
 
     };
 
 
-  updateNotificationUI();
-
-
-  /* =======================================================
-     APPARENCE
-     ======================================================= */
-
-  var savedTheme =
-    localStorage.getItem(
-      'famille-theme'
-    );
-
-
-  if(
-    savedTheme === 'dark' ||
-    savedTheme === 'light'
-  ){
-
-    document.documentElement
-      .setAttribute(
-        'data-theme',
-        savedTheme
-      );
-
-  }
-  else{
-
-    document.documentElement
-      .removeAttribute(
-        'data-theme'
-      );
-
-  }
-
-
-  function updateThemeButtons(){
-
-    var current =
-      localStorage.getItem(
-        'famille-theme'
-      ) || 'system';
-
-
-    document
-      .querySelectorAll(
-        '.theme-choice'
-      )
-      .forEach(
-        function(button){
-
-          if(
-            button.dataset.themeChoice ===
-            current
-          ){
-
-            button.classList.add(
-              'active'
-            );
-
-          }
-          else{
-
-            button.classList.remove(
-              'active'
-            );
-
-          }
-
-        }
-      );
-
-  }
-
-
-  document
-    .querySelectorAll(
-      '.theme-choice'
-    )
-    .forEach(
-      function(button){
-
-        button.addEventListener(
-          'click',
-          function(){
-
-            var theme =
-              button.dataset.themeChoice;
-
-
-            if(
-              theme === 'dark' ||
-              theme === 'light'
-            ){
-
-              document.documentElement
-                .setAttribute(
-                  'data-theme',
-                  theme
-                );
-
-            }
-            else{
-
-              document.documentElement
-                .removeAttribute(
-                  'data-theme'
-                );
-
-            }
-
-
-            localStorage.setItem(
-              'famille-theme',
-              theme
-            );
-
-
-            updateThemeButtons();
-
-          }
-        );
-
-      }
-    );
-
-
-  updateThemeButtons();
-
-
-  /* =======================================================
-     EMOJIS
-     ======================================================= */
-
-  var EMO=[
-
-    ['footing','🏃'],
-    ['running','🏃'],
-    ['jogging','🏃'],
-    ['foot','⚽'],
-    ['basket','🏀'],
-    ['tennis','🎾'],
-    ['rugby','🏉'],
-    ['handball','🤾'],
-    ['volley','🏐'],
-    ['natation','🏊'],
-    ['piscine','🏊'],
-    ['velo','🚴'],
-    ['randonnee','🥾'],
-    ['yoga','🧘'],
-    ['gym','🏋️'],
-    ['muscu','🏋️'],
-    ['sport','🏅'],
-    ['danse','💃'],
-    ['judo','🥋'],
-    ['karate','🥋'],
-    ['ski','⛷️'],
-    ['golf','⛳'],
-    ['petanque','🎯'],
-    ['peche','🎣'],
-    ['belote','🃏'],
-    ['cartes','🃏'],
-    ['dentiste','🦷'],
-    ['pharmacie','💊'],
-    ['medecin','🩺'],
-    ['docteur','🩺'],
-    ['kine','🩺'],
-    ['hopital','🏥'],
-    ['analyse','🩸'],
-    ['infirmi','🩺'],
-    ['veto','🐾'],
-    ['coiffeur','💇'],
-    ['courses','🛒'],
-    ['supermarche','🛒'],
-    ['marche','🛒'],
-    ['ecole','🏫'],
-    ['reunion','💼'],
-    ['travail','💼'],
-    ['banque','🏦'],
-    ['impot','🧾'],
-    ['mairie','🏛️'],
-    ['messe','⛪'],
-    ['eglise','⛪'],
-    ['anniversaire','🎂'],
-    ['gateau','🍰'],
-    ['cuisine','🍳'],
-    ['fete','🎉'],
-    ['soiree','🎉'],
-    ['restaurant','🍽️'],
-    ['diner','🍽️'],
-    ['dejeuner','🍽️'],
-    ['repas','🍽️'],
-    ['apero','🥂'],
-    ['cinema','🎬'],
-    ['theatre','🎭'],
-    ['concert','🎵'],
-    ['musique','🎵'],
-    ['chorale','🎵'],
-    ['piano','🎹'],
-    ['lecture','📚'],
-    ['biblio','📚'],
-    ['vacances','🏖️'],
-    ['voyage','🧳'],
-    ['avion','✈️'],
-    ['aeroport','✈️'],
-    ['train','🚆'],
-    ['gare','🚆'],
-    ['garage','🔧'],
-    ['controle technique','🚗'],
-    ['voiture','🚗'],
-    ['jardin','🌱'],
-    ['bricolage','🔨'],
-    ['menage','🧹'],
-    ['telephone','📞'],
-    ['appel','📞'],
-    ['visite','👋'],
-    ['mamie','👵'],
-    ['papi','👴'],
-    ['enfants','👧']
-
-  ];
-
-
-  function emoji(t){
-
-    var n =
-      (t||'')
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(
-          /[\u0300-\u036f]/g,
-          ''
-        );
-
-
-    for(
-      var i=0;
-      i<EMO.length;
-      i++
+    if(
+      !object.t ||
+      !object.date
     ){
 
-      if(
-        n.indexOf(
-          EMO[i][0]
-        )>-1
-      ){
-
-        return EMO[i][1];
-
-      }
+      return;
 
     }
 
-    return '📌';
 
+    ev.add(object);
+
+    sel =
+      parse(object.date);
+
+
+    $("t").value="";
+    $("h").value="";
+    $("w").value="";
+    $("ed").value="";
+    $("eh").value="";
+
+    $("rg").checked=false;
+    $("r").checked=false;
+
+    $("rng").hidden=true;
+
+    $("sheet")
+      .classList.remove("open");
+
+    renderPlan();
+
+  };
+
+
+/* =========================================================
+   COURSES
+   ========================================================= */
+
+function renderShop(){
+
+  var box =
+    $("items");
+
+  if(!box){
+    return;
   }
 
-
-  /* =======================================================
-     PLANNING
-     ======================================================= */
-
-  var sel =
-    new Date();
+  box.innerHTML="";
 
 
-  var DOW=[
-
-    'lun.',
-    'mar.',
-    'mer.',
-    'jeu.',
-    'ven.',
-    'sam.',
-    'dim.'
-
-  ];
-
-
-  function forDay(d){
-
-    var s =
-      iso(d);
-
-    var w =
-      d.getDay();
-
-
-    return ev.items
-
-      .filter(
-        function(e){
-
-          return (
-
-            e.date===s
-
-            ||
-
-            (
-              e.endDate &&
-              e.date<s &&
-              s<=e.endDate
-            )
-
-            ||
-
-            (
-              e.weekly &&
-              !e.endDate &&
-              e.date<s &&
-              parse(e.date).getDay()===w
-            )
-
-          );
-
-        }
-      )
-
+  var list =
+    sh.items
+      .slice()
       .sort(
         function(a,b){
 
           return (
-            a.time||'99'
-          ).localeCompare(
-            b.time||'99'
+            Number(!!a.done) -
+            Number(!!b.done)
+          ) ||
+          (
+            (a.at||0) -
+            (b.at||0)
           );
 
         }
       );
 
-  }
 
-
-  function renderPlan(){
-
-    var m =
-      mondayOf(sel);
-
-    var strip =
-      $('strip');
-
-    if(!strip){
-      return;
-    }
-
-    var today =
-      iso(new Date());
-
-    strip.innerHTML='';
-
-
-    for(
-      var i=0;
-      i<7;
-      i++
-    ){
-
-      (function(index){
-
-        var d =
-          new Date(m);
-
-        d.setDate(
-          m.getDate()+index
-        );
-
-
-        var b =
-          document.createElement('button');
-
-
-        b.className =
-          'day' +
-
-          (
-            iso(d)===iso(sel)
-            ? ' sel'
-            : ''
-          ) +
-
-          (
-            iso(d)===today
-            ? ' today'
-            : ''
-          );
-
-
-        b.innerHTML =
-          DOW[index]+
-          '<b>'+
-          d.getDate()+
-          '</b>'+
-
-          (
-            forDay(d).length
-            ? '<i></i>'
-            : ''
-          );
-
-
-        b.onclick =
-          function(){
-
-            sel =
-              new Date(d);
-
-            renderPlan();
-
-          };
-
-
-        strip.appendChild(b);
-
-      })(i);
-
-    }
-
-
-    $('dlabel').textContent =
-      sel.toLocaleDateString(
-        'fr-FR',
-        {
-          weekday:'long',
-          day:'numeric',
-          month:'long',
-          year:'numeric'
-        }
-      );
-
-
-    var box =
-      $('evs');
-
-    box.innerHTML='';
-
-
-    var list =
-      forDay(sel);
-
-
-    if(!list.length){
-
-      box.innerHTML =
-        '<div class="empty">Rien de prévu ce jour-là</div>';
-
-      return;
-
-    }
-
-
-    list.forEach(
-      function(e){
-
-        var r =
-          document.createElement('div');
-
-        r.className='row';
-
-
-        var t =
-          document.createElement('span');
-
-        t.className='time';
-
-        t.textContent =
-          e.time
-          ? (
-              e.time+
-              (
-                e.endTime
-                ? '–'+e.endTime
-                : ''
-              )
-            )
-          : '—';
-
-
-        var g =
-          document.createElement('span');
-
-        g.className='grow';
-
-        g.textContent =
-          emoji(e.t)+
-          ' '+
-          e.t+
-
-          (
-            e.weekly&&!e.endDate
-            ? ' ↻'
-            : ''
-          )+
-
-          (
-            e.endDate &&
-            e.endDate>e.date
-            ?
-
-            ' · du '+
-            parse(e.date).toLocaleDateString(
-              'fr-FR',
-              {
-                day:'numeric',
-                month:'short'
-              }
-            )+
-            ' au '+
-            parse(e.endDate).toLocaleDateString(
-              'fr-FR',
-              {
-                day:'numeric',
-                month:'short'
-              }
-            )
-
-            :
-
-            ''
-          );
-
-
-        r.appendChild(t);
-        r.appendChild(g);
-
-
-        if(e.who){
-
-          var w =
-            document.createElement('span');
-
-          w.className='tag';
-
-          w.textContent=e.who;
-
-          r.appendChild(w);
-
-        }
-
-
-        var x =
-          document.createElement('button');
-
-        x.className='del';
-
-        x.textContent='✕';
-
-        x.setAttribute(
-          'aria-label',
-          'Supprimer'
-        );
-
-
-        x.onclick =
-          function(){
-
-            ev.del(e.id);
-
-          };
-
-
-        r.appendChild(x);
-
-        box.appendChild(r);
-
+  $("clr").hidden =
+    !list.some(
+      function(x){
+        return x.done;
       }
     );
 
-  }
+
+  $("fin").hidden =
+    !list.length;
 
 
-  /* =======================================================
-     NAVIGATION SEMAINE
-     ======================================================= */
+  if(!list.length){
 
-  $('prev').onclick =
-    function(){
+    box.innerHTML =
+      '<div class="empty">La liste est vide</div>';
 
-      var d =
-        new Date(sel);
-
-      d.setDate(
-        d.getDate()-7
-      );
-
-      sel=d;
-
-      renderPlan();
-
-    };
-
-
-  $('next').onclick =
-    function(){
-
-      var d =
-        new Date(sel);
-
-      d.setDate(
-        d.getDate()+7
-      );
-
-      sel=d;
-
-      renderPlan();
-
-    };
-
-
-  $('now').onclick =
-    function(){
-
-      sel =
-        new Date();
-
-      renderPlan();
-
-    };
-
-
-  /* =======================================================
-     AJOUT RENDEZ-VOUS
-     ======================================================= */
-
-  $('fab').onclick =
-    function(){
-
-      $('d').value =
-        iso(sel);
-
-      $('sheet')
-        .classList.add('open');
-
-      $('t').focus();
-
-    };
-
-
-  function syncRg(){
-
-    var on =
-      $('rg').checked;
-
-    $('rng').hidden =
-      !on;
-
-
-    document
-      .querySelectorAll('.startcap')
-      .forEach(
-        function(x){
-
-          x.hidden=!on;
-
-        }
-      );
+    return;
 
   }
 
 
-  $('rg').onchange =
-    syncRg;
+  list.forEach(
+    function(item){
 
+      var row =
+        document.createElement("div");
 
-  $('cancel').onclick =
-    function(){
-
-      $('sheet')
-        .classList.remove('open');
-
-    };
-
-
-  $('sheet').onclick =
-    function(e){
-
-      if(
-        e.target===
-        $('sheet')
-      ){
-
-        $('sheet')
-          .classList.remove('open');
-
-      }
-
-    };
-
-
-  $('f').onsubmit =
-    function(e){
-
-      e.preventDefault();
-
-
-      var o={
-
-        t:
-          $('t').value.trim(),
-
-        date:
-          $('d').value,
-
-        time:
-          $('h').value,
-
-        who:
-          $('w').value.trim(),
-
-        weekly:
-          $('r').checked,
-
-        endDate:
-          $('rg').checked
-          ? $('ed').value
-          : '',
-
-        endTime:
-          $('rg').checked
-          ? $('eh').value
-          : ''
-
-      };
-
-
-      if(
-        !o.t ||
-        !o.date
-      ){
-
-        return;
-
-      }
-
-
-      if(
-        o.endDate &&
-        o.endDate<o.date
-      ){
-
-        $('status').textContent =
-          'La date de fin doit être après la date de début.';
-
-        return;
-
-      }
-
-
-      ev.add(o);
-
-      sel =
-        parse(o.date);
-
-
-      $('t').value='';
-      $('h').value='';
-      $('ed').value='';
-      $('eh').value='';
-      $('w').value='';
-
-      $('rg').checked=false;
-      $('r').checked=false;
-
-      syncRg();
-
-
-      $('sheet')
-        .classList.remove('open');
-
-
-      renderPlan();
-
-    };
-
-
-  /* =======================================================
-     COURSES
-     ======================================================= */
-
-  function renderShop(){
-
-    var box =
-      $('items');
-
-    if(!box){
-      return;
-    }
-
-    box.innerHTML='';
-
-
-    var l =
-      sh.items
-        .slice()
-        .sort(
-          function(a,b){
-
-            return (
-              Number(!!a.done)-
-              Number(!!b.done)
-            ) ||
-            (
-              (a.at||0)-
-              (b.at||0)
-            );
-
-          }
+      row.className =
+        "row"+
+        (
+          item.done
+          ? " done"
+          : ""
         );
 
 
-    $('clr').hidden =
-      !l.some(
-        function(x){
-          return x.done;
-        }
-      );
+      var check =
+        document.createElement("input");
 
+      check.type="checkbox";
 
-    $('fin').hidden =
-      !l.length;
+      check.className="box";
 
+      check.checked =
+        !!item.done;
 
-    if(!l.length){
 
-      box.innerHTML =
-        '<div class="empty">La liste est vide</div>';
-
-      return;
-
-    }
-
-
-    l.forEach(
-      function(it){
-
-        var r =
-          document.createElement('div');
-
-        r.className =
-          'row'+
-          (
-            it.done
-            ? ' done'
-            : ''
-          );
-
-
-        var c =
-          document.createElement('input');
-
-        c.type='checkbox';
-
-        c.className='box';
-
-        c.checked=!!it.done;
-
-
-        c.setAttribute(
-          'aria-label',
-          it.t
-        );
-
-
-        c.onchange =
-          function(){
-
-            sh.set(
-              it.id,
-              {
-                t:it.t,
-                at:it.at,
-                done:c.checked
-              }
-            );
-
-          };
-
-
-        var g =
-          document.createElement('span');
-
-        g.className='grow';
-
-        g.textContent=it.t;
-
-
-        var x =
-          document.createElement('button');
-
-        x.className='del';
-
-        x.textContent='✕';
-
-        x.setAttribute(
-          'aria-label',
-          'Supprimer '+it.t
-        );
-
-
-        x.onclick =
-          function(){
-
-            sh.del(it.id);
-
-          };
-
-
-        r.appendChild(c);
-        r.appendChild(g);
-        r.appendChild(x);
-
-        box.appendChild(r);
-
-      }
-    );
-
-  }
-
-
-  $('sf').onsubmit =
-    function(e){
-
-      e.preventDefault();
-
-
-      var v =
-        $('si').value.trim();
-
-
-      if(!v){
-        return;
-      }
-
-
-      sh.add({
-
-        t:v,
-
-        done:false,
-
-        at:Date.now()
-
-      });
-
-
-      $('si').value='';
-
-    };
-
-
-  /* =======================================================
-     COURSES FAITES
-     ======================================================= */
-
-  $('fin').onclick =
-    function(){
-
-      var b =
-        $('fin');
-
-
-      b.classList.remove('flash');
-
-      void b.offsetWidth;
-
-      b.classList.add('flash');
-
-
-      var list =
-        sh.items.slice();
-
-
-      setTimeout(
+      check.onchange =
         function(){
 
-          list.forEach(
-            function(x){
-
-              sh.del(x.id);
-
+          sh.set(
+            item.id,
+            {
+              t:item.t,
+              at:item.at,
+              done:check.checked
             }
           );
 
-        },
-        650
+        };
+
+
+      var text =
+        document.createElement("span");
+
+      text.className="grow";
+
+      text.textContent =
+        item.t;
+
+
+      var del =
+        document.createElement("button");
+
+      del.className="del";
+
+      del.textContent="✕";
+
+
+      del.onclick =
+        function(){
+
+          sh.del(item.id);
+
+        };
+
+
+      row.appendChild(check);
+      row.appendChild(text);
+      row.appendChild(del);
+
+      box.appendChild(row);
+
+    }
+  );
+
+}
+
+
+$("sf").onsubmit =
+  function(e){
+
+    e.preventDefault();
+
+    var value =
+      $("si").value.trim();
+
+    if(!value){
+      return;
+    }
+
+    sh.add({
+
+      t:value,
+
+      done:false,
+
+      at:Date.now()
+
+    });
+
+    $("si").value="";
+
+  };
+
+
+$("fin").onclick =
+  function(){
+
+    sh.items
+      .slice()
+      .forEach(
+        function(item){
+
+          sh.del(item.id);
+
+        }
       );
 
-    };
+  };
 
 
-  /* =======================================================
-     ARTICLES COCHÉS
-     ======================================================= */
+$("clr").onclick =
+  function(){
 
-  $('clr').onclick =
-    function(){
+    sh.items
+      .filter(
+        function(item){
 
-      sh.items
-        .filter(
-          function(x){
-            return x.done;
-          }
-        )
-        .forEach(
-          function(x){
-            sh.del(x.id);
-          }
-        );
+          return item.done;
 
-    };
+        }
+      )
+      .forEach(
+        function(item){
 
+          sh.del(item.id);
 
-  /* =======================================================
-     ONGLETS
-     ======================================================= */
+        }
+      );
 
-  function tab(n){
-
-    $('p-plan').hidden =
-      n!=='plan';
-
-    $('p-shop').hidden =
-      n!=='shop';
-
-    $('n-plan').className =
-      n==='plan'
-      ? 'on'
-      : '';
-
-    $('n-shop').className =
-      n==='shop'
-      ? 'on'
-      : '';
-
-    window.scrollTo(0,0);
-
-  }
+  };
 
 
-  $('n-plan').onclick =
-    function(){
-      tab('plan');
-    };
+/* =========================================================
+   ONGLETS
+   ========================================================= */
+
+function tab(name){
+
+  $("p-plan").hidden =
+    name !== "plan";
+
+  $("p-shop").hidden =
+    name !== "shop";
+
+  $("n-plan").className =
+    name === "plan"
+    ? "on"
+    : "";
+
+  $("n-shop").className =
+    name === "shop"
+    ? "on"
+    : "";
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
 
 
-  $('n-shop').onclick =
-    function(){
-      tab('shop');
-    };
+$("n-plan").onclick =
+  function(){
+
+    tab("plan");
+
+  };
 
 
-  /* =======================================================
-     INITIALISATION
-     ======================================================= */
+$("n-shop").onclick =
+  function(){
 
-  syncRg();
+    tab("shop");
 
-  renderPlan();
+  };
 
-  renderShop();
 
-})();
+/* =========================================================
+   INITIALISATION
+   ========================================================= */
+
+renderPlan();
+renderShop();
 
 
 /* =========================================================
@@ -4107,12 +3431,11 @@ if(
         .then(
           function(registration){
 
-            console.log(
-              "Service Worker actif :",
-              registration.scope
-            );
-
             registration.update();
+
+            console.log(
+              "Service Worker actif"
+            );
 
           }
         )
@@ -4120,7 +3443,7 @@ if(
           function(error){
 
             console.error(
-              "Erreur Service Worker :",
+              "Service Worker:",
               error
             );
 
