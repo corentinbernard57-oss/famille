@@ -1759,48 +1759,130 @@ const fdb =
      AUTHENTIFICATION
      ======================================================= */
 
-  onAuthStateChanged(
-    auth,
-    function(u){
+onAuthStateChanged(
+  auth,
+  async function(u){
 
-      if(u){
+    if(u){
 
-        document.body.className='in';
+      document.body.className='in';
 
-        ev.connect();
-        sh.connect();
+      ev.connect();
+      sh.connect();
 
-        $('status').textContent =
-          'Connecté à la famille';
-
-
-        $('settingsName').textContent =
-          u.displayName ||
-          'Compte connecté';
+      $('status').textContent =
+        'Connecté à la famille';
 
 
-        $('settingsEmail').textContent =
-          u.email ||
-          '';
+      /* =========================================
+         INFORMATIONS DU COMPTE
+         ========================================= */
 
+      var name =
+        u.displayName ||
+        'Compte connecté';
+
+      var email =
+        u.email ||
+        '';
+
+
+      $('settingsName').textContent =
+        name;
+
+      $('settingsEmail').textContent =
+        email;
+
+
+      $('accountName').textContent =
+        name;
+
+      $('accountEmail').textContent =
+        email;
+
+
+      /* =========================================
+         RÉCUPÉRATION DU RÔLE FIRESTORE
+         ========================================= */
+
+      try{
+
+        var userRef =
+          doc(
+            fdb,
+            'users',
+            u.uid
+          );
+
+
+        var userSnap =
+          await getDoc(userRef);
+
+
+        if(
+          userSnap.exists()
+        ){
+
+          var userData =
+            userSnap.data();
+
+
+          if(
+            userData.role === 'admin'
+          ){
+
+            $('accountRole').textContent =
+              '🛡️ Administrateur';
+
+          }
+          else{
+
+            $('accountRole').textContent =
+              '👤 Membre';
+
+          }
+
+        }
+        else{
+
+          $('accountRole').textContent =
+            '👤 Membre';
+
+        }
 
       }
-      else{
+      catch(error){
 
-        ev.disconnect();
-        sh.disconnect();
+        console.error(
+          'Erreur récupération rôle :',
+          error
+        );
 
-        document.body.className='out';
-
-        $('settingsOverlay')
-          .classList.remove('open');
-
-        $('lg').disabled=false;
+        $('accountRole').textContent =
+          '👤 Membre';
 
       }
 
     }
-  );
+    else{
+
+      ev.disconnect();
+      sh.disconnect();
+
+      document.body.className='out';
+
+      $('settingsOverlay')
+        .classList.remove('open');
+
+      $('accountOverlay')
+        .classList.remove('open');
+
+      $('lg').disabled=false;
+
+    }
+
+  }
+);
 
 
   /* =======================================================
