@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<title>🏠Famille</title>
+<title>🏠 Famille</title>
 
 <meta name="robots" content="noindex,nofollow">
 
-<!-- PWA / iPhone -->
+<!-- PWA -->
 <meta name="theme-color" content="#2f6f62">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,9 +18,16 @@
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon-180.png">
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A1%3C/text%3E%3C/svg%3E">
+<link
+  rel="icon"
+  href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A1%3C/text%3E%3C/svg%3E"
+>
 
 <style>
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
 
 :root{
   --bg:#f6f5f2;
@@ -31,7 +38,6 @@
   --accent:#2f6f62;
   --soft:#e4efec;
   box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px)
 }
 
 @media (prefers-color-scheme:dark){
@@ -42,7 +48,7 @@
     --muted:#a09c94;
     --line:#33322f;
     --accent:#6fbfae;
-    --soft:#26332f
+    --soft:#26332f;
   }
 }
 
@@ -53,35 +59,28 @@
   --muted:#a09c94;
   --line:#33322f;
   --accent:#6fbfae;
-  --soft:#26332f
-}
-
-html{
-  scroll-padding-top:env(safe-area-inset-top,0px)
+  --soft:#26332f;
 }
 
 *{
-  box-sizing:border-box
+  box-sizing:border-box;
+}
+
+html{
+  scroll-padding-top:env(safe-area-inset-top,0px);
 }
 
 body{
   margin:0;
+  padding-top:env(safe-area-inset-top,0px);
   background:var(--bg);
   color:var(--ink);
-  font:18px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif
+  font:18px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
 }
 
-main{
-  max-width:560px;
-  margin:0 auto;
-  padding:16px 16px calc(96px + env(safe-area-inset-bottom,0px))
-}
-
-h1{
-  font-size:1.5rem;
-  margin:8px 0 16px;
-  font-weight:650
-}
+/* =========================================================
+   BOUTONS
+   ========================================================= */
 
 button{
   font:inherit;
@@ -89,8 +88,18 @@ button{
   cursor:pointer;
   color:inherit;
   background:none;
-  transition:transform .12s ease,background-color .2s,border-color .2s,box-shadow .2s,color .2s;
-  -webkit-tap-highlight-color:transparent
+  transition:
+    transform .12s ease,
+    background-color .2s,
+    border-color .2s,
+    box-shadow .2s,
+    color .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+
+button:focus-visible{
+  outline:3px solid #f2b134;
+  outline-offset:2px;
 }
 
 .primary{
@@ -99,171 +108,229 @@ button{
   border-radius:12px;
   padding:13px 18px;
   font-weight:600;
-  border:3px solid transparent
+  border:3px solid transparent;
 }
 
 .primary:active{
   transform:scale(.95);
-  border-color:#f2b134
+  border-color:#f2b134;
 }
 
-.fab:active{
-  transform:scale(.9);
-  box-shadow:0 0 0 5px rgba(242,177,52,.45)
-}
-
-.day:active,
-nav button:active,
-.del:active,
-.arrow:active{
-  transform:scale(.9)
+.link{
+  color:var(--accent);
+  font-weight:600;
+  display:block;
+  margin:14px auto 0;
+  padding:8px;
 }
 
 .link:active{
-  transform:scale(.95)
+  transform:scale(.95);
 }
 
-button:focus-visible{
-  outline:3px solid #f2b134;
-  outline-offset:2px
+/* =========================================================
+   PARAMÈTRES
+   ========================================================= */
+
+.settings-btn{
+  position:fixed;
+  top:calc(12px + env(safe-area-inset-top,0px));
+  right:16px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:var(--card);
+  color:var(--ink);
+  font-size:1.35rem;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+  z-index:30;
 }
 
-@keyframes flash{
-  0%{
-    border-color:transparent;
-    transform:scale(1)
-  }
-  25%{
-    border-color:#f2b134;
-    transform:scale(.96)
-  }
-  60%{
-    border-color:#3fae6a;
-    background:#3fae6a;
-    transform:scale(1.03)
-  }
-  100%{
-    border-color:transparent;
-    transform:scale(1)
-  }
+body.in .settings-btn{
+  display:flex;
 }
 
-.flash{
-  animation:flash .7s ease
-}
-
-@keyframes pop{
-  from{
-    opacity:0;
-    transform:translateY(6px)
-  }
-  to{
-    opacity:1;
-    transform:none
-  }
-}
-
-.row{
-  animation:pop .25s ease;
-  transition:background-color .2s
+.settings-btn:active{
+  transform:scale(.9);
 }
 
 @media (hover:hover){
-
-  .primary:hover{
-    border-color:var(--accent);
-    background:var(--accent);
-    transform:translateY(-2px) scale(1.03);
-    box-shadow:0 6px 16px color-mix(in srgb,var(--accent) 45%,transparent)
-  }
-
-  .primary:hover:active{
-    transform:scale(.95)
-  }
-
-  .fab:hover:active{
-    transform:scale(.92)
-  }
-
-  .fab:hover{
-    background:var(--accent);
-    transform:scale(1.1);
-    box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 40%,transparent)
-  }
-
-  .day:hover:not(.sel){
-    background:var(--soft);
-    transform:translateY(-2px)
-  }
-
-  nav button:hover{
-    color:var(--accent);
-    transform:translateY(-2px)
-  }
-
-  .del:hover{
-    color:#d9534f;
-    transform:scale(1.2)
-  }
-
-  .arrow:hover{
-    color:var(--accent);
-    transform:scale(1.2)
-  }
-
-  .link:hover{
-    transform:scale(1.05);
-    text-decoration:underline
-  }
-
-  .row:hover{
-    background:var(--soft)
-  }
-
-  .gbtn:not([disabled]):hover{
-    border-color:var(--accent);
-    transform:translateY(-2px) scale(1.02);
-    box-shadow:0 6px 16px rgba(0,0,0,.12)
-  }
-
   .settings-btn:hover{
     background:var(--soft);
-    transform:scale(1.08)
+    transform:scale(1.08);
   }
 }
 
-@media (prefers-reduced-motion:reduce){
-  *{
-    animation:none!important;
-    transition:none!important
+/* =========================================================
+   PANNEAU PARAMÈTRES
+   ========================================================= */
+
+.settings-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  z-index:25;
+}
+
+.settings-overlay.open{
+  display:flex;
+}
+
+.settings-panel{
+  width:100%;
+  max-width:560px;
+  max-height:90vh;
+  overflow:auto;
+  background:var(--card);
+  color:var(--ink);
+  border-radius:22px 22px 0 0;
+  padding:20px 16px calc(24px + env(safe-area-inset-bottom,0px));
+  animation:settingsIn .2s ease;
+}
+
+@keyframes settingsIn{
+  from{
+    opacity:0;
+    transform:translateY(30px);
   }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.settings-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.settings-header h2{
+  margin:0;
+  font-size:1.35rem;
+}
+
+.settings-close{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:var(--soft);
+  font-size:1.2rem;
+}
+
+.settings-user{
+  background:var(--soft);
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:14px;
+}
+
+.settings-user strong{
+  display:block;
+}
+
+.settings-user small{
+  color:var(--muted);
+  overflow-wrap:anywhere;
+}
+
+.settings-list{
+  display:grid;
+  gap:8px;
+}
+
+.settings-item{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-align:left;
+  padding:14px;
+  border-radius:14px;
+  background:var(--bg);
+}
+
+.settings-item span:first-child{
+  width:34px;
+  text-align:center;
+  font-size:1.3rem;
+}
+
+.settings-item div{
+  flex:1;
+}
+
+.settings-item strong{
+  display:block;
+}
+
+.settings-item small{
+  color:var(--muted);
+}
+
+.settings-logout{
+  margin-top:14px;
+  width:100%;
+  color:#d9534f;
+  background:rgba(217,83,79,.08);
+  padding:13px;
+  border-radius:12px;
+  font-weight:600;
+}
+
+/* =========================================================
+   CONTENU
+   ========================================================= */
+
+main{
+  max-width:560px;
+  margin:0 auto;
+  padding:16px 16px calc(96px + env(safe-area-inset-bottom,0px));
+}
+
+h1{
+  font-size:1.5rem;
+  margin:8px 0 16px;
+  font-weight:650;
 }
 
 .card{
   background:var(--card);
   border-radius:16px;
   padding:6px 16px;
-  box-shadow:0 1px 2px rgba(0,0,0,.05)
+  box-shadow:0 1px 2px rgba(0,0,0,.05);
 }
+
+/* =========================================================
+   PLANNING
+   ========================================================= */
 
 .week{
   display:flex;
   align-items:center;
   gap:4px;
-  margin-bottom:14px
+  margin-bottom:14px;
 }
 
 .week .arrow{
   padding:10px 12px;
   color:var(--muted);
-  font-size:1.1rem
+  font-size:1.1rem;
 }
 
 .strip{
   flex:1;
   display:grid;
   grid-template-columns:repeat(7,1fr);
-  gap:4px
+  gap:4px;
 }
 
 .day{
@@ -274,30 +341,30 @@ button:focus-visible{
   border-radius:12px;
   font-size:.75rem;
   color:var(--muted);
-  position:relative
+  position:relative;
 }
 
 .day b{
   font-size:1.1rem;
   color:var(--ink);
-  font-weight:600
+  font-weight:600;
 }
 
 .day.sel{
   background:var(--accent);
-  color:#fff
+  color:#fff;
 }
 
 .day.sel b{
-  color:#fff
+  color:#fff;
 }
 
 .day.today b{
-  color:var(--accent)
+  color:var(--accent);
 }
 
 .day.sel.today b{
-  color:#fff
+  color:#fff;
 }
 
 .day i{
@@ -306,18 +373,18 @@ button:focus-visible{
   width:5px;
   height:5px;
   border-radius:50%;
-  background:var(--accent)
+  background:var(--accent);
 }
 
 .day.sel i{
-  background:#fff
+  background:#fff;
 }
 
 .sub{
   color:var(--muted);
   font-size:.9rem;
   margin:0 2px 8px;
-  text-transform:capitalize
+  text-transform:capitalize;
 }
 
 .row{
@@ -325,24 +392,37 @@ button:focus-visible{
   align-items:center;
   gap:12px;
   padding:14px 0;
-  border-top:1px solid var(--line)
+  border-top:1px solid var(--line);
+  animation:pop .25s ease;
+  transition:background-color .2s;
 }
 
 .row:first-child{
-  border-top:0
+  border-top:0;
+}
+
+@keyframes pop{
+  from{
+    opacity:0;
+    transform:translateY(6px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
 }
 
 .time{
   font-weight:650;
   min-width:3.2em;
   white-space:nowrap;
-  color:var(--accent)
+  color:var(--accent);
 }
 
 .grow{
   flex:1;
   min-width:0;
-  overflow-wrap:anywhere
+  overflow-wrap:anywhere;
 }
 
 .tag{
@@ -351,19 +431,23 @@ button:focus-visible{
   border-radius:999px;
   background:var(--soft);
   color:var(--accent);
-  white-space:nowrap
+  white-space:nowrap;
 }
 
 .del{
   color:var(--muted);
-  padding:4px 8px
+  padding:4px 8px;
 }
 
 .empty{
   color:var(--muted);
   text-align:center;
-  padding:28px 0
+  padding:28px 0;
 }
+
+/* =========================================================
+   BOUTON +
+   ========================================================= */
 
 .fab{
   position:fixed;
@@ -376,8 +460,17 @@ button:focus-visible{
   color:#fff;
   font-size:2rem;
   line-height:1;
-  box-shadow:0 4px 12px rgba(0,0,0,.25)
+  box-shadow:0 4px 12px rgba(0,0,0,.25);
+  z-index:4;
 }
+
+.fab:active{
+  transform:scale(.9);
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
 
 nav{
   position:fixed;
@@ -387,7 +480,8 @@ nav{
   background:var(--card);
   border-top:1px solid var(--line);
   display:flex;
-  padding-bottom:env(safe-area-inset-bottom,0px)
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  z-index:10;
 }
 
 nav button{
@@ -398,7 +492,7 @@ nav button{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:2px
+  gap:2px;
 }
 
 nav button span{
@@ -409,17 +503,20 @@ nav button span{
   align-items:center;
   justify-content:center;
   border-radius:10px;
-  transition:border-color .25s,background-color .25s,transform .25s
 }
 
 nav button.on{
   color:var(--accent);
-  font-weight:600
+  font-weight:600;
 }
 
 nav button.on span{
-  background:color-mix(in srgb,var(--accent) 20%,transparent)
+  background:color-mix(in srgb,var(--accent) 20%,transparent);
 }
+
+/* =========================================================
+   FENÊTRE AJOUT
+   ========================================================= */
 
 .sheet{
   position:fixed;
@@ -428,11 +525,11 @@ nav button.on span{
   display:none;
   align-items:flex-end;
   justify-content:center;
-  z-index:5
+  z-index:20;
 }
 
 .sheet.open{
-  display:flex
+  display:flex;
 }
 
 .sheet form{
@@ -445,24 +542,24 @@ nav button.on span{
   grid-template-columns:1fr 1fr;
   gap:10px;
   max-height:92vh;
-  overflow:auto
+  overflow:auto;
 }
 
 .sheet .full{
-  grid-column:1/-1
+  grid-column:1/-1;
 }
 
 .cap{
   display:block;
   font-size:.75rem;
   color:var(--muted);
-  margin:0 0 4px 2px
+  margin:0 0 4px 2px;
 }
 
 .rng{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px
+  gap:10px;
 }
 
 input[type=text],
@@ -477,95 +574,108 @@ input[type=password]{
   background:var(--bg);
   color:var(--ink);
   width:100%;
-  min-width:0
+  min-width:0;
 }
 
 .chk{
   display:flex;
   align-items:center;
   gap:10px;
-  font-size:.95rem
+  font-size:.95rem;
 }
 
 .chk input{
   width:24px;
   height:24px;
-  accent-color:var(--accent)
+  accent-color:var(--accent);
 }
+
+/* =========================================================
+   COURSES
+   ========================================================= */
 
 .add{
   display:flex;
   gap:8px;
-  margin-bottom:14px
+  margin-bottom:14px;
 }
 
 .add input{
-  flex:1
+  flex:1;
 }
 
 .box{
   width:28px;
   height:28px;
   accent-color:var(--accent);
-  flex:none
+  flex:none;
 }
 
 .done .grow{
   text-decoration:line-through;
-  color:var(--muted)
-}
-
-.link{
-  color:var(--accent);
-  font-weight:600;
-  display:block;
-  margin:14px auto 0;
-  padding:8px
-}
-
-#status{
-  text-align:center;
-  font-size:.78rem;
   color:var(--muted);
-  margin-top:18px
 }
 
-[hidden]{
-  display:none!important
+@keyframes flash{
+  0%{
+    border-color:transparent;
+    transform:scale(1);
+  }
+  25%{
+    border-color:#f2b134;
+    transform:scale(.96);
+  }
+  60%{
+    border-color:#3fae6a;
+    background:#3fae6a;
+    transform:scale(1.03);
+  }
+  100%{
+    border-color:transparent;
+    transform:scale(1);
+  }
+}
+
+.flash{
+  animation:flash .7s ease;
+}
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+#login{
+  display:none;
+  padding:24px 16px;
+}
+
+body.out #login{
+  display:block;
 }
 
 body:not(.in) main,
 body:not(.in) nav,
 body:not(.in) .sheet{
-  display:none!important
-}
-
-#login{
-  display:none;
-  padding:24px 16px
-}
-
-body.out #login{
-  display:block
+  display:none!important;
 }
 
 .lbox{
   max-width:380px;
   margin:12vh auto 0;
-  text-align:center
+  text-align:center;
 }
 
 .lbox form{
   display:grid;
   gap:12px;
-  margin-top:18px
+  margin-top:18px;
 }
 
 .err{
   color:#d9534f;
   font-size:.9rem;
   min-height:1.2em;
-  margin:0
+  margin:0;
 }
 
 .sep{
@@ -574,7 +684,7 @@ body.out #login{
   gap:12px;
   color:var(--muted);
   font-size:.8rem;
-  margin:18px 0 14px
+  margin:18px 0 14px;
 }
 
 .sep::before,
@@ -582,7 +692,7 @@ body.out #login{
   content:"";
   flex:1;
   height:1px;
-  background:var(--line)
+  background:var(--line);
 }
 
 .gbtn{
@@ -596,56 +706,90 @@ body.out #login{
   border:1px solid var(--line);
   border-radius:12px;
   padding:12px 18px;
-  font-weight:600
+  font-weight:600;
 }
 
 .gbtn svg{
   width:20px;
   height:20px;
-  flex:none
+  flex:none;
 }
 
 .gbtn:active{
-  transform:scale(.95)
+  transform:scale(.95);
 }
 
 .gbtn[disabled]{
   opacity:.55;
-  cursor:default
+  cursor:default;
 }
 
+#status{
+  text-align:center;
+  font-size:.78rem;
+  color:var(--muted);
+  margin-top:18px;
+}
+
+[hidden]{
+  display:none!important;
+}
 
 /* =========================================================
-   BOUTON PARAMÈTRES
+   HOVER
    ========================================================= */
 
-.settings-btn{
-  position:fixed;
-  top:calc(12px + env(safe-area-inset-top,0px));
-  right:16px;
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:var(--card);
-  color:var(--ink);
-  font-size:1.35rem;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 2px 8px rgba(0,0,0,.15);
-  z-index:20
+@media (hover:hover){
+
+  .primary:hover{
+    background:var(--accent);
+    transform:translateY(-2px) scale(1.03);
+    box-shadow:0 6px 16px rgba(0,0,0,.15);
+  }
+
+  .day:hover:not(.sel){
+    background:var(--soft);
+    transform:translateY(-2px);
+  }
+
+  nav button:hover{
+    color:var(--accent);
+    transform:translateY(-2px);
+  }
+
+  .del:hover{
+    color:#d9534f;
+    transform:scale(1.2);
+  }
+
+  .arrow:hover{
+    color:var(--accent);
+    transform:scale(1.2);
+  }
+
+  .link:hover{
+    transform:scale(1.05);
+    text-decoration:underline;
+  }
+
+  .row:hover{
+    background:var(--soft);
+  }
+
+  .gbtn:not([disabled]):hover{
+    border-color:var(--accent);
+    transform:translateY(-2px) scale(1.02);
+    box-shadow:0 6px 16px rgba(0,0,0,.12);
+  }
 }
 
-.settings-btn:active{
-  transform:scale(.9)
-}
+@media (prefers-reduced-motion:reduce){
 
+  *{
+    animation:none!important;
+    transition:none!important;
+  }
 
-/* Caché lorsque personne n'est connecté */
-
-body.out .settings-btn,
-body.wait .settings-btn{
-  display:none
 }
 
 </style>
@@ -653,10 +797,9 @@ body.wait .settings-btn{
 
 <body class="wait">
 
-
-<!-- =======================================================
+<!-- =========================================================
      BOUTON PARAMÈTRES
-     ======================================================= -->
+     ========================================================= -->
 
 <button
   id="settingsBtn"
@@ -668,9 +811,9 @@ body.wait .settings-btn{
 </button>
 
 
-<!-- =======================================================
+<!-- =========================================================
      CONNEXION
-     ======================================================= -->
+     ========================================================= -->
 
 <div id="login">
 
@@ -716,7 +859,7 @@ body.wait .settings-btn{
       id="lg"
     >
 
-      <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
 
         <path fill="#FFC107"
           d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.5z"/>
@@ -743,9 +886,9 @@ body.wait .settings-btn{
 </div>
 
 
-<!-- =======================================================
+<!-- =========================================================
      APPLICATION
-     ======================================================= -->
+     ========================================================= -->
 
 <main>
 
@@ -841,8 +984,6 @@ body.wait .settings-btn{
 
 <p id="status"></p>
 
-
-<!-- Déconnexion actuelle -->
 <button class="link" id="logout">
   Se déconnecter
 </button>
@@ -850,9 +991,9 @@ body.wait .settings-btn{
 </main>
 
 
-<!-- =======================================================
+<!-- =========================================================
      NAVIGATION
-     ======================================================= -->
+     ========================================================= -->
 
 <nav>
 
@@ -869,9 +1010,9 @@ body.wait .settings-btn{
 </nav>
 
 
-<!-- =======================================================
+<!-- =========================================================
      FENÊTRE AJOUT RENDEZ-VOUS
-     ======================================================= -->
+     ========================================================= -->
 
 <div class="sheet" id="sheet">
 
@@ -984,6 +1125,143 @@ body.wait .settings-btn{
 </div>
 
 
+<!-- =========================================================
+     PARAMÈTRES
+     ========================================================= -->
+
+<div class="settings-overlay" id="settingsOverlay">
+
+  <div class="settings-panel" role="dialog" aria-modal="true">
+
+    <div class="settings-header">
+
+      <h2>⚙️ Paramètres</h2>
+
+      <button
+        class="settings-close"
+        id="settingsClose"
+        aria-label="Fermer"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <div class="settings-user">
+
+      <strong id="settingsName">
+        Compte connecté
+      </strong>
+
+      <small id="settingsEmail">
+        —
+      </small>
+
+    </div>
+
+
+    <div class="settings-list">
+
+      <button class="settings-item" type="button">
+
+        <span>👤</span>
+
+        <div>
+          <strong>Compte</strong>
+          <small>Informations du compte</small>
+        </div>
+
+        <span>›</span>
+
+      </button>
+
+
+      <button class="settings-item" type="button">
+
+        <span>🔔</span>
+
+        <div>
+          <strong>Notifications</strong>
+          <small>Gérer les notifications</small>
+        </div>
+
+        <span>›</span>
+
+      </button>
+
+
+      <button class="settings-item" type="button">
+
+        <span>🎨</span>
+
+        <div>
+          <strong>Apparence</strong>
+          <small>Thème et affichage</small>
+        </div>
+
+        <span>›</span>
+
+      </button>
+
+
+      <button class="settings-item" type="button">
+
+        <span>👨‍👩‍👧</span>
+
+        <div>
+          <strong>Famille</strong>
+          <small>Membres et autorisations</small>
+        </div>
+
+        <span>›</span>
+
+      </button>
+
+
+      <button class="settings-item" type="button">
+
+        <span>🔐</span>
+
+        <div>
+          <strong>Sécurité</strong>
+          <small>Connexion et sécurité</small>
+        </div>
+
+        <span>›</span>
+
+      </button>
+
+
+      <button class="settings-item" type="button">
+
+        <span>ℹ️</span>
+
+        <div>
+          <strong>À propos</strong>
+          <small>Informations sur Famille</small>
+        </div>
+
+        <span>›</span>
+
+      </button>
+
+    </div>
+
+
+    <button
+      class="settings-logout"
+      id="settingsLogout"
+      type="button"
+    >
+      🚪 Se déconnecter
+    </button>
+
+  </div>
+
+</div>
+
+
 <script type="module">
 
 /* =========================================================
@@ -1017,12 +1295,13 @@ import {
 
 
 /* =========================================================
-   CONFIGURATION FIREBASE
+   CONFIGURATION
    ========================================================= */
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyB-i4s5EczUmK1e3GY9lEzrzZgG4b94Gu4",
+  apiKey:
+    "AIzaSyB-i4s5EczUmK1e3GY9lEzrzZgG4b94Gu4",
 
   authDomain:
     "famille-bernard.firebaseapp.com",
@@ -1043,7 +1322,7 @@ const firebaseConfig = {
 
 
 /* =========================================================
-   INITIALISATION FIREBASE
+   INITIALISATION
    ========================================================= */
 
 const app =
@@ -1094,6 +1373,10 @@ const fdb =
 
   function parse(s){
 
+    if(!s){
+      return new Date();
+    }
+
     var p =
       s.split('-');
 
@@ -1140,14 +1423,8 @@ const fdb =
     return {
 
       add:function(o){
-
-        return addDoc(
-          c,
-          o
-        );
-
+        return addDoc(c,o);
       },
-
 
       doc:function(id){
 
@@ -1161,36 +1438,19 @@ const fdb =
         return {
 
           set:function(o){
-
-            return setDoc(
-              d,
-              o
-            );
-
+            return setDoc(d,o);
           },
 
-
           delete:function(){
-
-            return deleteDoc(
-              d
-            );
-
+            return deleteDoc(d);
           }
 
         };
 
       },
 
-
       onSnapshot:function(ok,bad){
-
-        return onSnapshot(
-          c,
-          ok,
-          bad
-        );
-
+        return onSnapshot(c,ok,bad);
       }
 
     };
@@ -1210,6 +1470,8 @@ const fdb =
 
       col:null,
 
+      unsub:null,
+
       KEY:
         'famille-'+name
 
@@ -1220,9 +1482,7 @@ const fdb =
 
       s.items =
         JSON.parse(
-          localStorage.getItem(
-            s.KEY
-          ) || '[]'
+          localStorage.getItem(s.KEY) || '[]'
         ) || [];
 
     }
@@ -1239,34 +1499,31 @@ const fdb =
 
         localStorage.setItem(
           s.KEY,
-          JSON.stringify(
-            s.items
-          )
+          JSON.stringify(s.items)
         );
 
       }
-      catch(e){}
+      catch(e){
+
+        console.error(
+          'LocalStorage:',
+          e
+        );
+
+      }
 
     }
 
 
-    function err(p){
+    function handleError(error){
 
-      if(
-        p &&
-        p.catch
-      ){
+      console.error(
+        'Firestore:',
+        error
+      );
 
-        p.catch(
-          function(){
-
-            $('status').textContent =
-              'Modification impossible (droits insuffisants ?).';
-
-          }
-        );
-
-      }
+      $('status').textContent =
+        'Accès impossible : vérifie les droits Firestore.';
 
     }
 
@@ -1275,9 +1532,9 @@ const fdb =
 
       if(s.col){
 
-        err(
-          s.col.add(o)
-        );
+        s.col
+          .add(o)
+          .catch(handleError);
 
       }
       else{
@@ -1302,11 +1559,10 @@ const fdb =
 
       if(s.col){
 
-        err(
-          s.col
-            .doc(id)
-            .set(o)
-        );
+        s.col
+          .doc(id)
+          .set(o)
+          .catch(handleError);
 
       }
       else{
@@ -1338,11 +1594,10 @@ const fdb =
 
       if(s.col){
 
-        err(
-          s.col
-            .doc(id)
-            .delete()
-        );
+        s.col
+          .doc(id)
+          .delete()
+          .catch(handleError);
 
       }
       else{
@@ -1350,9 +1605,7 @@ const fdb =
         s.items =
           s.items.filter(
             function(x){
-
               return x.id!==id;
-
             }
           );
 
@@ -1367,10 +1620,12 @@ const fdb =
 
     s.connect=function(){
 
+      if(s.unsub){
+        s.unsub();
+      }
+
       s.col =
-        firestoreCollection(
-          name
-        );
+        firestoreCollection(name);
 
 
       s.unsub =
@@ -1397,26 +1652,15 @@ const fdb =
             $('status').textContent =
               'Partagé en direct avec la famille';
 
-
             render();
 
           },
 
-
           function(error){
 
-            console.error(
-              'Firestore:',
-              error
-            );
-
+            handleError(error);
 
             s.col=null;
-
-
-            $('status').textContent =
-              'Accès impossible : vérifie les droits Firestore.';
-
 
             render();
 
@@ -1434,7 +1678,6 @@ const fdb =
         s.unsub();
 
       }
-
 
       s.unsub=null;
 
@@ -1462,7 +1705,6 @@ const fdb =
       renderPlan
     );
 
-
   var sh =
     store(
       'items',
@@ -1480,29 +1722,35 @@ const fdb =
 
       if(u){
 
-        document.body.className =
-          'in';
-
+        document.body.className='in';
 
         ev.connect();
-
         sh.connect();
-
 
         $('status').textContent =
           'Connecté à la famille';
+
+
+        $('settingsName').textContent =
+          u.displayName ||
+          'Compte connecté';
+
+
+        $('settingsEmail').textContent =
+          u.email ||
+          '';
+
 
       }
       else{
 
         ev.disconnect();
-
         sh.disconnect();
 
+        document.body.className='out';
 
-        document.body.className =
-          'out';
-
+        $('settingsOverlay')
+          .classList.remove('open');
 
         $('lg').disabled=false;
 
@@ -1523,41 +1771,25 @@ const fdb =
       er.code;
 
 
-    if(
-      c==='auth/too-many-requests'
-    ){
-
+    if(c==='auth/too-many-requests'){
       return 'Trop d’essais. Réessaie dans quelques minutes.';
-
     }
 
-
-    if(
-      c==='auth/network-request-failed'
-    ){
-
+    if(c==='auth/network-request-failed'){
       return 'Pas de connexion internet.';
-
     }
 
-
-    if(
-      c==='auth/unauthorized-domain'
-    ){
-
+    if(c==='auth/unauthorized-domain'){
       return 'Ce site n’est pas autorisé dans Firebase.';
-
     }
 
-
-    if(
-      c==='auth/account-exists-with-different-credential'
-    ){
-
+    if(c==='auth/account-exists-with-different-credential'){
       return 'Ce compte existe déjà avec un autre moyen de connexion.';
-
     }
 
+    if(c==='auth/invalid-credential'){
+      return 'Les informations de connexion sont invalides.';
+    }
 
     return fallback;
 
@@ -1572,7 +1804,6 @@ const fdb =
     function(e){
 
       e.preventDefault();
-
 
       $('lerr').textContent='';
 
@@ -1590,7 +1821,6 @@ const fdb =
             'Connexion:',
             er
           );
-
 
           $('lerr').textContent =
             authErr(
@@ -1624,9 +1854,7 @@ const fdb =
       er
     );
 
-
     $('lg').disabled=false;
-
 
     $('lerr').textContent =
       authErr(
@@ -1640,9 +1868,7 @@ const fdb =
 
 
   getRedirectResult(auth)
-    .catch(
-      googleFail
-    );
+    .catch(googleFail);
 
 
   $('lg').onclick =
@@ -1695,9 +1921,7 @@ const fdb =
               auth,
               gprov
             )
-            .catch(
-              googleFail
-            );
+            .catch(googleFail);
 
             return;
 
@@ -1716,37 +1940,77 @@ const fdb =
      DÉCONNEXION
      ======================================================= */
 
+  function logout(){
+
+    signOut(auth)
+      .catch(
+        function(er){
+
+          console.error(
+            'Déconnexion:',
+            er
+          );
+
+        }
+      );
+
+  }
+
+
   $('logout').onclick =
+    logout;
+
+
+  $('settingsLogout').onclick =
     function(){
 
-      signOut(auth)
-        .catch(
-          function(er){
+      if(
+        confirm(
+          'Voulez-vous vraiment vous déconnecter ?'
+        )
+      ){
 
-            console.error(
-              'Déconnexion:',
-              er
-            );
+        logout();
 
-          }
-        );
+      }
 
     };
 
 
   /* =======================================================
-     BOUTON PARAMÈTRES
+     PARAMÈTRES
      ======================================================= */
 
   $('settingsBtn').onclick =
     function(){
 
-      /*
-       * Pour l'instant, le bouton est seulement installé.
-       * Le menu Paramètres sera ajouté à l'étape suivante.
-       */
+      $('settingsOverlay')
+        .classList.add('open');
 
-      console.log('Paramètres');
+    };
+
+
+  $('settingsClose').onclick =
+    function(){
+
+      $('settingsOverlay')
+        .classList.remove('open');
+
+    };
+
+
+  $('settingsOverlay').onclick =
+    function(e){
+
+      if(
+        e.target ===
+        $('settingsOverlay')
+      ){
+
+        $('settingsOverlay')
+          .classList.remove('open');
+
+      }
 
     };
 
@@ -1874,7 +2138,6 @@ const fdb =
 
     }
 
-
     return '📌';
 
   }
@@ -1961,14 +2224,15 @@ const fdb =
     var m =
       mondayOf(sel);
 
-
     var strip =
       $('strip');
 
+    if(!strip){
+      return;
+    }
 
     var today =
       iso(new Date());
-
 
     strip.innerHTML='';
 
@@ -1979,21 +2243,18 @@ const fdb =
       i++
     ){
 
-      (function(){
+      (function(index){
 
         var d =
           new Date(m);
 
-
         d.setDate(
-          m.getDate()+i
+          m.getDate()+index
         );
 
 
         var b =
-          document.createElement(
-            'button'
-          );
+          document.createElement('button');
 
 
         b.className =
@@ -2013,7 +2274,7 @@ const fdb =
 
 
         b.innerHTML =
-          DOW[i]+
+          DOW[index]+
           '<b>'+
           d.getDate()+
           '</b>'+
@@ -2029,7 +2290,7 @@ const fdb =
           function(){
 
             sel =
-              d;
+              new Date(d);
 
             renderPlan();
 
@@ -2038,7 +2299,7 @@ const fdb =
 
         strip.appendChild(b);
 
-      })();
+      })(i);
 
     }
 
@@ -2057,7 +2318,6 @@ const fdb =
 
     var box =
       $('evs');
-
 
     box.innerHTML='';
 
@@ -2080,20 +2340,15 @@ const fdb =
       function(e){
 
         var r =
-          document.createElement(
-            'div'
-          );
+          document.createElement('div');
 
         r.className='row';
 
 
         var t =
-          document.createElement(
-            'span'
-          );
+          document.createElement('span');
 
         t.className='time';
-
 
         t.textContent =
           e.time
@@ -2109,12 +2364,9 @@ const fdb =
 
 
         var g =
-          document.createElement(
-            'span'
-          );
+          document.createElement('span');
 
         g.className='grow';
-
 
         g.textContent =
           emoji(e.t)+
@@ -2130,7 +2382,6 @@ const fdb =
           (
             e.endDate &&
             e.endDate>e.date
-
             ?
 
             ' · du '+
@@ -2157,21 +2408,17 @@ const fdb =
 
 
         r.appendChild(t);
-
         r.appendChild(g);
 
 
         if(e.who){
 
           var w =
-            document.createElement(
-              'span'
-            );
+            document.createElement('span');
 
           w.className='tag';
 
-          w.textContent =
-            e.who;
+          w.textContent=e.who;
 
           r.appendChild(w);
 
@@ -2179,9 +2426,7 @@ const fdb =
 
 
         var x =
-          document.createElement(
-            'button'
-          );
+          document.createElement('button');
 
         x.className='del';
 
@@ -2218,12 +2463,14 @@ const fdb =
   $('prev').onclick =
     function(){
 
-      sel.setDate(
-        sel.getDate()-7
+      var d =
+        new Date(sel);
+
+      d.setDate(
+        d.getDate()-7
       );
 
-      sel =
-        new Date(sel);
+      sel=d;
 
       renderPlan();
 
@@ -2233,12 +2480,14 @@ const fdb =
   $('next').onclick =
     function(){
 
-      sel.setDate(
-        sel.getDate()+7
+      var d =
+        new Date(sel);
+
+      d.setDate(
+        d.getDate()+7
       );
 
-      sel =
-        new Date(sel);
+      sel=d;
 
       renderPlan();
 
@@ -2266,11 +2515,8 @@ const fdb =
       $('d').value =
         iso(sel);
 
-
-      $('sheet').classList.add(
-        'open'
-      );
-
+      $('sheet')
+        .classList.add('open');
 
       $('t').focus();
 
@@ -2282,22 +2528,19 @@ const fdb =
     var on =
       $('rg').checked;
 
-
     $('rng').hidden =
       !on;
 
 
-    [].forEach.call(
-      document.querySelectorAll(
-        '.startcap'
-      ),
-      function(x){
+    document
+      .querySelectorAll('.startcap')
+      .forEach(
+        function(x){
 
-        x.hidden =
-          !on;
+          x.hidden=!on;
 
-      }
-    );
+        }
+      );
 
   }
 
@@ -2309,9 +2552,8 @@ const fdb =
   $('cancel').onclick =
     function(){
 
-      $('sheet').classList.remove(
-        'open'
-      );
+      $('sheet')
+        .classList.remove('open');
 
     };
 
@@ -2324,9 +2566,8 @@ const fdb =
         $('sheet')
       ){
 
-        $('sheet').classList.remove(
-          'open'
-        );
+        $('sheet')
+          .classList.remove('open');
 
       }
 
@@ -2394,31 +2635,24 @@ const fdb =
 
       ev.add(o);
 
-
       sel =
         parse(o.date);
 
 
       $('t').value='';
-
       $('h').value='';
-
       $('ed').value='';
-
       $('eh').value='';
-
+      $('w').value='';
 
       $('rg').checked=false;
+      $('r').checked=false;
 
       syncRg();
 
 
-      $('r').checked=false;
-
-
-      $('sheet').classList.remove(
-        'open'
-      );
+      $('sheet')
+        .classList.remove('open');
 
 
       renderPlan();
@@ -2435,6 +2669,9 @@ const fdb =
     var box =
       $('items');
 
+    if(!box){
+      return;
+    }
 
     box.innerHTML='';
 
@@ -2446,10 +2683,12 @@ const fdb =
           function(a,b){
 
             return (
-              !!a.done-!!b.done
+              Number(!!a.done)-
+              Number(!!b.done)
             ) ||
             (
-              a.at-b.at
+              (a.at||0)-
+              (b.at||0)
             );
 
           }
@@ -2459,9 +2698,7 @@ const fdb =
     $('clr').hidden =
       !l.some(
         function(x){
-
           return x.done;
-
         }
       );
 
@@ -2484,10 +2721,7 @@ const fdb =
       function(it){
 
         var r =
-          document.createElement(
-            'div'
-          );
-
+          document.createElement('div');
 
         r.className =
           'row'+
@@ -2499,17 +2733,13 @@ const fdb =
 
 
         var c =
-          document.createElement(
-            'input'
-          );
-
+          document.createElement('input');
 
         c.type='checkbox';
 
         c.className='box';
 
-        c.checked =
-          !!it.done;
+        c.checked=!!it.done;
 
 
         c.setAttribute(
@@ -2534,27 +2764,19 @@ const fdb =
 
 
         var g =
-          document.createElement(
-            'span'
-          );
-
+          document.createElement('span');
 
         g.className='grow';
 
-        g.textContent =
-          it.t;
+        g.textContent=it.t;
 
 
         var x =
-          document.createElement(
-            'button'
-          );
-
+          document.createElement('button');
 
         x.className='del';
 
         x.textContent='✕';
-
 
         x.setAttribute(
           'aria-label',
@@ -2565,19 +2787,14 @@ const fdb =
         x.onclick =
           function(){
 
-            sh.del(
-              it.id
-            );
+            sh.del(it.id);
 
           };
 
 
         r.appendChild(c);
-
         r.appendChild(g);
-
         r.appendChild(x);
-
 
         box.appendChild(r);
 
@@ -2598,9 +2815,7 @@ const fdb =
 
 
       if(!v){
-
         return;
-
       }
 
 
@@ -2617,9 +2832,6 @@ const fdb =
 
       $('si').value='';
 
-
-      renderShop();
-
     };
 
 
@@ -2634,17 +2846,11 @@ const fdb =
         $('fin');
 
 
-      b.classList.remove(
-        'flash'
-      );
-
+      b.classList.remove('flash');
 
       void b.offsetWidth;
 
-
-      b.classList.add(
-        'flash'
-      );
+      b.classList.add('flash');
 
 
       var list =
@@ -2654,55 +2860,10 @@ const fdb =
       setTimeout(
         function(){
 
-          if(!sh.col){
-
-            list.forEach(
-              function(x){
-
-                sh.del(
-                  x.id
-                );
-
-              }
-            );
-
-            return;
-
-          }
-
-
-          sh.items=[];
-
-          renderShop();
-
-
-          var p =
-            Promise.resolve();
-
-
           list.forEach(
             function(x){
 
-              p =
-                p.then(
-                  function(){
-
-                    return sh.col
-                      .doc(x.id)
-                      .delete();
-
-                  }
-                );
-
-            }
-          );
-
-
-          p.catch(
-            function(){
-
-              $('status').textContent =
-                'Impossible de vider la liste (droits insuffisants ?).';
+              sh.del(x.id);
 
             }
           );
@@ -2715,7 +2876,7 @@ const fdb =
 
 
   /* =======================================================
-     SUPPRIMER LES ARTICLES COCHÉS
+     ARTICLES COCHÉS
      ======================================================= */
 
   $('clr').onclick =
@@ -2724,18 +2885,12 @@ const fdb =
       sh.items
         .filter(
           function(x){
-
             return x.done;
-
           }
         )
         .forEach(
           function(x){
-
-            sh.del(
-              x.id
-            );
-
+            sh.del(x.id);
           }
         );
 
@@ -2751,44 +2906,33 @@ const fdb =
     $('p-plan').hidden =
       n!=='plan';
 
-
     $('p-shop').hidden =
       n!=='shop';
-
 
     $('n-plan').className =
       n==='plan'
       ? 'on'
       : '';
 
-
     $('n-shop').className =
       n==='shop'
       ? 'on'
       : '';
 
-
-    window.scrollTo(
-      0,
-      0
-    );
+    window.scrollTo(0,0);
 
   }
 
 
   $('n-plan').onclick =
     function(){
-
       tab('plan');
-
     };
 
 
   $('n-shop').onclick =
     function(){
-
       tab('shop');
-
     };
 
 
@@ -2796,11 +2940,54 @@ const fdb =
      INITIALISATION
      ======================================================= */
 
+  syncRg();
+
   renderPlan();
 
   renderShop();
 
 })();
+
+
+/* =========================================================
+   SERVICE WORKER
+   ========================================================= */
+
+if(
+  "serviceWorker" in navigator
+){
+
+  window.addEventListener(
+    "load",
+    function(){
+
+      navigator.serviceWorker
+        .register("./sw.js")
+        .then(
+          function(registration){
+
+            console.log(
+              "Service Worker actif :",
+              registration.scope
+            );
+
+          }
+        )
+        .catch(
+          function(error){
+
+            console.error(
+              "Erreur Service Worker :",
+              error
+            );
+
+          }
+        );
+
+    }
+  );
+
+}
 
 </script>
 
