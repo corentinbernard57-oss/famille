@@ -1,10 +1,3 @@
-</html>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -23,7 +16,6 @@
 <meta name="apple-mobile-web-app-title" content="Famille">
 
 <link rel="manifest" href="./manifest.json">
-
 <link rel="apple-touch-icon" href="./icon-180.png">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A1%3C/text%3E%3C/svg%3E">
@@ -232,6 +224,11 @@ button:focus-visible{
     border-color:var(--accent);
     transform:translateY(-2px) scale(1.02);
     box-shadow:0 6px 16px rgba(0,0,0,.12)
+  }
+
+  .settings-btn:hover{
+    background:var(--soft);
+    transform:scale(1.08)
   }
 }
 
@@ -617,10 +614,63 @@ body.out #login{
   cursor:default
 }
 
+
+/* =========================================================
+   BOUTON PARAMÈTRES
+   ========================================================= */
+
+.settings-btn{
+  position:fixed;
+  top:calc(12px + env(safe-area-inset-top,0px));
+  right:16px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:var(--card);
+  color:var(--ink);
+  font-size:1.35rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+  z-index:20
+}
+
+.settings-btn:active{
+  transform:scale(.9)
+}
+
+
+/* Caché lorsque personne n'est connecté */
+
+body.out .settings-btn,
+body.wait .settings-btn{
+  display:none
+}
+
 </style>
 </head>
 
 <body class="wait">
+
+
+<!-- =======================================================
+     BOUTON PARAMÈTRES
+     ======================================================= -->
+
+<button
+  id="settingsBtn"
+  class="settings-btn"
+  aria-label="Paramètres"
+  title="Paramètres"
+>
+  ⚙️
+</button>
+
+
+<!-- =======================================================
+     CONNEXION
+     ======================================================= -->
 
 <div id="login">
 
@@ -660,7 +710,11 @@ body.out #login{
 
     <div class="sep">ou</div>
 
-    <button class="gbtn" type="button" id="lg">
+    <button
+      class="gbtn"
+      type="button"
+      id="lg"
+    >
 
       <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
 
@@ -689,6 +743,10 @@ body.out #login{
 </div>
 
 
+<!-- =======================================================
+     APPLICATION
+     ======================================================= -->
+
 <main>
 
 <section id="p-plan">
@@ -697,13 +755,21 @@ body.out #login{
 
   <div class="week">
 
-    <button class="arrow" id="prev" aria-label="Semaine précédente">
+    <button
+      class="arrow"
+      id="prev"
+      aria-label="Semaine précédente"
+    >
       ‹
     </button>
 
     <div class="strip" id="strip"></div>
 
-    <button class="arrow" id="next" aria-label="Semaine suivante">
+    <button
+      class="arrow"
+      id="next"
+      aria-label="Semaine suivante"
+    >
       ›
     </button>
 
@@ -713,14 +779,19 @@ body.out #login{
 
   <div class="card" id="evs"></div>
 
-  <button class="primary" id="now"
-    style="display:block;width:100%;margin-top:16px">
-
+  <button
+    class="primary"
+    id="now"
+    style="display:block;width:100%;margin-top:16px"
+  >
     Revenir à aujourd’hui
-
   </button>
 
-  <button class="fab" id="fab" aria-label="Ajouter un rendez-vous">
+  <button
+    class="fab"
+    id="fab"
+    aria-label="Ajouter un rendez-vous"
+  >
     +
   </button>
 
@@ -748,16 +819,20 @@ body.out #login{
 
   <div class="card" id="items"></div>
 
-  <button class="primary"
+  <button
+    class="primary"
     id="fin"
     style="width:100%;margin-top:16px"
-    hidden>
-
+    hidden
+  >
     ✓ Courses faites
-
   </button>
 
-  <button class="link" id="clr" hidden>
+  <button
+    class="link"
+    id="clr"
+    hidden
+  >
     Retirer les articles cochés
   </button>
 
@@ -767,12 +842,17 @@ body.out #login{
 <p id="status"></p>
 
 
+<!-- Déconnexion actuelle -->
 <button class="link" id="logout">
   Se déconnecter
 </button>
 
 </main>
 
+
+<!-- =======================================================
+     NAVIGATION
+     ======================================================= -->
 
 <nav>
 
@@ -788,6 +868,10 @@ body.out #login{
 
 </nav>
 
+
+<!-- =======================================================
+     FENÊTRE AJOUT RENDEZ-VOUS
+     ======================================================= -->
 
 <div class="sheet" id="sheet">
 
@@ -1651,6 +1735,23 @@ const fdb =
 
 
   /* =======================================================
+     BOUTON PARAMÈTRES
+     ======================================================= */
+
+  $('settingsBtn').onclick =
+    function(){
+
+      /*
+       * Pour l'instant, le bouton est seulement installé.
+       * Le menu Paramètres sera ajouté à l'étape suivante.
+       */
+
+      console.log('Paramètres');
+
+    };
+
+
+  /* =======================================================
      EMOJIS
      ======================================================= */
 
@@ -2338,12 +2439,6 @@ const fdb =
     box.innerHTML='';
 
 
-    /*
-      CORRECTION IMPORTANTE :
-      la fonction sort() était mal fermée
-      dans ton ancien code.
-    */
-
     var l =
       sh.items
         .slice()
@@ -2711,4 +2806,3 @@ const fdb =
 
 </body>
 </html>
-
