@@ -62,6 +62,16 @@
   --soft:#26332f;
 }
 
+:root[data-theme="light"]{
+  --bg:#f6f5f2;
+  --card:#fff;
+  --ink:#222;
+  --muted:#837f78;
+  --line:#e8e6e1;
+  --accent:#2f6f62;
+  --soft:#e4efec;
+}
+
 *{
   box-sizing:border-box;
 }
@@ -165,7 +175,7 @@ body.in .settings-btn{
 }
 
 /* =========================================================
-   PANNEAU PARAMÈTRES
+   PANNEAUX PARAMÈTRES
    ========================================================= */
 
 .settings-overlay{
@@ -226,6 +236,24 @@ body.in .settings-btn{
   font-size:1.2rem;
 }
 
+.settings-back{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:var(--soft);
+  font-size:1.4rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:none;
+}
+
+.settings-header-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
 .settings-user{
   background:var(--soft);
   border-radius:14px;
@@ -238,6 +266,7 @@ body.in .settings-btn{
 }
 
 .settings-user small{
+  display:block;
   color:var(--muted);
   overflow-wrap:anywhere;
 }
@@ -276,6 +305,11 @@ body.in .settings-btn{
   color:var(--muted);
 }
 
+.settings-item:active{
+  transform:scale(.98);
+  background:var(--soft);
+}
+
 .settings-logout{
   margin-top:14px;
   width:100%;
@@ -284,6 +318,104 @@ body.in .settings-btn{
   padding:13px;
   border-radius:12px;
   font-weight:600;
+}
+
+.settings-info{
+  background:var(--bg);
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:10px;
+}
+
+.settings-info strong{
+  display:block;
+  margin-bottom:4px;
+}
+
+.settings-info p{
+  margin:0;
+  color:var(--muted);
+  font-size:.92rem;
+}
+
+.settings-info + .settings-info{
+  margin-top:10px;
+}
+
+.role-admin{
+  color:var(--accent)!important;
+  font-weight:700;
+}
+
+.role-member{
+  color:var(--muted)!important;
+}
+
+.settings-action{
+  width:100%;
+  padding:14px;
+  background:var(--bg);
+  border-radius:14px;
+  text-align:left;
+  margin-top:8px;
+}
+
+.settings-action.active{
+  background:var(--soft);
+  color:var(--accent);
+  font-weight:650;
+}
+
+.settings-action:active{
+  transform:scale(.98);
+}
+
+.toggle-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px;
+  background:var(--bg);
+  border-radius:14px;
+}
+
+.toggle-text{
+  flex:1;
+}
+
+.toggle-text strong{
+  display:block;
+}
+
+.toggle-text small{
+  color:var(--muted);
+}
+
+.toggle{
+  width:52px;
+  height:30px;
+  border-radius:999px;
+  background:#aaa;
+  padding:3px;
+  flex:none;
+}
+
+.toggle span{
+  display:block;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:#fff;
+  transition:transform .2s ease;
+}
+
+.toggle.on{
+  background:var(--accent);
+}
+
+.toggle.on span{
+  transform:translateX(22px);
 }
 
 /* =========================================================
@@ -781,6 +913,12 @@ body:not(.in) .sheet{
     transform:translateY(-2px) scale(1.02);
     box-shadow:0 6px 16px rgba(0,0,0,.12);
   }
+
+  .settings-item:hover{
+    background:var(--soft);
+    transform:translateY(-1px);
+  }
+
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -1126,7 +1264,7 @@ body:not(.in) .sheet{
 
 
 <!-- =========================================================
-     PARAMÈTRES
+     PARAMÈTRES PRINCIPAUX
      ========================================================= -->
 
 <div class="settings-overlay" id="settingsOverlay">
@@ -1140,6 +1278,7 @@ body:not(.in) .sheet{
       <button
         class="settings-close"
         id="settingsClose"
+        type="button"
         aria-label="Fermer"
       >
         ✕
@@ -1164,21 +1303,28 @@ body:not(.in) .sheet{
     <div class="settings-list">
 
       <button
-  class="settings-item"
-  type="button"
-  id="settingsAccount"
->
-  <span>👤</span>
+        class="settings-item"
+        type="button"
+        data-page="account"
+      >
 
-  <div>
-    <strong>Compte</strong>
-    <small>Informations du compte</small>
-  </div>
+        <span>👤</span>
 
-  <span>›</span>
-</button>
+        <div>
+          <strong>Compte</strong>
+          <small>Informations du compte</small>
+        </div>
 
-      <button class="settings-item" type="button">
+        <span>›</span>
+
+      </button>
+
+
+      <button
+        class="settings-item"
+        type="button"
+        data-page="notifications"
+      >
 
         <span>🔔</span>
 
@@ -1192,7 +1338,11 @@ body:not(.in) .sheet{
       </button>
 
 
-      <button class="settings-item" type="button">
+      <button
+        class="settings-item"
+        type="button"
+        data-page="appearance"
+      >
 
         <span>🎨</span>
 
@@ -1206,7 +1356,11 @@ body:not(.in) .sheet{
       </button>
 
 
-      <button class="settings-item" type="button">
+      <button
+        class="settings-item"
+        type="button"
+        data-page="family"
+      >
 
         <span>👨‍👩‍👧</span>
 
@@ -1220,7 +1374,11 @@ body:not(.in) .sheet{
       </button>
 
 
-      <button class="settings-item" type="button">
+      <button
+        class="settings-item"
+        type="button"
+        data-page="security"
+      >
 
         <span>🔐</span>
 
@@ -1234,7 +1392,11 @@ body:not(.in) .sheet{
       </button>
 
 
-      <button class="settings-item" type="button">
+      <button
+        class="settings-item"
+        type="button"
+        data-page="about"
+      >
 
         <span>ℹ️</span>
 
@@ -1261,27 +1423,44 @@ body:not(.in) .sheet{
   </div>
 
 </div>
+
+
 <!-- =========================================================
      PAGE COMPTE
      ========================================================= -->
 
-<div class="settings-overlay" id="accountOverlay">
+<div class="settings-overlay subpage-overlay" id="accountOverlay">
 
   <div class="settings-panel" role="dialog" aria-modal="true">
 
     <div class="settings-header">
 
-      <h2>👤 Compte</h2>
+      <div class="settings-header-left">
+
+        <button
+          class="settings-back"
+          type="button"
+          data-back
+          aria-label="Retour"
+        >
+          ‹
+        </button>
+
+        <h2>👤 Compte</h2>
+
+      </div>
 
       <button
         class="settings-close"
-        id="accountClose"
+        type="button"
+        data-close-page
         aria-label="Fermer"
       >
         ✕
       </button>
 
     </div>
+
 
     <div class="settings-user">
 
@@ -1293,9 +1472,426 @@ body:not(.in) .sheet{
         —
       </small>
 
-      <small id="accountRole">
+      <small id="accountRole" class="role-member">
         👤 Membre
       </small>
+
+    </div>
+
+
+    <div class="settings-info">
+
+      <strong>Nom du compte</strong>
+
+      <p id="accountNameInfo">
+        —
+      </p>
+
+    </div>
+
+
+    <div class="settings-info">
+
+      <strong>Adresse e-mail</strong>
+
+      <p id="accountEmailInfo">
+        —
+      </p>
+
+    </div>
+
+
+    <div class="settings-info">
+
+      <strong>Rôle</strong>
+
+      <p id="accountRoleInfo">
+        👤 Membre
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     PAGE NOTIFICATIONS
+     ========================================================= -->
+
+<div class="settings-overlay subpage-overlay" id="notificationsOverlay">
+
+  <div class="settings-panel" role="dialog" aria-modal="true">
+
+    <div class="settings-header">
+
+      <div class="settings-header-left">
+
+        <button
+          class="settings-back"
+          type="button"
+          data-back
+          aria-label="Retour"
+        >
+          ‹
+        </button>
+
+        <h2>🔔 Notifications</h2>
+
+      </div>
+
+      <button
+        class="settings-close"
+        type="button"
+        data-close-page
+        aria-label="Fermer"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <div class="toggle-row">
+
+      <div class="toggle-text">
+
+        <strong>Notifications</strong>
+
+        <small>
+          Activer ou désactiver les notifications de Famille.
+        </small>
+
+      </div>
+
+      <button
+        class="toggle"
+        id="notificationToggle"
+        type="button"
+        aria-label="Activer les notifications"
+        aria-pressed="false"
+      >
+        <span></span>
+      </button>
+
+    </div>
+
+
+    <div class="settings-info">
+
+      <strong>État</strong>
+
+      <p id="notificationStatus">
+        Les notifications sont désactivées.
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     PAGE APPARENCE
+     ========================================================= -->
+
+<div class="settings-overlay subpage-overlay" id="appearanceOverlay">
+
+  <div class="settings-panel" role="dialog" aria-modal="true">
+
+    <div class="settings-header">
+
+      <div class="settings-header-left">
+
+        <button
+          class="settings-back"
+          type="button"
+          data-back
+          aria-label="Retour"
+        >
+          ‹
+        </button>
+
+        <h2>🎨 Apparence</h2>
+
+      </div>
+
+      <button
+        class="settings-close"
+        type="button"
+        data-close-page
+        aria-label="Fermer"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <div class="settings-info">
+
+      <strong>Thème</strong>
+
+      <p>
+        Choisis l'apparence de l'application.
+      </p>
+
+    </div>
+
+
+    <button
+      class="settings-action theme-choice"
+      type="button"
+      data-theme-choice="system"
+    >
+      📱 Automatique
+    </button>
+
+
+    <button
+      class="settings-action theme-choice"
+      type="button"
+      data-theme-choice="light"
+    >
+      ☀️ Clair
+    </button>
+
+
+    <button
+      class="settings-action theme-choice"
+      type="button"
+      data-theme-choice="dark"
+    >
+      🌙 Sombre
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     PAGE FAMILLE
+     ========================================================= -->
+
+<div class="settings-overlay subpage-overlay" id="familyOverlay">
+
+  <div class="settings-panel" role="dialog" aria-modal="true">
+
+    <div class="settings-header">
+
+      <div class="settings-header-left">
+
+        <button
+          class="settings-back"
+          type="button"
+          data-back
+          aria-label="Retour"
+        >
+          ‹
+        </button>
+
+        <h2>👨‍👩‍👧 Famille</h2>
+
+      </div>
+
+      <button
+        class="settings-close"
+        type="button"
+        data-close-page
+        aria-label="Fermer"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <div class="settings-info">
+
+      <strong>Famille Bernard</strong>
+
+      <p>
+        Cet espace permet de partager le planning
+        et la liste de courses avec les membres autorisés.
+      </p>
+
+    </div>
+
+
+    <div class="settings-info">
+
+      <strong>Ton rôle</strong>
+
+      <p id="familyRole">
+        👤 Membre
+      </p>
+
+    </div>
+
+
+    <div class="settings-info">
+
+      <strong>Accès</strong>
+
+      <p>
+        Les données sont partagées uniquement avec
+        les comptes autorisés dans l'application.
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     PAGE SÉCURITÉ
+     ========================================================= -->
+
+<div class="settings-overlay subpage-overlay" id="securityOverlay">
+
+  <div class="settings-panel" role="dialog" aria-modal="true">
+
+    <div class="settings-header">
+
+      <div class="settings-header-left">
+
+        <button
+          class="settings-back"
+          type="button"
+          data-back
+          aria-label="Retour"
+        >
+          ‹
+        </button>
+
+        <h2>🔐 Sécurité</h2>
+
+      </div>
+
+      <button
+        class="settings-close"
+        type="button"
+        data-close-page
+        aria-label="Fermer"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <div class="settings-info">
+
+      <strong>Compte connecté</strong>
+
+      <p id="securityEmail">
+        —
+      </p>
+
+    </div>
+
+
+    <div class="settings-info">
+
+      <strong>Authentification</strong>
+
+      <p>
+        La connexion est gérée de manière sécurisée
+        par Firebase Authentication.
+      </p>
+
+    </div>
+
+
+    <button
+      class="settings-action"
+      id="securityLogout"
+      type="button"
+    >
+      🚪 Se déconnecter
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     PAGE À PROPOS
+     ========================================================= -->
+
+<div class="settings-overlay subpage-overlay" id="aboutOverlay">
+
+  <div class="settings-panel" role="dialog" aria-modal="true">
+
+    <div class="settings-header">
+
+      <div class="settings-header-left">
+
+        <button
+          class="settings-back"
+          type="button"
+          data-back
+          aria-label="Retour"
+        >
+          ‹
+        </button>
+
+        <h2>ℹ️ À propos</h2>
+
+      </div>
+
+      <button
+        class="settings-close"
+        type="button"
+        data-close-page
+        aria-label="Fermer"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <div class="settings-info">
+
+      <strong>🏡 Famille</strong>
+
+      <p>
+        Application familiale permettant de partager
+        le planning et la liste de courses.
+      </p>
+
+    </div>
+
+
+    <div class="settings-info">
+
+      <strong>Version</strong>
+
+      <p>
+        Famille 1.0
+      </p>
+
+    </div>
+
+
+    <div class="settings-info">
+
+      <strong>Fonctionnalités</strong>
+
+      <p>
+        📅 Planning partagé<br>
+        🛒 Liste de courses<br>
+        👨‍👩‍👧 Gestion des comptes<br>
+        🔐 Authentification sécurisée<br>
+        🎨 Thème clair et sombre
+      </p>
 
     </div>
 
@@ -1717,9 +2313,7 @@ const fdb =
     s.disconnect=function(){
 
       if(s.unsub){
-
         s.unsub();
-
       }
 
       s.unsub=null;
@@ -1759,130 +2353,161 @@ const fdb =
      AUTHENTIFICATION
      ======================================================= */
 
-onAuthStateChanged(
-  auth,
-  async function(u){
+  onAuthStateChanged(
+    auth,
+    async function(u){
 
-    if(u){
+      if(u){
 
-      document.body.className='in';
+        document.body.className='in';
 
-      ev.connect();
-      sh.connect();
+        ev.connect();
+        sh.connect();
 
-      $('status').textContent =
-        'Connecté à la famille';
-
-
-      /* =========================================
-         INFORMATIONS DU COMPTE
-         ========================================= */
-
-      var name =
-        u.displayName ||
-        'Compte connecté';
-
-      var email =
-        u.email ||
-        '';
+        $('status').textContent =
+          'Connecté à la famille';
 
 
-      $('settingsName').textContent =
-        name;
+        var name =
+          u.displayName ||
+          'Compte connecté';
 
-      $('settingsEmail').textContent =
-        email;
-
-
-      $('accountName').textContent =
-        name;
-
-      $('accountEmail').textContent =
-        email;
+        var email =
+          u.email ||
+          '';
 
 
-      /* =========================================
-         RÉCUPÉRATION DU RÔLE FIRESTORE
-         ========================================= */
+        /* =========================================
+           INFORMATIONS COMPTE
+           ========================================= */
 
-      try{
+        $('settingsName').textContent =
+          name;
 
-        var userRef =
-          doc(
-            fdb,
-            'users',
-            u.uid
-          );
+        $('settingsEmail').textContent =
+          email;
+
+        $('accountName').textContent =
+          name;
+
+        $('accountEmail').textContent =
+          email;
+
+        $('accountNameInfo').textContent =
+          name;
+
+        $('accountEmailInfo').textContent =
+          email;
+
+        $('securityEmail').textContent =
+          email;
 
 
-        var userSnap =
-          await getDoc(userRef);
+        /* =========================================
+           RÉCUPÉRATION DU RÔLE
+           ========================================= */
+
+        try{
+
+          var userRef =
+            doc(
+              fdb,
+              'users',
+              u.uid
+            );
 
 
-        if(
-          userSnap.exists()
-        ){
+          var userSnap =
+            await getDoc(userRef);
 
-          var userData =
-            userSnap.data();
+
+          var roleText =
+            '👤 Membre';
 
 
           if(
-            userData.role === 'admin'
+            userSnap.exists()
           ){
 
-            $('accountRole').textContent =
-              '🛡️ Administrateur';
+            var userData =
+              userSnap.data();
+
+
+            if(
+              userData.role === 'admin'
+            ){
+
+              roleText =
+                '🛡️ Administrateur';
+
+            }
 
           }
-          else{
 
-            $('accountRole').textContent =
-              '👤 Membre';
-
-          }
-
-        }
-        else{
 
           $('accountRole').textContent =
+            roleText;
+
+          $('accountRoleInfo').textContent =
+            roleText;
+
+          $('familyRole').textContent =
+            roleText;
+
+
+          $('accountRole').className =
+            roleText.indexOf('Administrateur')>-1
+            ? 'role-admin'
+            : 'role-member';
+
+
+          $('accountRoleInfo').className =
+            roleText.indexOf('Administrateur')>-1
+            ? 'role-admin'
+            : 'role-member';
+
+
+          $('familyRole').className =
+            roleText.indexOf('Administrateur')>-1
+            ? 'role-admin'
+            : 'role-member';
+
+
+        }
+        catch(error){
+
+          console.error(
+            'Erreur récupération rôle :',
+            error
+          );
+
+          $('accountRole').textContent =
+            '👤 Membre';
+
+          $('accountRoleInfo').textContent =
+            '👤 Membre';
+
+          $('familyRole').textContent =
             '👤 Membre';
 
         }
 
       }
-      catch(error){
+      else{
 
-        console.error(
-          'Erreur récupération rôle :',
-          error
-        );
+        ev.disconnect();
+        sh.disconnect();
 
-        $('accountRole').textContent =
-          '👤 Membre';
+        document.body.className='out';
+
+        closeAllSettings();
+
+        $('lg').disabled=false;
 
       }
 
     }
-    else{
-
-      ev.disconnect();
-      sh.disconnect();
-
-      document.body.className='out';
-
-      $('settingsOverlay')
-        .classList.remove('open');
-
-      $('accountOverlay')
-        .classList.remove('open');
-
-      $('lg').disabled=false;
-
-    }
-
-  }
-);
+  );
 
 
   /* =======================================================
@@ -2102,15 +2727,112 @@ onAuthStateChanged(
     };
 
 
+  $('securityLogout').onclick =
+    function(){
+
+      if(
+        confirm(
+          'Voulez-vous vraiment vous déconnecter ?'
+        )
+      ){
+
+        logout();
+
+      }
+
+    };
+
+
   /* =======================================================
-     PARAMÈTRES
+     GESTION DES PAGES PARAMÈTRES
+     ======================================================= */
+
+  var settingsPages = {
+
+    account:
+      $('accountOverlay'),
+
+    notifications:
+      $('notificationsOverlay'),
+
+    appearance:
+      $('appearanceOverlay'),
+
+    family:
+      $('familyOverlay'),
+
+    security:
+      $('securityOverlay'),
+
+    about:
+      $('aboutOverlay')
+
+  };
+
+
+  function closeAllSettings(){
+
+    $('settingsOverlay')
+      .classList.remove('open');
+
+    Object.keys(settingsPages)
+      .forEach(
+        function(key){
+
+          settingsPages[key]
+            .classList.remove('open');
+
+        }
+      );
+
+  }
+
+
+  function openSettings(){
+
+    closeAllSettings();
+
+    $('settingsOverlay')
+      .classList.add('open');
+
+  }
+
+
+  function openPage(name){
+
+    $('settingsOverlay')
+      .classList.remove('open');
+
+
+    Object.keys(settingsPages)
+      .forEach(
+        function(key){
+
+          settingsPages[key]
+            .classList.remove('open');
+
+        }
+      );
+
+
+    if(settingsPages[name]){
+
+      settingsPages[name]
+        .classList.add('open');
+
+    }
+
+  }
+
+
+  /* =======================================================
+     BOUTON PARAMÈTRES
      ======================================================= */
 
   $('settingsBtn').onclick =
     function(){
 
-      $('settingsOverlay')
-        .classList.add('open');
+      openSettings();
 
     };
 
@@ -2118,8 +2840,7 @@ onAuthStateChanged(
   $('settingsClose').onclick =
     function(){
 
-      $('settingsOverlay')
-        .classList.remove('open');
+      closeAllSettings();
 
     };
 
@@ -2132,54 +2853,308 @@ onAuthStateChanged(
         $('settingsOverlay')
       ){
 
-        $('settingsOverlay')
-          .classList.remove('open');
+        closeAllSettings();
 
       }
 
     };
-/* =======================================================
-   PAGE COMPTE
-   ======================================================= */
-
-$('settingsAccount').onclick =
-  function(){
-
-    $('settingsOverlay')
-      .classList.remove('open');
-
-    $('accountOverlay')
-      .classList.add('open');
-
-  };
 
 
-$('accountClose').onclick =
-  function(){
+  /* =======================================================
+     OUVERTURE DES PAGES
+     ======================================================= */
 
-    $('accountOverlay')
-      .classList.remove('open');
+  document
+    .querySelectorAll(
+      '.settings-item[data-page]'
+    )
+    .forEach(
+      function(button){
 
-    $('settingsOverlay')
-      .classList.add('open');
+        button.addEventListener(
+          'click',
+          function(){
 
-  };
+            openPage(
+              button.dataset.page
+            );
+
+          }
+        );
+
+      }
+    );
 
 
-$('accountOverlay').onclick =
-  function(e){
+  /* =======================================================
+     RETOUR
+     ======================================================= */
 
-    if(
-      e.target ===
-      $('accountOverlay')
-    ){
+  document
+    .querySelectorAll('[data-back]')
+    .forEach(
+      function(button){
 
-      $('accountOverlay')
-        .classList.remove('open');
+        button.addEventListener(
+          'click',
+          function(){
+
+            openSettings();
+
+          }
+        );
+
+      }
+    );
+
+
+  /* =======================================================
+     FERMER LES SOUS-PAGES
+     ======================================================= */
+
+  document
+    .querySelectorAll('[data-close-page]')
+    .forEach(
+      function(button){
+
+        button.addEventListener(
+          'click',
+          function(){
+
+            closeAllSettings();
+
+          }
+        );
+
+      }
+    );
+
+
+  /* =======================================================
+     FERMER EN CLIQUANT À L'EXTÉRIEUR
+     ======================================================= */
+
+  document
+    .querySelectorAll('.subpage-overlay')
+    .forEach(
+      function(overlay){
+
+        overlay.addEventListener(
+          'click',
+          function(e){
+
+            if(
+              e.target === overlay
+            ){
+
+              closeAllSettings();
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+
+  /* =======================================================
+     NOTIFICATIONS
+     ======================================================= */
+
+  var notificationsEnabled =
+    localStorage.getItem(
+      'famille-notifications'
+    ) === 'true';
+
+
+  function updateNotificationUI(){
+
+    var toggle =
+      $('notificationToggle');
+
+    var status =
+      $('notificationStatus');
+
+
+    if(notificationsEnabled){
+
+      toggle.classList.add('on');
+
+      toggle.setAttribute(
+        'aria-pressed',
+        'true'
+      );
+
+      status.textContent =
+        'Les notifications sont activées.';
+
+    }
+    else{
+
+      toggle.classList.remove('on');
+
+      toggle.setAttribute(
+        'aria-pressed',
+        'false'
+      );
+
+      status.textContent =
+        'Les notifications sont désactivées.';
 
     }
 
-  };
+  }
+
+
+  $('notificationToggle').onclick =
+    function(){
+
+      notificationsEnabled =
+        !notificationsEnabled;
+
+
+      localStorage.setItem(
+        'famille-notifications',
+        notificationsEnabled
+          ? 'true'
+          : 'false'
+      );
+
+
+      updateNotificationUI();
+
+    };
+
+
+  updateNotificationUI();
+
+
+  /* =======================================================
+     APPARENCE
+     ======================================================= */
+
+  var savedTheme =
+    localStorage.getItem(
+      'famille-theme'
+    );
+
+
+  if(
+    savedTheme === 'dark' ||
+    savedTheme === 'light'
+  ){
+
+    document.documentElement
+      .setAttribute(
+        'data-theme',
+        savedTheme
+      );
+
+  }
+  else{
+
+    document.documentElement
+      .removeAttribute(
+        'data-theme'
+      );
+
+  }
+
+
+  function updateThemeButtons(){
+
+    var current =
+      localStorage.getItem(
+        'famille-theme'
+      ) || 'system';
+
+
+    document
+      .querySelectorAll(
+        '.theme-choice'
+      )
+      .forEach(
+        function(button){
+
+          if(
+            button.dataset.themeChoice ===
+            current
+          ){
+
+            button.classList.add(
+              'active'
+            );
+
+          }
+          else{
+
+            button.classList.remove(
+              'active'
+            );
+
+          }
+
+        }
+      );
+
+  }
+
+
+  document
+    .querySelectorAll(
+      '.theme-choice'
+    )
+    .forEach(
+      function(button){
+
+        button.addEventListener(
+          'click',
+          function(){
+
+            var theme =
+              button.dataset.themeChoice;
+
+
+            if(
+              theme === 'dark' ||
+              theme === 'light'
+            ){
+
+              document.documentElement
+                .setAttribute(
+                  'data-theme',
+                  theme
+                );
+
+            }
+            else{
+
+              document.documentElement
+                .removeAttribute(
+                  'data-theme'
+                );
+
+            }
+
+
+            localStorage.setItem(
+              'famille-theme',
+              theme
+            );
+
+
+            updateThemeButtons();
+
+          }
+        );
+
+      }
+    );
+
+
+  updateThemeButtons();
+
 
   /* =======================================================
      EMOJIS
@@ -3136,6 +4111,8 @@ if(
               "Service Worker actif :",
               registration.scope
             );
+
+            registration.update();
 
           }
         )
