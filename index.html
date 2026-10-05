@@ -43,9 +43,6 @@ body.in .settings-btn{display:flex}
 .page-text{color:var(--muted);margin-bottom:18px}
 .info-card{background:var(--bg);border-radius:14px;padding:14px;margin-bottom:10px}
 .info-card strong{margin-bottom:3px}
-.creator-card{background:var(--soft);border:2px solid var(--accent);border-radius:16px;padding:18px;margin-top:16px;text-align:center}
-.creator-card .creator-icon{font-size:2rem;margin-bottom:6px}
-.creator-card strong{display:block;font-size:1.1rem}
 .setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--bg);padding:14px;border-radius:14px;margin-bottom:8px}
 .theme-buttons{display:grid;gap:8px}
 .theme-button{padding:14px;border-radius:14px;background:var(--bg);text-align:left}
@@ -234,7 +231,7 @@ body:not(.in) main,body:not(.in) nav,body:not(.in) .sheet{display:none!important
   <div class="info-card"><strong>👤 Membre</strong><small>Les membres peuvent utiliser le planning et la liste de courses.</small></div>
 </div></div>
 
-<!-- SÉCURITÉ (bouton de déconnexion supprimé) -->
+<!-- SÉCURITÉ -->
 <div class="settings-overlay subpage" id="securityPage"><div class="settings-panel">
   <div class="settings-header"><button class="settings-back" data-back>←</button><h2>🔐 Sécurité</h2><button class="settings-close page-close">✕</button></div>
   <p class="page-text">Informations concernant la sécurité de ton compte.</p>
@@ -251,10 +248,7 @@ body:not(.in) main,body:not(.in) nav,body:not(.in) .sheet{display:none!important
   <div class="info-card"><strong>🛒 Courses</strong><small>Une liste de courses partagée en temps réel.</small></div>
   <div class="info-card"><strong>☁️ Synchronisation</strong><small>Les données sont synchronisées avec Firebase.</small></div>
   <div class="info-card"><strong>Version</strong><small>Famille v1.0</small></div>
-  <div class="creator-card">
-    <div class="creator-icon">👨‍💻</div>
-    <strong>Réalisation de Corentin</strong>
-  </div>
+  <div class="info-card"><em>Réalisation de Corentin</em></div>
 </div></div>
 
 <script type="module">
