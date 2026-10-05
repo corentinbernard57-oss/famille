@@ -2138,7 +2138,48 @@ onAuthStateChanged(
       }
 
     };
+/* =======================================================
+   PAGE COMPTE
+   ======================================================= */
 
+$('settingsAccount').onclick =
+  function(){
+
+    $('settingsOverlay')
+      .classList.remove('open');
+
+    $('accountOverlay')
+      .classList.add('open');
+
+  };
+
+
+$('accountClose').onclick =
+  function(){
+
+    $('accountOverlay')
+      .classList.remove('open');
+
+    $('settingsOverlay')
+      .classList.add('open');
+
+  };
+
+
+$('accountOverlay').onclick =
+  function(e){
+
+    if(
+      e.target ===
+      $('accountOverlay')
+    ){
+
+      $('accountOverlay')
+        .classList.remove('open');
+
+    }
+
+  };
 
   /* =======================================================
      EMOJIS
