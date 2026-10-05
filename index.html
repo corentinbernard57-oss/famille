@@ -9,6 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Famille">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A1%3C/text%3E%3C/svg%3E">
+
 <style>
 :root{--bg:#f6f5f2;--card:#fff;--ink:#222;--muted:#837f78;--line:#e8e6e1;--accent:#2f6f62;--soft:#e4efec;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
@@ -95,61 +96,164 @@ body.out #login{display:block}
 .err{color:#d9534f;font-size:.9rem;min-height:1.2em;margin:0}
 </style>
 </head>
+
 <body class="wait">
-<div id="login"><div class="lbox">
-  <h1>🏡 Famille</h1>
-  <p class="sub">Connecte-toi pour voir le planning et les courses.</p>
-  <form id="lf">
-    <input type="email" id="le" placeholder="Adresse e-mail" autocomplete="username" required aria-label="Adresse e-mail">
-    <input type="password" id="lp" placeholder="Mot de passe" autocomplete="current-password" required aria-label="Mot de passe">
-    <button class="primary" type="submit">Se connecter</button>
-    <p class="err" id="lerr"></p>
-  </form>
-</div></div>
+
+<div id="login">
+  <div class="lbox">
+    <h1>🏡 Famille</h1>
+    <p class="sub">Connecte-toi pour voir le planning et les courses.</p>
+
+    <form id="lf">
+      <input type="email" id="le" placeholder="Adresse e-mail" autocomplete="username" required aria-label="Adresse e-mail">
+      <input type="password" id="lp" placeholder="Mot de passe" autocomplete="current-password" required aria-label="Mot de passe">
+      <button class="primary" type="submit">Se connecter</button>
+      <p class="err" id="lerr"></p>
+    </form>
+  </div>
+</div>
+
 <main>
+
 <section id="p-plan">
   <h1>Planning</h1>
+
   <div class="week">
     <button class="arrow" id="prev" aria-label="Semaine précédente">‹</button>
     <div class="strip" id="strip"></div>
     <button class="arrow" id="next" aria-label="Semaine suivante">›</button>
   </div>
+
   <p class="sub" id="dlabel"></p>
+
   <div class="card" id="evs"></div>
-  <button class="primary" id="now" style="display:block;width:100%;margin-top:16px">Revenir à aujourd’hui</button>
+
+  <button class="primary" id="now" style="display:block;width:100%;margin-top:16px">
+    Revenir à aujourd’hui
+  </button>
+
   <button class="fab" id="fab" aria-label="Ajouter un rendez-vous">+</button>
 </section>
 
 <section id="p-shop" hidden>
   <h1>Courses</h1>
-  <form class="add" id="sf"><input type="text" id="si" placeholder="Ajouter un article…" aria-label="Article"><button class="primary" type="submit">Ajouter</button></form>
+
+  <form class="add" id="sf">
+    <input type="text" id="si" placeholder="Ajouter un article…" aria-label="Article">
+    <button class="primary" type="submit">Ajouter</button>
+  </form>
+
   <div class="card" id="items"></div>
-  <button class="primary" id="fin" style="width:100%;margin-top:16px" hidden>✓ Courses faites</button>
-  <button class="link" id="clr" hidden>Retirer les articles cochés</button>
+
+  <button class="primary" id="fin" style="width:100%;margin-top:16px" hidden>
+    ✓ Courses faites
+  </button>
+
+  <button class="link" id="clr" hidden>
+    Retirer les articles cochés
+  </button>
 </section>
+
 <p id="status"></p>
-<button class="link" id="logout">Se déconnecter</button>
+
+<button class="link" id="logout">
+  Se déconnecter
+</button>
+
 </main>
 
 <nav>
-  <button id="n-plan" class="on"><span>📅</span>Planning</button>
-  <button id="n-shop"><span>🛒</span>Courses</button>
+  <button id="n-plan" class="on">
+    <span>📅</span>Planning
+  </button>
+
+  <button id="n-shop">
+    <span>🛒</span>Courses
+  </button>
 </nav>
 
-<div class="sheet" id="sheet"><form id="f">
-  <input class="full" type="text" id="t" placeholder="Quoi ? (médecin, marché…)" required aria-label="Titre">
-  <div><span class="cap startcap" hidden>Du</span><input type="date" id="d" required aria-label="Date de début"></div><div><span class="cap startcap" hidden>À partir de</span><input type="time" id="h" aria-label="Heure de début"></div>
-  <label class="chk full"><input type="checkbox" id="rg"> Ajouter une fin (date ou heure)</label>
-  <div class="full rng" id="rng" hidden><div><span class="cap">Jusqu’au</span><input type="date" id="ed" aria-label="Date de fin"></div><div><span class="cap">Jusqu’à</span><input type="time" id="eh" aria-label="Heure de fin"></div></div>
-  <input class="full" type="text" id="w" placeholder="Pour qui ? (Maman, Papa…)" aria-label="Pour qui">
-  <label class="chk full"><input type="checkbox" id="r"> Chaque semaine</label>
-  <button type="button" id="cancel">Annuler</button><button class="primary" type="submit">Ajouter</button>
-</form></div>
+<div class="sheet" id="sheet">
+
+<form id="f">
+
+  <input class="full" type="text" id="t"
+    placeholder="Quoi ? (médecin, marché…)"
+    required aria-label="Titre">
+
+  <div>
+    <span class="cap startcap" hidden>Du</span>
+    <input type="date" id="d" required aria-label="Date de début">
+  </div>
+
+  <div>
+    <span class="cap startcap" hidden>À partir de</span>
+    <input type="time" id="h" aria-label="Heure de début">
+  </div>
+
+  <label class="chk full">
+    <input type="checkbox" id="rg">
+    Ajouter une fin (date ou heure)
+  </label>
+
+  <div class="full rng" id="rng" hidden>
+
+    <div>
+      <span class="cap">Jusqu’au</span>
+      <input type="date" id="ed" aria-label="Date de fin">
+    </div>
+
+    <div>
+      <span class="cap">Jusqu’à</span>
+      <input type="time" id="eh" aria-label="Heure de fin">
+    </div>
+
+  </div>
+
+  <input class="full" type="text" id="w"
+    placeholder="Pour qui ? (Maman, Papa…)"
+    aria-label="Pour qui">
+
+  <label class="chk full">
+    <input type="checkbox" id="r">
+    Chaque semaine
+  </label>
+
+  <button type="button" id="cancel">Annuler</button>
+  <button class="primary" type="submit">Ajouter</button>
+
+</form>
+</div>
+
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, collection, doc, addDoc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+/* =========================================================
+   FIREBASE
+   ========================================================= */
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  doc,
+  addDoc,
+  setDoc,
+  deleteDoc,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+
+/* TON PROJET FIREBASE */
 
 const firebaseConfig = {
   apiKey: "AIzaSyB-i4s5EczUmK1e3GY9lEzrzZgG4b94Gu4",
@@ -159,131 +263,1233 @@ const firebaseConfig = {
   messagingSenderId: "878836991029",
   appId: "1:878836991029:web:0ad3cd93453f29b9611d7c"
 };
+
+
+/* INITIALISATION */
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const fdb = getFirestore(app);
 
+
+/* =========================================================
+   APPLICATION
+   ========================================================= */
+
 (function(){
-var $=function(i){return document.getElementById(i)};
-function iso(d){var m=d.getMonth()+1,j=d.getDate();return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(j<10?'0':'')+j}
-function parse(s){var p=s.split('-');return new Date(+p[0],p[1]-1,+p[2])}
-function mondayOf(d){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()-(x.getDay()+6)%7);return x}
-var dbRef=null;
-function store(name,render){
-  var s={items:[],col:null,KEY:'famille-'+name};
-  try{s.items=JSON.parse(localStorage.getItem(s.KEY)||'[]')||[]}catch(e){}
-  function save(){try{localStorage.setItem(s.KEY,JSON.stringify(s.items))}catch(e){}}
-  function err(p){if(p&&p.catch)p.catch(function(){$('status').textContent='Modification impossible (droits insuffisants ?).'})}
-  s.add=function(o){if(s.col)err(s.col.add(o));else{o.id='l'+Date.now()+Math.random();s.items.push(o);save();render()}};
-  s.set=function(id,o){if(s.col)err(s.col.doc(id).set(o));else{s.items=s.items.map(function(x){return x.id===id?Object.assign({id:id},o):x});save();render()}};
-  s.del=function(id){if(s.col)err(s.col.doc(id).delete());else{s.items=s.items.filter(function(x){return x.id!==id});save();render()}};
-  s.connect=function(db){
-    s.col=db.collection(name);
-    s.unsub=s.col.onSnapshot(function(sn){s.items=sn.docs.map(function(d){return Object.assign({},d.data(),{id:d.id})});$('status').textContent='Partagé en direct avec la famille';render()},
-      function(){s.col=null;$('status').textContent='Accès impossible : vérifie que tu es connecté avec une adresse autorisée.'});
-  };
-  s.disconnect=function(){if(s.unsub)s.unsub();s.unsub=null;s.col=null;s.items=[];render()};
-  return s;
+
+var $ = function(i){
+  return document.getElementById(i);
+};
+
+
+function iso(d){
+  var m=d.getMonth()+1;
+  var j=d.getDate();
+
+  return d.getFullYear()+'-'+
+    (m<10?'0':'')+m+'-'+
+    (j<10?'0':'')+j;
 }
-var ev=store('events',renderPlan), sh=store('items',renderShop);
-var shim={collection:function(name){
+
+
+function parse(s){
+  var p=s.split('-');
+  return new Date(+p[0],p[1]-1,+p[2]);
+}
+
+
+function mondayOf(d){
+  var x=new Date(
+    d.getFullYear(),
+    d.getMonth(),
+    d.getDate()
+  );
+
+  x.setDate(
+    x.getDate()-(x.getDay()+6)%7
+  );
+
+  return x;
+}
+
+
+/* =========================================================
+   FIRESTORE
+   ========================================================= */
+
+function firestoreCollection(name){
+
   var c=collection(fdb,name);
+
   return {
-    add:function(o){return addDoc(c,o)},
-    doc:function(id){var d=doc(fdb,name,id);return {set:function(o){return setDoc(d,o)},delete:function(){return deleteDoc(d)}}},
-    onSnapshot:function(ok,bad){return onSnapshot(c,ok,bad)}
+
+    add:function(o){
+      return addDoc(c,o);
+    },
+
+    doc:function(id){
+
+      var d=doc(fdb,name,id);
+
+      return {
+
+        set:function(o){
+          return setDoc(d,o);
+        },
+
+        delete:function(){
+          return deleteDoc(d);
+        }
+
+      };
+
+    },
+
+    onSnapshot:function(ok,bad){
+      return onSnapshot(c,ok,bad);
+    }
+
   };
-}};
-onAuthStateChanged(auth,function(u){
-  if(u){document.body.className='in';ev.connect(shim);sh.connect(shim)}
-  else{ev.disconnect();sh.disconnect();document.body.className='out'}
-});
+}
+
+
+/* =========================================================
+   STOCKAGE
+   ========================================================= */
+
+function store(name,render){
+
+  var s={
+    items:[],
+    col:null,
+    KEY:'famille-'+name
+  };
+
+
+  try{
+    s.items=
+      JSON.parse(
+        localStorage.getItem(s.KEY)||'[]'
+      )||[];
+  }
+  catch(e){}
+
+
+  function save(){
+
+    try{
+      localStorage.setItem(
+        s.KEY,
+        JSON.stringify(s.items)
+      );
+    }
+    catch(e){}
+
+  }
+
+
+  function err(p){
+
+    if(p&&p.catch){
+
+      p.catch(function(){
+
+        $('status').textContent=
+          'Modification impossible (droits insuffisants ?).';
+
+      });
+
+    }
+
+  }
+
+
+  s.add=function(o){
+
+    if(s.col){
+
+      err(
+        s.col.add(o)
+      );
+
+    }else{
+
+      o.id='l'+Date.now()+Math.random();
+
+      s.items.push(o);
+
+      save();
+
+      render();
+
+    }
+
+  };
+
+
+  s.set=function(id,o){
+
+    if(s.col){
+
+      err(
+        s.col.doc(id).set(o)
+      );
+
+    }else{
+
+      s.items=s.items.map(function(x){
+
+        return x.id===id
+          ? Object.assign({id:id},o)
+          : x;
+
+      });
+
+      save();
+
+      render();
+
+    }
+
+  };
+
+
+  s.del=function(id){
+
+    if(s.col){
+
+      err(
+        s.col.doc(id).delete()
+      );
+
+    }else{
+
+      s.items=s.items.filter(
+        function(x){
+          return x.id!==id;
+        }
+      );
+
+      save();
+
+      render();
+
+    }
+
+  };
+
+
+  s.connect=function(){
+
+    s.col=firestoreCollection(name);
+
+    s.unsub=s.col.onSnapshot(
+
+      function(sn){
+
+        s.items=sn.docs.map(
+          function(d){
+
+            return Object.assign(
+              {},
+              d.data(),
+              {id:d.id}
+            );
+
+          }
+        );
+
+        $('status').textContent=
+          'Partagé en direct avec la famille';
+
+        render();
+
+      },
+
+      function(){
+
+        s.col=null;
+
+        $('status').textContent=
+          'Accès impossible : vérifie les droits Firestore.';
+
+      }
+
+    );
+
+  };
+
+
+  s.disconnect=function(){
+
+    if(s.unsub)
+      s.unsub();
+
+    s.unsub=null;
+    s.col=null;
+    s.items=[];
+
+    render();
+
+  };
+
+
+  return s;
+
+}
+
+
+var ev=store(
+  'events',
+  renderPlan
+);
+
+var sh=store(
+  'items',
+  renderShop
+);
+
+
+/* =========================================================
+   CONNEXION FIREBASE
+   ========================================================= */
+
+onAuthStateChanged(
+  auth,
+  function(u){
+
+    if(u){
+
+      document.body.className='in';
+
+      ev.connect();
+      sh.connect();
+
+      $('status').textContent=
+        'Connecté à la famille';
+
+    }
+    else{
+
+      ev.disconnect();
+      sh.disconnect();
+
+      document.body.className='out';
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   CONNEXION
+   ========================================================= */
+
 $('lf').onsubmit=function(e){
-  e.preventDefault();$('lerr').textContent='';
-  signInWithEmailAndPassword(auth,$('le').value.trim(),$('lp').value).catch(function(er){
+
+  e.preventDefault();
+
+  $('lerr').textContent='';
+
+  signInWithEmailAndPassword(
+    auth,
+    $('le').value.trim(),
+    $('lp').value
+  )
+
+  .catch(function(er){
+
     var c=er&&er.code;
-    $('lerr').textContent=c==='auth/too-many-requests'?'Trop d’essais. Réessaie dans quelques minutes.':(c==='auth/network-request-failed'?'Pas de connexion internet.':'Adresse e-mail ou mot de passe incorrect.');
+
+    $('lerr').textContent=
+
+      c==='auth/too-many-requests'
+      ? 'Trop d’essais. Réessaie dans quelques minutes.'
+
+      :
+
+      c==='auth/network-request-failed'
+      ? 'Pas de connexion internet.'
+
+      :
+
+      'Adresse e-mail ou mot de passe incorrect.';
+
   });
+
 };
-$('logout').onclick=function(){signOut(auth)};
 
-/* Emojis */
-var EMO=[['footing','🏃'],['running','🏃'],['jogging','🏃'],['foot','⚽'],['basket','🏀'],['tennis','🎾'],['rugby','🏉'],['handball','🤾'],['volley','🏐'],['natation','🏊'],['piscine','🏊'],['velo','🚴'],['randonnee','🥾'],['yoga','🧘'],['gym','🏋️'],['muscu','🏋️'],['sport','🏅'],['danse','💃'],['judo','🥋'],['karate','🥋'],['ski','⛷️'],['golf','⛳'],['petanque','🎯'],['peche','🎣'],['belote','🃏'],['cartes','🃏'],['dentiste','🦷'],['pharmacie','💊'],['medecin','🩺'],['docteur','🩺'],['kine','🩺'],['hopital','🏥'],['analyse','🩸'],['infirmi','🩺'],['veto','🐾'],['coiffeur','💇'],['courses','🛒'],['supermarche','🛒'],['marche','🛒'],['ecole','🏫'],['reunion','💼'],['travail','💼'],['banque','🏦'],['impot','🧾'],['mairie','🏛️'],['messe','⛪'],['eglise','⛪'],['anniversaire','🎂'],['gateau','🍰'],['cuisine','🍳'],['fete','🎉'],['soiree','🎉'],['restaurant','🍽️'],['diner','🍽️'],['dejeuner','🍽️'],['repas','🍽️'],['apero','🥂'],['cinema','🎬'],['theatre','🎭'],['concert','🎵'],['musique','🎵'],['chorale','🎵'],['piano','🎹'],['lecture','📚'],['biblio','📚'],['vacances','🏖️'],['voyage','🧳'],['avion','✈️'],['aeroport','✈️'],['train','🚆'],['gare','🚆'],['garage','🔧'],['controle technique','🚗'],['voiture','🚗'],['jardin','🌱'],['bricolage','🔨'],['menage','🧹'],['telephone','📞'],['appel','📞'],['visite','👋'],['mamie','👵'],['papi','👴'],['enfants','👧']];
-function emoji(t){var n=(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');for(var i=0;i<EMO.length;i++)if(n.indexOf(EMO[i][0])>-1)return EMO[i][1];return '📌'}
 
-/* Planning */
-var sel=new Date(), DOW=['lun.','mar.','mer.','jeu.','ven.','sam.','dim.'];
-function forDay(d){var s=iso(d),w=d.getDay();return ev.items.filter(function(e){return e.date===s||(e.endDate&&e.date<s&&s<=e.endDate)||(e.weekly&&!e.endDate&&e.date<s&&parse(e.date).getDay()===w)}).sort(function(a,b){return (a.time||'99').localeCompare(b.time||'99')})}
+$('logout').onclick=function(){
+
+  signOut(auth);
+
+};
+
+
+/* =========================================================
+   EMOJIS
+   ========================================================= */
+
+var EMO=[
+['footing','🏃'],
+['running','🏃'],
+['jogging','🏃'],
+['foot','⚽'],
+['basket','🏀'],
+['tennis','🎾'],
+['rugby','🏉'],
+['handball','🤾'],
+['volley','🏐'],
+['natation','🏊'],
+['piscine','🏊'],
+['velo','🚴'],
+['randonnee','🥾'],
+['yoga','🧘'],
+['gym','🏋️'],
+['muscu','🏋️'],
+['sport','🏅'],
+['danse','💃'],
+['judo','🥋'],
+['karate','🥋'],
+['ski','⛷️'],
+['golf','⛳'],
+['petanque','🎯'],
+['peche','🎣'],
+['belote','🃏'],
+['cartes','🃏'],
+['dentiste','🦷'],
+['pharmacie','💊'],
+['medecin','🩺'],
+['docteur','🩺'],
+['kine','🩺'],
+['hopital','🏥'],
+['analyse','🩸'],
+['infirmi','🩺'],
+['veto','🐾'],
+['coiffeur','💇'],
+['courses','🛒'],
+['supermarche','🛒'],
+['marche','🛒'],
+['ecole','🏫'],
+['reunion','💼'],
+['travail','💼'],
+['banque','🏦'],
+['impot','🧾'],
+['mairie','🏛️'],
+['messe','⛪'],
+['eglise','⛪'],
+['anniversaire','🎂'],
+['gateau','🍰'],
+['cuisine','🍳'],
+['fete','🎉'],
+['soiree','🎉'],
+['restaurant','🍽️'],
+['diner','🍽️'],
+['dejeuner','🍽️'],
+['repas','🍽️'],
+['apero','🥂'],
+['cinema','🎬'],
+['theatre','🎭'],
+['concert','🎵'],
+['musique','🎵'],
+['chorale','🎵'],
+['piano','🎹'],
+['lecture','📚'],
+['biblio','📚'],
+['vacances','🏖️'],
+['voyage','🧳'],
+['avion','✈️'],
+['aeroport','✈️'],
+['train','🚆'],
+['gare','🚆'],
+['garage','🔧'],
+['controle technique','🚗'],
+['voiture','🚗'],
+['jardin','🌱'],
+['bricolage','🔨'],
+['menage','🧹'],
+['telephone','📞'],
+['appel','📞'],
+['visite','👋'],
+['mamie','👵'],
+['papi','👴'],
+['enfants','👧']
+];
+
+
+function emoji(t){
+
+  var n=(t||'')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'');
+
+  for(
+    var i=0;
+    i<EMO.length;
+    i++
+  ){
+
+    if(
+      n.indexOf(EMO[i][0])>-1
+    )
+      return EMO[i][1];
+
+  }
+
+  return '📌';
+
+}
+
+
+/* =========================================================
+   PLANNING
+   ========================================================= */
+
+var sel=new Date();
+
+var DOW=[
+  'lun.',
+  'mar.',
+  'mer.',
+  'jeu.',
+  'ven.',
+  'sam.',
+  'dim.'
+];
+
+
+function forDay(d){
+
+  var s=iso(d);
+  var w=d.getDay();
+
+  return ev.items
+
+    .filter(function(e){
+
+      return (
+
+        e.date===s
+
+        ||
+
+        (
+          e.endDate &&
+          e.date<s &&
+          s<=e.endDate
+        )
+
+        ||
+
+        (
+          e.weekly &&
+          !e.endDate &&
+          e.date<s &&
+          parse(e.date).getDay()===w
+        )
+
+      );
+
+    })
+
+    .sort(function(a,b){
+
+      return (
+        a.time||'99'
+      ).localeCompare(
+        b.time||'99'
+      );
+
+    });
+
+}
+
+
 function renderPlan(){
-  var m=mondayOf(sel),strip=$('strip'),today=iso(new Date());strip.innerHTML='';
-  for(var i=0;i<7;i++){(function(){
-    var d=new Date(m);d.setDate(m.getDate()+i);
-    var b=document.createElement('button');b.className='day'+(iso(d)===iso(sel)?' sel':'')+(iso(d)===today?' today':'');
-    b.innerHTML=DOW[i]+'<b>'+d.getDate()+'</b>'+(forDay(d).length?'<i></i>':'');
-    b.onclick=function(){sel=d;renderPlan()};strip.appendChild(b);
-  })()}
-  $('dlabel').textContent=sel.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  var box=$('evs');box.innerHTML='';var list=forDay(sel);
-  if(!list.length){box.innerHTML='<div class="empty">Rien de prévu ce jour-là</div>';return}
+
+  var m=mondayOf(sel);
+
+  var strip=$('strip');
+
+  var today=iso(new Date());
+
+  strip.innerHTML='';
+
+
+  for(
+    var i=0;
+    i<7;
+    i++
+  ){
+
+    (function(){
+
+      var d=new Date(m);
+
+      d.setDate(
+        m.getDate()+i
+      );
+
+
+      var b=document.createElement(
+        'button'
+      );
+
+      b.className=
+        'day'+
+        (
+          iso(d)===iso(sel)
+          ? ' sel'
+          : ''
+        )+
+        (
+          iso(d)===today
+          ? ' today'
+          : ''
+        );
+
+
+      b.innerHTML=
+        DOW[i]+
+        '<b>'+d.getDate()+'</b>'+
+        (
+          forDay(d).length
+          ? '<i></i>'
+          : ''
+        );
+
+
+      b.onclick=function(){
+
+        sel=d;
+
+        renderPlan();
+
+      };
+
+
+      strip.appendChild(b);
+
+    })();
+
+  }
+
+
+  $('dlabel').textContent=
+    sel.toLocaleDateString(
+      'fr-FR',
+      {
+        weekday:'long',
+        day:'numeric',
+        month:'long',
+        year:'numeric'
+      }
+    );
+
+
+  var box=$('evs');
+
+  box.innerHTML='';
+
+  var list=forDay(sel);
+
+
+  if(!list.length){
+
+    box.innerHTML=
+      '<div class="empty">Rien de prévu ce jour-là</div>';
+
+    return;
+
+  }
+
+
   list.forEach(function(e){
-    var r=document.createElement('div');r.className='row';
-    var t=document.createElement('span');t.className='time';t.textContent=e.time?(e.time+(e.endTime?'–'+e.endTime:'')):'—';
-    var g=document.createElement('span');g.className='grow';g.textContent=emoji(e.t)+' '+e.t+(e.weekly&&!e.endDate?' ↻':'')+(e.endDate&&e.endDate>e.date?' · du '+parse(e.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})+' au '+parse(e.endDate).toLocaleDateString('fr-FR',{day:'numeric',month:'short'}):'');
-    r.appendChild(t);r.appendChild(g);
-    if(e.who){var w=document.createElement('span');w.className='tag';w.textContent=e.who;r.appendChild(w)}
-    var x=document.createElement('button');x.className='del';x.textContent='✕';x.setAttribute('aria-label','Supprimer');
-    x.onclick=function(){ev.del(e.id)};
-    r.appendChild(x);box.appendChild(r);
-  });
-}
-$('prev').onclick=function(){sel.setDate(sel.getDate()-7);sel=new Date(sel);renderPlan()};
-$('next').onclick=function(){sel.setDate(sel.getDate()+7);sel=new Date(sel);renderPlan()};
-$('now').onclick=function(){sel=new Date();renderPlan()};
-$('fab').onclick=function(){$('d').value=iso(sel);$('sheet').classList.add('open');$('t').focus()};
-function syncRg(){var on=$('rg').checked;$('rng').hidden=!on;[].forEach.call(document.querySelectorAll('.startcap'),function(x){x.hidden=!on})}
-$('rg').onchange=syncRg;
-$('cancel').onclick=function(){$('sheet').classList.remove('open')};
-$('sheet').onclick=function(e){if(e.target===$('sheet'))$('sheet').classList.remove('open')};
-$('f').onsubmit=function(e){e.preventDefault();
-  var o={t:$('t').value.trim(),date:$('d').value,time:$('h').value,who:$('w').value.trim(),weekly:$('r').checked,endDate:$('rg').checked?$('ed').value:'',endTime:$('rg').checked?$('eh').value:''};
-  if(!o.t||!o.date)return;
-  if(o.endDate&&o.endDate<o.date){$('status').textContent='La date de fin doit être après la date de début.';return}ev.add(o);sel=parse(o.date);
-  $('t').value='';$('h').value='';$('ed').value='';$('eh').value='';$('rg').checked=false;syncRg();$('r').checked=false;$('sheet').classList.remove('open');renderPlan()};
 
-/* Courses */
-function renderShop(){
-  var box=$('items');box.innerHTML='';var l=sh.items.slice().sort(function(a,b){return (!!a.done-!!b.done)||(a.at-b.at)});
-  $('clr').hidden=!l.some(function(x){return x.done});
-  $('fin').hidden=!l.length;
-  if(!l.length){box.innerHTML='<div class="empty">La liste est vide</div>';return}
-  l.forEach(function(it){
-    var r=document.createElement('div');r.className='row'+(it.done?' done':'');
-    var c=document.createElement('input');c.type='checkbox';c.className='box';c.checked=!!it.done;c.setAttribute('aria-label',it.t);
-    c.onchange=function(){sh.set(it.id,{t:it.t,at:it.at,done:c.checked})};
-    var g=document.createElement('span');g.className='grow';g.textContent=it.t;
-    var x=document.createElement('button');x.className='del';x.textContent='✕';x.setAttribute('aria-label','Supprimer '+it.t);x.onclick=function(){sh.del(it.id)};
-    r.appendChild(c);r.appendChild(g);r.appendChild(x);box.appendChild(r);
+    var r=document.createElement('div');
+
+    r.className='row';
+
+
+    var t=document.createElement('span');
+
+    t.className='time';
+
+    t.textContent=
+      e.time
+      ? (
+          e.time+
+          (
+            e.endTime
+            ? '–'+e.endTime
+            : ''
+          )
+        )
+      : '—';
+
+
+    var g=document.createElement('span');
+
+    g.className='grow';
+
+    g.textContent=
+      emoji(e.t)+
+      ' '+
+      e.t+
+      (
+        e.weekly&&!e.endDate
+        ? ' ↻'
+        : ''
+      )+
+      (
+        e.endDate&&e.endDate>e.date
+        ?
+        ' · du '+
+        parse(e.date).toLocaleDateString(
+          'fr-FR',
+          {
+            day:'numeric',
+            month:'short'
+          }
+        )+
+        ' au '+
+        parse(e.endDate).toLocaleDateString(
+          'fr-FR',
+          {
+            day:'numeric',
+            month:'short'
+          }
+        )
+        :
+        ''
+      );
+
+
+    r.appendChild(t);
+    r.appendChild(g);
+
+
+    if(e.who){
+
+      var w=document.createElement(
+        'span'
+      );
+
+      w.className='tag';
+
+      w.textContent=e.who;
+
+      r.appendChild(w);
+
+    }
+
+
+    var x=document.createElement(
+      'button'
+    );
+
+    x.className='del';
+
+    x.textContent='✕';
+
+    x.setAttribute(
+      'aria-label',
+      'Supprimer'
+    );
+
+
+    x.onclick=function(){
+
+      ev.del(e.id);
+
+    };
+
+
+    r.appendChild(x);
+
+    box.appendChild(r);
+
   });
+
 }
-$('sf').onsubmit=function(e){e.preventDefault();var v=$('si').value.trim();if(!v)return;sh.add({t:v,done:false,at:Date.now()});$('si').value='';renderShop()};
-$('fin').onclick=function(){
-  var b=$('fin');b.classList.remove('flash');void b.offsetWidth;b.classList.add('flash');
-  var list=sh.items.slice();
-  setTimeout(function(){
-    if(!sh.col){list.forEach(function(x){sh.del(x.id)});return}
-    sh.items=[];renderShop();
-    var p=Promise.resolve();
-    list.forEach(function(x){p=p.then(function(){return sh.col.doc(x.id).delete()})});
-    p.catch(function(){$('status').textContent='Impossible de vider la liste (droits insuffisants ?).'});
-  },650);
+
+
+/* =========================================================
+   NAVIGATION SEMAINE
+   ========================================================= */
+
+$('prev').onclick=function(){
+
+  sel.setDate(
+    sel.getDate()-7
+  );
+
+  sel=new Date(sel);
+
+  renderPlan();
+
 };
-$('clr').onclick=function(){sh.items.filter(function(x){return x.done}).forEach(function(x){sh.del(x.id)})};
 
-/* Onglets */
-function tab(n){$('p-plan').hidden=n!=='plan';$('p-shop').hidden=n!=='shop';$('n-plan').className=n==='plan'?'on':'';$('n-shop').className=n==='shop'?'on':'';window.scrollTo(0,0)}
-$('n-plan').onclick=function(){tab('plan')};$('n-shop').onclick=function(){tab('shop')};
-renderPlan();renderShop();
+
+$('next').onclick=function(){
+
+  sel.setDate(
+    sel.getDate()+7
+  );
+
+  sel=new Date(sel);
+
+  renderPlan();
+
+};
+
+
+$('now').onclick=function(){
+
+  sel=new Date();
+
+  renderPlan();
+
+};
+
+
+/* =========================================================
+   AJOUT RENDEZ-VOUS
+   ========================================================= */
+
+$('fab').onclick=function(){
+
+  $('d').value=iso(sel);
+
+  $('sheet').classList.add(
+    'open'
+  );
+
+  $('t').focus();
+
+};
+
+
+function syncRg(){
+
+  var on=$('rg').checked;
+
+  $('rng').hidden=!on;
+
+  [].forEach.call(
+    document.querySelectorAll('.startcap'),
+    function(x){
+      x.hidden=!on;
+    }
+  );
+
+}
+
+
+$('rg').onchange=syncRg;
+
+
+$('cancel').onclick=function(){
+
+  $('sheet').classList.remove(
+    'open'
+  );
+
+};
+
+
+$('sheet').onclick=function(e){
+
+  if(
+    e.target===$('sheet')
+  )
+    $('sheet').classList.remove(
+      'open'
+    );
+
+};
+
+
+$('f').onsubmit=function(e){
+
+  e.preventDefault();
+
+
+  var o={
+
+    t:$('t').value.trim(),
+
+    date:$('d').value,
+
+    time:$('h').value,
+
+    who:$('w').value.trim(),
+
+    weekly:$('r').checked,
+
+    endDate:
+      $('rg').checked
+      ? $('ed').value
+      : '',
+
+    endTime:
+      $('rg').checked
+      ? $('eh').value
+      : ''
+
+  };
+
+
+  if(
+    !o.t ||
+    !o.date
+  )
+    return;
+
+
+  if(
+    o.endDate &&
+    o.endDate<o.date
+  ){
+
+    $('status').textContent=
+      'La date de fin doit être après la date de début.';
+
+    return;
+
+  }
+
+
+  ev.add(o);
+
+  sel=parse(o.date);
+
+
+  $('t').value='';
+  $('h').value='';
+  $('ed').value='';
+  $('eh').value='';
+
+  $('rg').checked=false;
+
+  syncRg();
+
+  $('r').checked=false;
+
+  $('sheet').classList.remove(
+    'open'
+  );
+
+  renderPlan();
+
+};
+
+
+/* =========================================================
+   COURSES
+   ========================================================= */
+
+function renderShop(){
+
+  var box=$('items');
+
+  box.innerHTML='';
+
+
+  var l=sh.items
+    .slice()
+    .sort(
+      function(a,b){
+
+        return (
+          !!a.done-!!b.done
+        )+
+        (
+          a.at-b.at
+        );
+
+      }
+    );
+
+
+  $('clr').hidden=
+    !l.some(
+      function(x){
+        return x.done;
+      }
+    );
+
+
+  $('fin').hidden=
+    !l.length;
+
+
+  if(!l.length){
+
+    box.innerHTML=
+      '<div class="empty">La liste est vide</div>';
+
+    return;
+
+  }
+
+
+  l.forEach(function(it){
+
+    var r=document.createElement(
+      'div'
+    );
+
+    r.className=
+      'row'+
+      (
+        it.done
+        ? ' done'
+        : ''
+      );
+
+
+    var c=document.createElement(
+      'input'
+    );
+
+    c.type='checkbox';
+
+    c.className='box';
+
+    c.checked=!!it.done;
+
+    c.setAttribute(
+      'aria-label',
+      it.t
+    );
+
+
+    c.onchange=function(){
+
+      sh.set(
+        it.id,
+        {
+          t:it.t,
+          at:it.at,
+          done:c.checked
+        }
+      );
+
+    };
+
+
+    var g=document.createElement(
+      'span'
+    );
+
+    g.className='grow';
+
+    g.textContent=it.t;
+
+
+    var x=document.createElement(
+      'button'
+    );
+
+    x.className='del';
+
+    x.textContent='✕';
+
+    x.setAttribute(
+      'aria-label',
+      'Supprimer '+it.t
+    );
+
+
+    x.onclick=function(){
+
+      sh.del(it.id);
+
+    };
+
+
+    r.appendChild(c);
+    r.appendChild(g);
+    r.appendChild(x);
+
+    box.appendChild(r);
+
+  });
+
+}
+
+
+$('sf').onsubmit=function(e){
+
+  e.preventDefault();
+
+  var v=$('si').value.trim();
+
+  if(!v)
+    return;
+
+
+  sh.add({
+    t:v,
+    done:false,
+    at:Date.now()
+  });
+
+
+  $('si').value='';
+
+  renderShop();
+
+};
+
+
+$('fin').onclick=function(){
+
+  var b=$('fin');
+
+  b.classList.remove(
+    'flash'
+  );
+
+  void b.offsetWidth;
+
+  b.classList.add(
+    'flash'
+  );
+
+
+  var list=sh.items.slice();
+
+
+  setTimeout(
+    function(){
+
+      if(!sh.col){
+
+        list.forEach(
+          function(x){
+            sh.del(x.id);
+          }
+        );
+
+        return;
+
+      }
+
+
+      sh.items=[];
+
+      renderShop();
+
+
+      var p=Promise.resolve();
+
+
+      list.forEach(
+        function(x){
+
+          p=p.then(
+            function(){
+
+              return sh.col
+                .doc(x.id)
+                .delete();
+
+            }
+          );
+
+        }
+      );
+
+
+      p.catch(
+        function(){
+
+          $('status').textContent=
+            'Impossible de vider la liste (droits insuffisants ?).';
+
+        }
+      );
+
+    },
+    650
+  );
+
+};
+
+
+$('clr').onclick=function(){
+
+  sh.items
+    .filter(
+      function(x){
+        return x.done;
+      }
+    )
+    .forEach(
+      function(x){
+        sh.del(x.id);
+      }
+    );
+
+};
+
+
+/* =========================================================
+   ONGLETS
+   ========================================================= */
+
+function tab(n){
+
+  $('p-plan').hidden=
+    n!=='plan';
+
+  $('p-shop').hidden=
+    n!=='shop';
+
+  $('n-plan').className=
+    n==='plan'
+    ? 'on'
+    : '';
+
+  $('n-shop').className=
+    n==='shop'
+    ? 'on'
+    : '';
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+$('n-plan').onclick=function(){
+  tab('plan');
+};
+
+
+$('n-shop').onclick=function(){
+  tab('shop');
+};
+
+
+/* =========================================================
+   INITIALISATION
+   ========================================================= */
+
+renderPlan();
+renderShop();
+
 })();
+
 </script>
+
 </body>
 </html>
