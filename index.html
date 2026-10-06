@@ -1,36 +1,692 @@
-rules_version = '2';
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>🏠 Famille</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#2f6f62">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<style>
+:root{--bg:#f6f5f2;--card:#fff;--ink:#222;--muted:#837f78;--line:#e8e6e1;--accent:#2f6f62;--soft:#e4efec;--tagL:32%}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171716;--card:#232322;--ink:#f1f0ec;--muted:#a09c94;--line:#33322f;--accent:#6fbfae;--soft:#26332f;--tagL:72%}}
+:root[data-theme="dark"]{--bg:#171716;--card:#232322;--ink:#f1f0ec;--muted:#a09c94;--line:#33322f;--accent:#6fbfae;--soft:#26332f;--tagL:72%}
+:root[data-theme="light"]{--bg:#f6f5f2;--card:#fff;--ink:#222;--muted:#837f78;--line:#e8e6e1;--accent:#2f6f62;--soft:#e4efec;--tagL:32%}
+*{box-sizing:border-box}
+body{margin:0;padding-top:env(safe-area-inset-top,0px);background:var(--bg);color:var(--ink);font:18px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button{font:inherit;border:0;cursor:pointer;color:inherit;background:none;transition:.2s;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:3px solid #f2b134;outline-offset:2px}
+.primary{background:var(--accent);color:#fff;border-radius:12px;padding:13px 18px;font-weight:600}
+.primary:active{transform:scale(.95)}
+.link{color:var(--accent);font-weight:600;display:block;margin:14px auto 0;padding:8px}
+/* Paramètres */
+.settings-btn{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:16px;width:44px;height:44px;border-radius:50%;background:var(--card);font-size:1.35rem;display:none;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:50}
+body.in .settings-btn{display:flex}
+.settings-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-end;justify-content:center;z-index:100}
+.settings-overlay.open{display:flex}
+.settings-panel{width:100%;max-width:560px;max-height:92vh;overflow:auto;background:var(--card);border-radius:22px 22px 0 0;padding:20px 16px calc(24px + env(safe-area-inset-bottom,0px));animation:sIn .2s ease}
+@keyframes sIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.settings-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.settings-header h2{margin:0;font-size:1.35rem;flex:1}
+.settings-back,.settings-close{width:40px;height:40px;border-radius:50%;background:var(--soft);font-size:1.2rem}
+.settings-user{background:var(--soft);border-radius:14px;padding:14px;margin-bottom:14px}
+.settings-user strong,.settings-user small,.info-card strong,.settings-item strong{display:block}
+.settings-user small{color:var(--muted);overflow-wrap:anywhere}
+.settings-list{display:grid;gap:8px}
+.settings-item{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:14px;border-radius:14px;background:var(--bg)}
+.settings-item:active{transform:scale(.98)}
+.settings-item span:first-child{width:34px;text-align:center;font-size:1.3rem}
+.settings-item div{flex:1}
+.settings-item small,.info-card small{color:var(--muted)}
+.settings-logout{margin-top:14px;width:100%;color:#d9534f;background:rgba(217,83,79,.08);padding:13px;border-radius:12px;font-weight:600}
+.page-text{color:var(--muted);margin-bottom:18px}
+.info-card{background:var(--bg);border-radius:14px;padding:14px;margin-bottom:10px}
+.info-card strong{margin-bottom:3px}
+.member{display:flex;align-items:center;gap:12px}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;flex:none}
+.member>div{flex:1;min-width:0}
+.member small{display:block;overflow-wrap:anywhere}
+.theme-buttons{display:grid;gap:8px}
+.theme-button{padding:14px;border-radius:14px;background:var(--bg);text-align:left}
+.theme-button.selected{background:var(--soft);color:var(--accent);font-weight:600}
+/* Application */
+main{max-width:560px;margin:0 auto;padding:16px 16px calc(96px + env(safe-area-inset-bottom,0px))}
+h1{font-size:1.5rem;margin:8px 0 16px}
+.card{background:var(--card);border-radius:16px;padding:6px 16px}
+.week{display:flex;align-items:center;gap:4px;margin-bottom:14px}
+.week .arrow{padding:10px 12px;color:var(--muted);font-size:1.1rem}
+.strip{flex:1;display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.day{display:flex;flex-direction:column;align-items:center;padding:8px 0;border-radius:12px;font-size:.75rem;color:var(--muted);position:relative}
+.day b{font-size:1.1rem;color:var(--ink)}
+.day.sel{background:var(--accent);color:#fff}
+.day.sel b,.day.sel.today b{color:#fff}
+.day.today b{color:var(--accent)}
+.day i{position:absolute;bottom:3px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.day.sel i{background:#fff}
+.sub{color:var(--muted);font-size:.9rem;margin:0 2px 8px;text-transform:capitalize}
+.row{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.row.who{box-shadow:inset 4px 0 0 hsl(var(--h) 60% 50%);padding-left:14px}
+.time{font-weight:650;min-width:3.2em;color:var(--accent);cursor:pointer}
+.grow{flex:1;min-width:0;overflow-wrap:anywhere}
+.row.who .grow{cursor:pointer}
+.tag{font-size:.75rem;padding:3px 10px;border-radius:999px;background:hsl(var(--h,160) 55% 50% / .18);color:hsl(var(--h,160) 55% var(--tagL))}
+.del{color:var(--muted);padding:4px 8px}
+.empty{color:var(--muted);text-align:center;padding:28px 0}
+.hint{color:var(--muted);font-size:.8rem;text-align:center;margin:10px 0 0}
+.fab{position:fixed;right:max(16px,calc(50% - 264px));bottom:calc(84px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;font-size:2rem;z-index:4;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);z-index:10}
+nav button{flex:1;padding:12px 0 10px;color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:2px}
+nav button span{font-size:1.4rem}
+nav button.on{color:var(--accent);font-weight:600}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:flex-end;justify-content:center;z-index:80}
+.sheet.open{display:flex}
+.sheet form{background:var(--card);width:100%;max-width:560px;border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sheet .full{grid-column:1/-1}
+.cap{display:block;font-size:.75rem;color:var(--muted)}
+.rng{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input{font:inherit;padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);width:100%}
+.chk{display:flex;align-items:center;gap:10px}
+.chk input{width:24px;height:24px}
+.add{display:flex;gap:8px;margin-bottom:14px}
+.add input{flex:1}
+.box{width:28px;height:28px;accent-color:var(--accent)}
+.done .grow{text-decoration:line-through;color:var(--muted)}
+/* Menus */
+.mday{padding:12px 0;border-top:1px solid var(--line)}
+.mday:first-child{border-top:0}
+.mdn{font-weight:650;text-transform:capitalize;margin-bottom:6px}
+.mday.today .mdn{color:var(--accent)}
+.mfields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+/* Connexion */
+#login{display:none;padding:24px 16px}
+body.out #login{display:block}
+body:not(.in) main,body:not(.in) nav,body:not(.in) .sheet{display:none!important}
+.lbox{max-width:380px;margin:12vh auto 0;text-align:center}
+.lbox form{display:grid;gap:12px;margin-top:18px}
+.err{color:#d9534f;min-height:1.2em}
+.sep{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.8rem;margin:18px 0 14px}
+.sep::before,.sep::after{content:"";flex:1;height:1px;background:var(--line)}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:12px 18px;font-weight:600}
+.gbtn svg{width:20px;height:20px}
+#status{text-align:center;font-size:.78rem;color:var(--muted);margin-top:18px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body class="wait">
 
-service cloud.firestore {
-  match /databases/{database}/documents {
+<button id="settingsBtn" class="settings-btn" aria-label="Paramètres">⚙️</button>
 
-    match /events/{eventId} {
-      allow read, write: if request.auth != null;
+<!-- CONNEXION -->
+<div id="login"><div class="lbox">
+  <h1>🏡 Famille</h1>
+  <p class="sub">Connecte-toi pour voir le planning, les courses et les menus.</p>
+  <form id="lf">
+    <input type="email" id="le" placeholder="Adresse e-mail" autocomplete="username" required>
+    <input type="password" id="lp" placeholder="Mot de passe" autocomplete="current-password" required>
+    <button class="primary" type="submit">Se connecter</button>
+  </form>
+  <div class="sep">ou</div>
+  <button class="gbtn" type="button" id="lg">
+    <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 40.2 44 35 44 24c0-1.3-.1-2.6-.4-3.5z"/></svg>
+    Continuer avec Google
+  </button>
+  <p class="err" id="lerr"></p>
+</div></div>
+
+<!-- APPLICATION -->
+<main>
+<section id="p-plan">
+  <h1>Planning</h1>
+  <div class="week">
+    <button class="arrow" id="prev">‹</button>
+    <div class="strip" id="strip"></div>
+    <button class="arrow" id="next">›</button>
+  </div>
+  <p class="sub" id="dlabel"></p>
+  <div class="card" id="evs"></div>
+  <p class="hint">Touche un rendez-vous pour le modifier</p>
+  <button class="primary" id="now" style="display:block;width:100%;margin-top:16px">Revenir à aujourd’hui</button>
+  <button class="fab" id="fab" aria-label="Ajouter">+</button>
+</section>
+
+<section id="p-shop" hidden>
+  <h1>Courses</h1>
+  <form class="add" id="sf">
+    <input type="text" id="si" placeholder="Ajouter un article…">
+    <button class="primary">Ajouter</button>
+  </form>
+  <div class="card" id="items"></div>
+  <button class="primary" id="fin" style="width:100%;margin-top:16px" hidden>✓ Courses faites</button>
+  <button class="link" id="clr" hidden>Retirer les articles cochés</button>
+</section>
+
+<section id="p-menu" hidden>
+  <h1>Menus</h1>
+  <div class="week">
+    <button class="arrow" id="mprev">‹</button>
+    <p class="sub" id="mlabel" style="flex:1;text-align:center;margin:0"></p>
+    <button class="arrow" id="mnext">›</button>
+  </div>
+  <div class="card" id="menus"></div>
+  <button class="primary" id="mnow" style="display:block;width:100%;margin-top:16px">Cette semaine</button>
+</section>
+<p id="status"></p>
+</main>
+
+<nav>
+  <button id="n-plan" class="on"><span>📅</span>Planning</button>
+  <button id="n-shop"><span>🛒</span>Courses</button>
+  <button id="n-menu"><span>🍽️</span>Menus</button>
+</nav>
+
+<!-- AJOUT / MODIFICATION RENDEZ-VOUS -->
+<div class="sheet" id="sheet">
+<form id="f">
+  <input class="full" type="text" id="t" placeholder="Quoi ? (médecin, marché…)" required>
+  <div><span class="cap">Du</span><input type="date" id="d" required></div>
+  <div><span class="cap">À partir de</span><input type="time" id="h"></div>
+  <label class="chk full"><input type="checkbox" id="rg">Ajouter une fin</label>
+  <div class="full rng" id="rng" hidden>
+    <div><span class="cap">Jusqu’au</span><input type="date" id="ed"></div>
+    <div><span class="cap">Jusqu’à</span><input type="time" id="eh"></div>
+  </div>
+  <input class="full" type="text" id="w" placeholder="Pour qui ?" list="whoList" autocomplete="off">
+  <datalist id="whoList"></datalist>
+  <label class="chk full"><input type="checkbox" id="r">Chaque semaine</label>
+  <button type="button" id="cancel">Annuler</button>
+  <button class="primary" type="submit" id="sub">Ajouter</button>
+</form>
+</div>
+
+<!-- PARAMÈTRES -->
+<div class="settings-overlay" id="settingsOverlay"><div class="settings-panel">
+  <div class="settings-header"><h2>⚙️ Paramètres</h2><button class="settings-close" id="settingsClose">✕</button></div>
+  <div class="settings-user"><strong id="settingsName">Compte connecté</strong><small id="settingsEmail">—</small></div>
+  <div class="settings-list">
+    <button class="settings-item" data-page="account"><span>👤</span><div><strong>Compte</strong><small>Informations du compte</small></div><span>›</span></button>
+    <button class="settings-item" data-page="appearance"><span>🎨</span><div><strong>Apparence</strong><small>Thème et affichage</small></div><span>›</span></button>
+    <button class="settings-item" data-page="family"><span>👨‍👩‍👧</span><div><strong>Famille</strong><small>Qui est dans l'application</small></div><span>›</span></button>
+    <button class="settings-item" data-page="security"><span>🔐</span><div><strong>Sécurité</strong><small>Connexion et sécurité</small></div><span>›</span></button>
+    <button class="settings-item" data-page="about"><span>ℹ️</span><div><strong>À propos</strong><small>Informations sur Famille</small></div><span>›</span></button>
+  </div>
+  <button class="settings-logout" id="settingsLogout">🚪 Se déconnecter</button>
+</div></div>
+
+<!-- COMPTE -->
+<div class="settings-overlay subpage" id="accountPage"><div class="settings-panel">
+  <div class="settings-header"><button class="settings-back" data-back>←</button><h2>👤 Compte</h2><button class="settings-close page-close">✕</button></div>
+  <div class="settings-user"><strong id="accountName">—</strong><small id="accountEmail">—</small><small id="accountRole">👤 Membre</small></div>
+  <div class="info-card"><strong>Nom du compte</strong><small id="accountName2">—</small></div>
+  <div class="info-card"><strong>Adresse e-mail</strong><small id="accountEmail2">—</small></div>
+  <div class="info-card"><strong>Rôle</strong><small id="accountRole2">👤 Membre</small></div>
+</div></div>
+
+<!-- APPARENCE -->
+<div class="settings-overlay subpage" id="appearancePage"><div class="settings-panel">
+  <div class="settings-header"><button class="settings-back" data-back>←</button><h2>🎨 Apparence</h2><button class="settings-close page-close">✕</button></div>
+  <p class="page-text">Choisis l'apparence de l'application.</p>
+  <div class="theme-buttons">
+    <button class="theme-button" data-theme="system">📱 Système</button>
+    <button class="theme-button" data-theme="light">☀️ Clair</button>
+    <button class="theme-button" data-theme="dark">🌙 Sombre</button>
+  </div>
+</div></div>
+
+<!-- FAMILLE -->
+<div class="settings-overlay subpage" id="familyPage"><div class="settings-panel">
+  <div class="settings-header"><button class="settings-back" data-back>←</button><h2>👨‍👩‍👧 Famille</h2><button class="settings-close page-close">✕</button></div>
+  <p class="page-text">Les personnes qui utilisent l'application.</p>
+  <div id="familyList"></div>
+</div></div>
+
+<!-- SÉCURITÉ -->
+<div class="settings-overlay subpage" id="securityPage"><div class="settings-panel">
+  <div class="settings-header"><button class="settings-back" data-back>←</button><h2>🔐 Sécurité</h2><button class="settings-close page-close">✕</button></div>
+  <p class="page-text">Informations concernant la sécurité de ton compte.</p>
+  <div class="info-card"><strong>🔑 Méthode de connexion</strong><small id="loginMethod">—</small></div>
+  <div class="info-card"><strong>📧 Adresse e-mail</strong><small id="securityEmail">—</small></div>
+  <div class="info-card"><strong>🛡️ Authentification</strong><small>Ton compte est protégé par Firebase Authentication.</small></div>
+</div></div>
+
+<!-- À PROPOS -->
+<div class="settings-overlay subpage" id="aboutPage"><div class="settings-panel">
+  <div class="settings-header"><button class="settings-back" data-back>←</button><h2>ℹ️ À propos</h2><button class="settings-close page-close">✕</button></div>
+  <div class="info-card"><strong>🏠 Famille</strong><small>Application familiale privée pour gérer le planning, les courses et les menus.</small></div>
+  <div class="info-card"><strong>📅 Planning</strong><small>Ajoute, modifie et partage les rendez-vous avec la famille.</small></div>
+  <div class="info-card"><strong>🛒 Courses</strong><small>Une liste de courses partagée en temps réel.</small></div>
+  <div class="info-card"><strong>🍽️ Menus</strong><small>Les repas de la semaine, midi et soir.</small></div>
+  <div class="info-card"><strong>☁️ Synchronisation</strong><small>Les données sont synchronisées avec Firebase.</small></div>
+  <div class="info-card"><strong>Version</strong><small>Famille v1.0</small></div>
+  <div class="info-card"><em>Réalisation de Corentin</em></div>
+</div></div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,signOut} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {getFirestore,collection,doc,addDoc,setDoc,deleteDoc,onSnapshot,getDoc} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const app=initializeApp({
+  apiKey:"AIzaSyB-i4s5EczUmK1e3GY9lEzrzZgG4b94Gu4",
+  authDomain:"famille-bernard.firebaseapp.com",
+  projectId:"famille-bernard",
+  storageBucket:"famille-bernard.firebasestorage.app",
+  messagingSenderId:"878836991029",
+  appId:"1:878836991029:web:0ad3cd93453f29b9611d7c"
+});
+const auth=getAuth(app), fdb=getFirestore(app);
+const $=id=>document.getElementById(id);
+const ls={
+  get(k){try{return localStorage.getItem(k)}catch(e){return null}},
+  set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+};
+let currentUid=null;
+
+/* Sujet ntfy pour la notification "courses faites" (garde ton sujet secret) */
+const NTFY_TOPIC="famille-CHANGE-MOI-par-un-long-texte-au-hasard";
+
+/* THÈME */
+function applyTheme(){
+  const t=ls.get("famille-theme")||"system";
+  if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);
+  else document.documentElement.removeAttribute("data-theme");
+  document.querySelectorAll(".theme-button").forEach(b=>b.classList.toggle("selected",b.dataset.theme===t));
+}
+document.querySelectorAll(".theme-button").forEach(b=>b.onclick=()=>{ls.set("famille-theme",b.dataset.theme);applyTheme()});
+applyTheme();
+
+/* PARAMÈTRES */
+const pages={account:$("accountPage"),appearance:$("appearancePage"),family:$("familyPage"),security:$("securityPage"),about:$("aboutPage")};
+const closeAll=()=>document.querySelectorAll(".settings-overlay").forEach(p=>p.classList.remove("open"));
+const openSettings=()=>{closeAll();$("settingsOverlay").classList.add("open")};
+document.querySelectorAll(".settings-item[data-page]").forEach(b=>b.onclick=()=>{closeAll();pages[b.dataset.page].classList.add("open")});
+document.querySelectorAll("[data-back]").forEach(b=>b.onclick=openSettings);
+document.querySelectorAll(".page-close").forEach(b=>b.onclick=closeAll);
+$("settingsBtn").onclick=openSettings;
+$("settingsClose").onclick=closeAll;
+document.querySelectorAll(".settings-overlay").forEach(o=>o.onclick=e=>{if(e.target===o)o.classList.remove("open")});
+
+/* FIRESTORE */
+function store(name,render){
+  const s={items:[],col:null,unsub:null};
+  const err=e=>{console.error("Firestore ("+name+"):",e);if(name!=="users")$("status").textContent="Accès impossible : vérifie les droits Firestore."};
+  s.add=o=>{if(s.col)addDoc(s.col,o).catch(err)};
+  s.set=(id,o)=>{if(s.col)setDoc(doc(fdb,name,id),o).catch(err)};
+  s.del=id=>{if(s.col)deleteDoc(doc(fdb,name,id)).catch(err)};
+  s.connect=()=>{
+    if(s.unsub)s.unsub();
+    s.col=collection(fdb,name);
+    s.unsub=onSnapshot(s.col,snap=>{
+      s.items=snap.docs.map(d=>Object.assign({},d.data(),{id:d.id}));
+      if(name!=="users")$("status").textContent="Partagé en direct avec la famille";
+      render();
+    },err);
+  };
+  s.disconnect=()=>{if(s.unsub)s.unsub();s.unsub=null;s.col=null;s.items=[];render()};
+  return s;
+}
+
+/* DATES */
+const p2=n=>(n<10?"0":"")+n;
+const iso=d=>d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate());
+const parse=s=>{if(!s)return new Date();const p=s.split("-");return new Date(+p[0],p[1]-1,+p[2])};
+function mondayOf(d){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()-(x.getDay()+6)%7);return x}
+
+const ev=store("events",renderPlan);
+const sh=store("items",renderShop);
+const me=store("menus",()=>renderMenu());
+const us=store("users",renderFamily);
+
+/* FAMILLE : liste des membres */
+function renderFamily(){
+  const box=$("familyList");
+  if(!box)return;
+  box.innerHTML="";
+  const list=us.items
+    .filter(u=>u.name||u.email)
+    .sort((a,b)=>(a.id===currentUid?-1:b.id===currentUid?1:0)||(a.name||a.email).localeCompare(b.name||b.email));
+  if(!list.length){
+    box.innerHTML='<div class="empty">Aucun membre à afficher</div>';
+    return;
+  }
+  list.forEach(u=>{
+    const label=u.name||u.email;
+    const card=document.createElement("div");
+    card.className="info-card member";
+    const av=document.createElement("div");
+    av.className="avatar";
+    av.textContent=label.trim().charAt(0).toUpperCase();
+    const info=document.createElement("div");
+    const strong=document.createElement("strong");
+    strong.textContent=label+(u.id===currentUid?" (toi)":"");
+    const mail=document.createElement("small");
+    mail.textContent=u.email||"";
+    info.append(strong,mail);
+    if(u.lastSeen){
+      const seen=document.createElement("small");
+      seen.textContent="Vu le "+new Date(u.lastSeen).toLocaleDateString("fr-FR",{day:"numeric",month:"long"})+" à "+new Date(u.lastSeen).toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+      info.appendChild(seen);
     }
+    card.append(av,info);
+    box.appendChild(card);
+  });
+}
 
-    match /items/{itemId} {
-      allow read, write: if request.auth != null;
+/* AUTH */
+onAuthStateChanged(auth,async user=>{
+  if(!user){
+    currentUid=null;
+    ev.disconnect();sh.disconnect();me.disconnect();us.disconnect();
+    document.body.className="out";
+    closeAll();
+    return;
+  }
+  currentUid=user.uid;
+  document.body.className="in";
+  ev.connect();sh.connect();me.connect();us.connect();
+  $("status").textContent="Connecté à la famille";
+  const name=user.displayName||"Compte connecté", email=user.email||"";
+  ["settingsName","accountName","accountName2"].forEach(i=>$(i).textContent=name);
+  ["settingsEmail","accountEmail","accountEmail2","securityEmail"].forEach(i=>$(i).textContent=email);
+  if(user.providerData&&user.providerData.length){
+    $("loginMethod").textContent=user.providerData[0].providerId==="google.com"?"Google":"Adresse e-mail et mot de passe";
+  }
+  /* Enregistre le profil pour apparaître dans l'onglet Famille */
+  try{
+    await setDoc(doc(fdb,"users",user.uid),{
+      name:user.displayName||email.split("@")[0]||"Membre",
+      email:email,
+      lastSeen:Date.now()
+    },{merge:true});
+  }catch(e){console.error("Profil:",e)}
+  let label="👤 Membre";
+  try{
+    const snap=await getDoc(doc(fdb,"users",user.uid));
+    if(snap.exists()&&snap.data().role==="admin")label="🛡️ Administrateur";
+  }catch(e){console.error("Erreur rôle:",e)}
+  $("accountRole").textContent=label;
+  $("accountRole2").textContent=label;
+});
+
+/* CONNEXION E-MAIL */
+$("lf").onsubmit=e=>{
+  e.preventDefault();$("lerr").textContent="";
+  signInWithEmailAndPassword(auth,$("le").value.trim(),$("lp").value)
+    .catch(()=>{$("lerr").textContent="Adresse e-mail ou mot de passe incorrect."});
+};
+
+/* GOOGLE */
+const provider=new GoogleAuthProvider();
+provider.setCustomParameters({prompt:"select_account"});
+function googleError(e){console.error("Google:",e);$("lg").disabled=false;$("lerr").textContent="Connexion Google impossible."}
+getRedirectResult(auth).catch(googleError);
+$("lg").onclick=()=>{
+  $("lerr").textContent="";$("lg").disabled=true;
+  signInWithPopup(auth,provider).then(()=>{$("lg").disabled=false}).catch(e=>{
+    if(e.code==="auth/popup-closed-by-user"){$("lg").disabled=false;return}
+    if(e.code==="auth/popup-blocked"){signInWithRedirect(auth,provider).catch(googleError);return}
+    googleError(e);
+  });
+};
+
+/* DÉCONNEXION (un seul bouton, dans Paramètres) */
+$("settingsLogout").onclick=()=>{
+  if(confirm("Voulez-vous vraiment vous déconnecter ?")){
+    closeAll();
+    signOut(auth).catch(console.error);
+  }
+};
+
+/* EMOJIS */
+const EMO=[["footing","🏃"],["running","🏃"],["jogging","🏃"],["foot","⚽"],["basket","🏀"],["tennis","🎾"],["rugby","🏉"],["handball","🤾"],["volley","🏐"],["natation","🏊"],["piscine","🏊"],["velo","🚴"],["randonnee","🥾"],["yoga","🧘"],["gym","🏋️"],["muscu","🏋️"],["sport","🏅"],["danse","💃"],["judo","🥋"],["karate","🥋"],["ski","⛷️"],["dentiste","🦷"],["pharmacie","💊"],["medecin","🩺"],["docteur","🩺"],["hopital","🏥"],["veto","🐾"],["coiffeur","💇"],["courses","🛒"],["supermarche","🛒"],["ecole","🏫"],["travail","💼"],["banque","🏦"],["mairie","🏛️"],["anniversaire","🎂"],["gateau","🍰"],["cuisine","🍳"],["fete","🎉"],["soiree","🎉"],["restaurant","🍽️"],["diner","🍽️"],["cinema","🎬"],["theatre","🎭"],["concert","🎵"],["musique","🎵"],["lecture","📚"],["vacances","🏖️"],["voyage","🧳"],["avion","✈️"],["train","🚆"],["gare","🚆"],["garage","🔧"],["voiture","🚗"],["jardin","🌱"],["bricolage","🔨"],["menage","🧹"],["telephone","📞"],["appel","📞"],["visite","👋"],["mamie","👵"],["papi","👴"],["enfants","👧"]];
+function emoji(t){
+  const n=(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  for(const [k,v] of EMO)if(n.includes(k))return v;
+  return "📌";
+}
+
+/* COULEUR PAR PERSONNE (toujours la même pour un même nom) */
+function hue(name){
+  const n=(name||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+  let h=0;
+  for(let i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))>>>0;
+  return h%360;
+}
+
+/* PLANNING */
+let sel=new Date();
+const DOW=["lun.","mar.","mer.","jeu.","ven.","sam.","dim."];
+const DOWL=["lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"];
+
+function forDay(d){
+  const date=iso(d), w=d.getDay();
+  return ev.items.filter(e=>
+    e.date===date ||
+    (e.endDate&&e.date<date&&date<=e.endDate) ||
+    (e.weekly&&!e.endDate&&e.date<date&&parse(e.date).getDay()===w)
+  ).sort((a,b)=>(a.time||"99").localeCompare(b.time||"99"));
+}
+
+function renderPlan(){
+  const strip=$("strip");
+  if(!strip)return;
+
+  /* suggestions de noms pour "Pour qui ?" */
+  const names=[...new Set(ev.items.map(e=>(e.who||"").trim()).filter(Boolean))];
+  const dl=$("whoList");
+  dl.innerHTML="";
+  names.forEach(n=>{const o=document.createElement("option");o.value=n;dl.appendChild(o)});
+
+  const monday=mondayOf(sel), today=iso(new Date());
+  strip.innerHTML="";
+  for(let i=0;i<7;i++){
+    const d=new Date(monday);d.setDate(monday.getDate()+i);
+    const b=document.createElement("button");
+    b.className="day"+(iso(d)===iso(sel)?" sel":"")+(iso(d)===today?" today":"");
+    b.innerHTML=DOW[i]+"<b>"+d.getDate()+"</b>"+(forDay(d).length?"<i></i>":"");
+    b.onclick=()=>{sel=new Date(d);renderPlan()};
+    strip.appendChild(b);
+  }
+  $("dlabel").textContent=sel.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  const box=$("evs");box.innerHTML="";
+  const list=forDay(sel);
+  if(!list.length){box.innerHTML='<div class="empty">Rien de prévu ce jour-là</div>';return}
+  list.forEach(e=>{
+    const who=(e.who||"").trim();
+    const row=document.createElement("div");
+    row.className="row"+(who?" who":"");
+    if(who)row.style.setProperty("--h",hue(who));
+    const time=document.createElement("span");time.className="time";time.textContent=e.time||"—";
+    const grow=document.createElement("span");grow.className="grow";
+    grow.textContent=emoji(e.t)+" "+e.t+(e.weekly&&!e.endDate?" ↻":"");
+    const edit=()=>openSheet(e);
+    time.onclick=edit;grow.onclick=edit;
+    row.append(time,grow);
+    if(who){
+      const w=document.createElement("span");
+      w.className="tag";w.textContent=who;
+      w.style.setProperty("--h",hue(who));
+      row.appendChild(w);
     }
+    const del=document.createElement("button");del.className="del";del.textContent="✕";
+    del.onclick=()=>ev.del(e.id);
+    row.appendChild(del);box.appendChild(row);
+  });
+}
 
-    match /menus/{menuId} {
-      allow read, write: if request.auth != null;
+$("prev").onclick=()=>{sel.setDate(sel.getDate()-7);renderPlan()};
+$("next").onclick=()=>{sel.setDate(sel.getDate()+7);renderPlan()};
+$("now").onclick=()=>{sel=new Date();renderPlan()};
+
+/* AJOUT / MODIFICATION RENDEZ-VOUS */
+let editId=null;
+
+function resetForm(){
+  ["t","h","w","ed","eh"].forEach(i=>$(i).value="");
+  $("rg").checked=false;$("r").checked=false;$("rng").hidden=true;
+}
+
+function openSheet(e){
+  resetForm();
+  editId=e?e.id:null;
+  $("sub").textContent=e?"Enregistrer":"Ajouter";
+  if(e){
+    $("t").value=e.t||"";
+    $("d").value=e.date||iso(sel);
+    $("h").value=e.time||"";
+    $("w").value=e.who||"";
+    $("r").checked=!!e.weekly;
+    if(e.endDate){
+      $("rg").checked=true;$("rng").hidden=false;
+      $("ed").value=e.endDate;$("eh").value=e.endTime||"";
     }
+  }else{
+    $("d").value=iso(sel);
+  }
+  $("sheet").classList.add("open");
+}
 
-    match /famille/{documentId} {
-      allow read, write: if request.auth != null;
-    }
+function closeSheet(){
+  $("sheet").classList.remove("open");
+  editId=null;
+}
 
-    match /users/{userId} {
-      allow read: if request.auth != null;
+$("fab").onclick=()=>openSheet(null);
+$("cancel").onclick=()=>{closeSheet();resetForm()};
+$("sheet").onclick=e=>{if(e.target===$("sheet")){closeSheet();resetForm()}};
+$("rg").onchange=()=>{$("rng").hidden=!$("rg").checked};
+$("f").onsubmit=e=>{
+  e.preventDefault();
+  const o={
+    t:$("t").value.trim(),date:$("d").value,time:$("h").value,who:$("w").value.trim(),
+    weekly:$("r").checked,
+    endDate:$("rg").checked?$("ed").value:"",
+    endTime:$("rg").checked?$("eh").value:""
+  };
+  if(!o.t||!o.date)return;
+  if(editId)ev.set(editId,o);else ev.add(o);
+  sel=parse(o.date);
+  closeSheet();resetForm();renderPlan();
+};
 
-      allow create: if request.auth != null
-        && request.auth.uid == userId
-        && !('role' in request.resource.data);
+/* COURSES */
+function renderShop(){
+  const box=$("items");
+  if(!box)return;
+  box.innerHTML="";
+  const list=sh.items.slice().sort((a,b)=>(Number(!!a.done)-Number(!!b.done))||((a.at||0)-(b.at||0)));
+  $("clr").hidden=!list.some(x=>x.done);
+  $("fin").hidden=!list.length;
+  if(!list.length){box.innerHTML='<div class="empty">La liste est vide</div>';return}
+  list.forEach(item=>{
+    const row=document.createElement("div");
+    row.className="row"+(item.done?" done":"");
+    const c=document.createElement("input");
+    c.type="checkbox";c.className="box";c.checked=!!item.done;
+    c.onchange=()=>sh.set(item.id,{t:item.t,at:item.at,done:c.checked});
+    const t=document.createElement("span");t.className="grow";t.textContent=item.t;
+    const del=document.createElement("button");del.className="del";del.textContent="✕";
+    del.onclick=()=>sh.del(item.id);
+    row.append(c,t,del);box.appendChild(row);
+  });
+}
 
-      allow update: if request.auth != null
-        && request.auth.uid == userId
-        && request.resource.data.get('role', null) == resource.data.get('role', null);
+$("sf").onsubmit=e=>{
+  e.preventDefault();
+  const v=$("si").value.trim();
+  if(!v)return;
+  sh.add({t:v,done:false,at:Date.now()});
+  $("si").value="";
+};
 
-      allow delete: if false;
-    }
+$("fin").onclick=()=>{
+  if(!confirm("Vider toute la liste de courses ?"))return;
+  sh.items.slice().forEach(i=>sh.del(i.id));
+  fetch("https://ntfy.sh/",{
+    method:"POST",
+    body:JSON.stringify({
+      topic:NTFY_TOPIC,
+      title:"Famille",
+      message:"Les courses ont été faites",
+      tags:["shopping_cart"]
+    })
+  }).catch(e=>console.error("ntfy:",e));
+};
+$("clr").onclick=()=>sh.items.filter(i=>i.done).forEach(i=>sh.del(i.id));
+
+/* MENUS DE LA SEMAINE */
+let menuSel=new Date();
+
+function renderMenu(force){
+  const box=$("menus");
+  if(!box)return;
+  const a=document.activeElement;
+  if(!force&&a&&a.classList&&a.classList.contains("mi"))return;
+
+  const monday=mondayOf(menuSel);
+  const sunday=new Date(monday);sunday.setDate(monday.getDate()+6);
+  const fmt={day:"numeric",month:"long"};
+  $("mlabel").textContent="Semaine du "+monday.toLocaleDateString("fr-FR",fmt)+" au "+sunday.toLocaleDateString("fr-FR",fmt);
+
+  const today=iso(new Date());
+  const byDate={};
+  me.items.forEach(m=>{byDate[m.id]=m});
+  box.innerHTML="";
+
+  for(let i=0;i<7;i++){
+    const d=new Date(monday);d.setDate(monday.getDate()+i);
+    const key=iso(d), m=byDate[key]||{};
+    const day=document.createElement("div");
+    day.className="mday"+(key===today?" today":"");
+    const name=document.createElement("div");
+    name.className="mdn";name.textContent=DOWL[i]+" "+d.getDate();
+    const fields=document.createElement("div");
+    fields.className="mfields";
+    const inputs={};
+    [["midi","Midi"],["soir","Soir"]].forEach(pair=>{
+      const k=pair[0];
+      const lab=document.createElement("label");
+      const cap=document.createElement("span");cap.className="cap";cap.textContent=pair[1];
+      const inp=document.createElement("input");
+      inp.type="text";inp.className="mi";inp.value=m[k]||"";inp.placeholder="—";inp.maxLength=80;
+      inp.onchange=()=>{
+        const midi=inputs.midi.value.trim(), soir=inputs.soir.value.trim();
+        if(!midi&&!soir)me.del(key);
+        else me.set(key,{midi:midi,soir:soir,date:key});
+      };
+      inputs[k]=inp;
+      lab.append(cap,inp);
+      fields.appendChild(lab);
+    });
+    day.append(name,fields);
+    box.appendChild(day);
   }
 }
+
+function blurActive(){if(document.activeElement&&document.activeElement.blur)document.activeElement.blur()}
+$("mprev").onclick=()=>{blurActive();menuSel.setDate(menuSel.getDate()-7);renderMenu(true)};
+$("mnext").onclick=()=>{blurActive();menuSel.setDate(menuSel.getDate()+7);renderMenu(true)};
+$("mnow").onclick=()=>{blurActive();menuSel=new Date();renderMenu(true)};
+
+/* NAVIGATION */
+function showTab(tab){
+  blurActive();
+  $("p-plan").hidden=tab!=="plan";
+  $("p-shop").hidden=tab!=="shop";
+  $("p-menu").hidden=tab!=="menu";
+  $("n-plan").classList.toggle("on",tab==="plan");
+  $("n-shop").classList.toggle("on",tab==="shop");
+  $("n-menu").classList.toggle("on",tab==="menu");
+}
+$("n-plan").onclick=()=>showTab("plan");
+$("n-shop").onclick=()=>showTab("shop");
+$("n-menu").onclick=()=>showTab("menu");
+
+renderPlan();
+renderShop();
+renderMenu(true);
+renderFamily();
+</script>
+</body>
+</html>
