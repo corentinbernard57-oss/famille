@@ -20,6 +20,9 @@ button:focus-visible{outline:3px solid #f2b134;outline-offset:2px}
 .primary{background:var(--accent);color:#fff;border-radius:12px;padding:13px 18px;font-weight:600}
 .primary:active{transform:scale(.95)}
 .link{color:var(--accent);font-weight:600;display:block;margin:14px auto 0;padding:8px}
+/* Bandeau de bienvenue */
+.welcome{position:fixed;left:16px;right:16px;top:calc(12px + env(safe-area-inset-top,0px));max-width:528px;margin:0 auto;background:var(--card);color:var(--ink);border:2px solid var(--accent);border-radius:14px;padding:14px 18px;font-weight:600;text-align:center;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:150;transform:translateY(-160%);opacity:0;transition:transform .4s ease,opacity .4s ease;cursor:pointer}
+.welcome.show{transform:none;opacity:1}
 /* Paramètres */
 .settings-btn{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:16px;width:44px;height:44px;border-radius:50%;background:var(--card);font-size:1.35rem;display:none;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:50}
 body.in .settings-btn{display:flex}
@@ -98,7 +101,6 @@ input{font:inherit;padding:13px;border:1px solid var(--line);border-radius:12px;
 .mday:first-child{border-top:0}
 .mdn{font-weight:650;text-transform:capitalize;margin-bottom:6px}
 .mday.today .mdn{color:var(--accent)}
-.mfields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 /* Connexion */
 #login{display:none;padding:24px 16px}
 body.out #login{display:block}
@@ -115,6 +117,9 @@ body:not(.in) main,body:not(.in) nav,body:not(.in) .sheet{display:none!important
 </style>
 </head>
 <body class="wait">
+
+<!-- BANDEAU DE BIENVENUE -->
+<div class="welcome" id="welcome" hidden>Bienvenue sur Famille 👋</div>
 
 <button id="settingsBtn" class="settings-btn" aria-label="Paramètres">⚙️</button>
 
@@ -163,7 +168,7 @@ body:not(.in) main,body:not(.in) nav,body:not(.in) .sheet{display:none!important
 </section>
 
 <section id="p-menu" hidden>
-  <h1>Menus</h1>
+  <h1>Menus du soir</h1>
   <div class="week">
     <button class="arrow" id="mprev">‹</button>
     <p class="sub" id="mlabel" style="flex:1;text-align:center;margin:0"></p>
@@ -256,7 +261,7 @@ body:not(.in) main,body:not(.in) nav,body:not(.in) .sheet{display:none!important
   <div class="info-card"><strong>🏠 Famille</strong><small>Application familiale privée pour gérer le planning, les courses et les menus.</small></div>
   <div class="info-card"><strong>📅 Planning</strong><small>Ajoute, modifie et partage les rendez-vous avec la famille.</small></div>
   <div class="info-card"><strong>🛒 Courses</strong><small>Une liste de courses partagée en temps réel.</small></div>
-  <div class="info-card"><strong>🍽️ Menus</strong><small>Les repas de la semaine, midi et soir.</small></div>
+  <div class="info-card"><strong>🍽️ Menus</strong><small>Le menu du soir pour chaque jour de la semaine.</small></div>
   <div class="info-card"><strong>☁️ Synchronisation</strong><small>Les données sont synchronisées avec Firebase.</small></div>
   <div class="info-card"><strong>Version</strong><small>Famille v1.0</small></div>
   <div class="info-card"><em>Réalisation de Corentin</em></div>
@@ -285,6 +290,23 @@ let currentUid=null;
 
 /* Sujet ntfy pour la notification "courses faites" (garde ton sujet secret) */
 const NTFY_TOPIC="famille-CHANGE-MOI-par-un-long-texte-au-hasard";
+
+/* BANDEAU DE BIENVENUE (10 secondes) */
+let welcomed=false, welcomeTimer=null;
+function showWelcome(){
+  if(welcomed)return;
+  welcomed=true;
+  const w=$("welcome");
+  w.hidden=false;
+  setTimeout(()=>w.classList.add("show"),30);
+  const hide=()=>{
+    clearTimeout(welcomeTimer);
+    w.classList.remove("show");
+    setTimeout(()=>{w.hidden=true},450);
+  };
+  w.onclick=hide;
+  welcomeTimer=setTimeout(hide,10000);
+}
 
 /* THÈME */
 function applyTheme(){
@@ -377,6 +399,7 @@ function renderFamily(){
 onAuthStateChanged(auth,async user=>{
   if(!user){
     currentUid=null;
+    welcomed=false;
     ev.disconnect();sh.disconnect();me.disconnect();us.disconnect();
     document.body.className="out";
     closeAll();
@@ -384,6 +407,7 @@ onAuthStateChanged(auth,async user=>{
   }
   currentUid=user.uid;
   document.body.className="in";
+  showWelcome();
   ev.connect();sh.connect();me.connect();us.connect();
   $("status").textContent="Connecté à la famille";
   const name=user.displayName||"Compte connecté", email=user.email||"";
@@ -615,7 +639,7 @@ $("fin").onclick=()=>{
 };
 $("clr").onclick=()=>sh.items.filter(i=>i.done).forEach(i=>sh.del(i.id));
 
-/* MENUS DE LA SEMAINE */
+/* MENUS DU SOIR */
 let menuSel=new Date();
 
 function renderMenu(force){
@@ -641,25 +665,15 @@ function renderMenu(force){
     day.className="mday"+(key===today?" today":"");
     const name=document.createElement("div");
     name.className="mdn";name.textContent=DOWL[i]+" "+d.getDate();
-    const fields=document.createElement("div");
-    fields.className="mfields";
-    const inputs={};
-    [["midi","Midi"],["soir","Soir"]].forEach(pair=>{
-      const k=pair[0];
-      const lab=document.createElement("label");
-      const cap=document.createElement("span");cap.className="cap";cap.textContent=pair[1];
-      const inp=document.createElement("input");
-      inp.type="text";inp.className="mi";inp.value=m[k]||"";inp.placeholder="—";inp.maxLength=80;
-      inp.onchange=()=>{
-        const midi=inputs.midi.value.trim(), soir=inputs.soir.value.trim();
-        if(!midi&&!soir)me.del(key);
-        else me.set(key,{midi:midi,soir:soir,date:key});
-      };
-      inputs[k]=inp;
-      lab.append(cap,inp);
-      fields.appendChild(lab);
-    });
-    day.append(name,fields);
+    const inp=document.createElement("input");
+    inp.type="text";inp.className="mi";inp.value=m.soir||"";
+    inp.placeholder="Menu du soir…";inp.maxLength=80;
+    inp.onchange=()=>{
+      const v=inp.value.trim();
+      if(!v)me.del(key);
+      else me.set(key,{soir:v,date:key});
+    };
+    day.append(name,inp);
     box.appendChild(day);
   }
 }
