@@ -43,6 +43,10 @@ body.in .settings-btn{display:flex}
 .page-text{color:var(--muted);margin-bottom:18px}
 .info-card{background:var(--bg);border-radius:14px;padding:14px;margin-bottom:10px}
 .info-card strong{margin-bottom:3px}
+.member{display:flex;align-items:center;gap:12px}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;flex:none}
+.member>div{flex:1;min-width:0}
+.member small{display:block;overflow-wrap:anywhere}
 .setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--bg);padding:14px;border-radius:14px;margin-bottom:8px}
 .theme-buttons{display:grid;gap:8px}
 .theme-button{padding:14px;border-radius:14px;background:var(--bg);text-align:left}
@@ -186,7 +190,7 @@ body:not(.in) main,body:not(.in) nav,body:not(.in) .sheet{display:none!important
     <button class="settings-item" data-page="account"><span>👤</span><div><strong>Compte</strong><small>Informations du compte</small></div><span>›</span></button>
     <button class="settings-item" data-page="notifications"><span>🔔</span><div><strong>Notifications</strong><small>Gérer les notifications</small></div><span>›</span></button>
     <button class="settings-item" data-page="appearance"><span>🎨</span><div><strong>Apparence</strong><small>Thème et affichage</small></div><span>›</span></button>
-    <button class="settings-item" data-page="family"><span>👨‍👩‍👧</span><div><strong>Famille</strong><small>Membres et autorisations</small></div><span>›</span></button>
+    <button class="settings-item" data-page="family"><span>👨‍👩‍👧</span><div><strong>Famille</strong><small>Qui est dans l'application</small></div><span>›</span></button>
     <button class="settings-item" data-page="security"><span>🔐</span><div><strong>Sécurité</strong><small>Connexion et sécurité</small></div><span>›</span></button>
     <button class="settings-item" data-page="about"><span>ℹ️</span><div><strong>À propos</strong><small>Informations sur Famille</small></div><span>›</span></button>
   </div>
@@ -225,10 +229,8 @@ body:not(.in) main,body:not(.in) nav,body:not(.in) .sheet{display:none!important
 <!-- FAMILLE -->
 <div class="settings-overlay subpage" id="familyPage"><div class="settings-panel">
   <div class="settings-header"><button class="settings-back" data-back>←</button><h2>👨‍👩‍👧 Famille</h2><button class="settings-close page-close">✕</button></div>
-  <p class="page-text">Informations sur les comptes de la famille.</p>
-  <div class="info-card"><strong>👤 Ton compte</strong><small id="familyCurrentUser">—</small></div>
-  <div class="info-card"><strong>🛡️ Administrateur</strong><small>Les administrateurs peuvent gérer la famille.</small></div>
-  <div class="info-card"><strong>👤 Membre</strong><small>Les membres peuvent utiliser le planning et la liste de courses.</small></div>
+  <p class="page-text">Les personnes qui utilisent l'application.</p>
+  <div id="familyList"></div>
 </div></div>
 
 <!-- SÉCURITÉ -->
@@ -270,6 +272,7 @@ const ls={
   get(k){try{return localStorage.getItem(k)}catch(e){return null}},
   set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 };
+let currentUid=null;
 
 /* THÈME */
 function applyTheme(){
@@ -304,7 +307,7 @@ setupSwitch("shoppingNotificationSwitch","famille-shopping-notifications");
 /* FIRESTORE */
 function store(name,render){
   const s={items:[],col:null,unsub:null};
-  const err=e=>{console.error("Firestore:",e);$("status").textContent="Accès impossible : vérifie les droits Firestore."};
+  const err=e=>{console.error("Firestore ("+name+"):",e);if(name!=="users")$("status").textContent="Accès impossible : vérifie les droits Firestore."};
   s.add=o=>{if(s.col)addDoc(s.col,o).catch(err)};
   s.set=(id,o)=>{if(s.col)setDoc(doc(fdb,name,id),o).catch(err)};
   s.del=id=>{if(s.col)deleteDoc(doc(fdb,name,id)).catch(err)};
@@ -313,7 +316,7 @@ function store(name,render){
     s.col=collection(fdb,name);
     s.unsub=onSnapshot(s.col,snap=>{
       s.items=snap.docs.map(d=>Object.assign({},d.data(),{id:d.id}));
-      $("status").textContent="Partagé en direct avec la famille";
+      if(name!=="users")$("status").textContent="Partagé en direct avec la famille";
       render();
     },err);
   };
@@ -329,25 +332,70 @@ function mondayOf(d){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());
 
 const ev=store("events",renderPlan);
 const sh=store("items",renderShop);
+const us=store("users",renderFamily);
+
+/* FAMILLE : liste des membres */
+function renderFamily(){
+  const box=$("familyList");
+  if(!box)return;
+  box.innerHTML="";
+  const list=us.items
+    .filter(u=>u.name||u.email)
+    .sort((a,b)=>(a.id===currentUid?-1:b.id===currentUid?1:0)||(a.name||a.email).localeCompare(b.name||b.email));
+  if(!list.length){
+    box.innerHTML='<div class="empty">Aucun membre à afficher</div>';
+    return;
+  }
+  list.forEach(u=>{
+    const label=u.name||u.email;
+    const card=document.createElement("div");
+    card.className="info-card member";
+    const av=document.createElement("div");
+    av.className="avatar";
+    av.textContent=label.trim().charAt(0).toUpperCase();
+    const info=document.createElement("div");
+    const strong=document.createElement("strong");
+    strong.textContent=label+(u.id===currentUid?" (toi)":"");
+    const mail=document.createElement("small");
+    mail.textContent=u.email||"";
+    info.append(strong,mail);
+    if(u.lastSeen){
+      const seen=document.createElement("small");
+      seen.textContent="Vu le "+new Date(u.lastSeen).toLocaleDateString("fr-FR",{day:"numeric",month:"long"})+" à "+new Date(u.lastSeen).toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+      info.appendChild(seen);
+    }
+    card.append(av,info);
+    box.appendChild(card);
+  });
+}
 
 /* AUTH */
 onAuthStateChanged(auth,async user=>{
   if(!user){
-    ev.disconnect();sh.disconnect();
+    currentUid=null;
+    ev.disconnect();sh.disconnect();us.disconnect();
     document.body.className="out";
     closeAll();
     return;
   }
+  currentUid=user.uid;
   document.body.className="in";
-  ev.connect();sh.connect();
+  ev.connect();sh.connect();us.connect();
   $("status").textContent="Connecté à la famille";
   const name=user.displayName||"Compte connecté", email=user.email||"";
   ["settingsName","accountName","accountName2"].forEach(i=>$(i).textContent=name);
   ["settingsEmail","accountEmail","accountEmail2","securityEmail"].forEach(i=>$(i).textContent=email);
-  $("familyCurrentUser").textContent=name+" — "+email;
   if(user.providerData&&user.providerData.length){
     $("loginMethod").textContent=user.providerData[0].providerId==="google.com"?"Google":"Adresse e-mail et mot de passe";
   }
+  /* Enregistre le profil pour apparaître dans l'onglet Famille */
+  try{
+    await setDoc(doc(fdb,"users",user.uid),{
+      name:user.displayName||email.split("@")[0]||"Membre",
+      email:email,
+      lastSeen:Date.now()
+    },{merge:true});
+  }catch(e){console.error("Profil:",e)}
   let label="👤 Membre";
   try{
     const snap=await getDoc(doc(fdb,"users",user.uid));
@@ -510,6 +558,7 @@ $("n-shop").onclick=()=>showTab("shop");
 
 renderPlan();
 renderShop();
+renderFamily();
 </script>
 </body>
 </html>
